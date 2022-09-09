@@ -55,11 +55,11 @@ export const TwitAPI = {
 };
 
 export const CommentAPI = {
-  addcomment: data => api.post(`api/auth/comment`, data),
+  addcomment: data => api.post(`/api/auth/comment`, data),
   deletecomment: id => api.delete(`api/auth/comment/${id}`),
 };
 
 export const LikeAPI = {
-  togglelike: data => api.post(`api/auth/like/${data.id}`),
+  togglelike: data => api.post(`/api/auth/like/${data.id}`),
   getlike: data => api.get,
 };
