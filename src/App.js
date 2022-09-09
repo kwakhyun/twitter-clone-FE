@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import Mainpage from "./views/Mainpage";
+import Mainpage from "./pages/Mainpage";
 import { Layout } from "./components";
 function App() {
   const queryClient = new QueryClient();
