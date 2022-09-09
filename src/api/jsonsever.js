@@ -30,30 +30,30 @@ api.interceptors.response.use(
   }
 );
 export const AccountAPI = {
-  login: data => api.post("/api/user/login", data),
-  singup: data => api.post(`/api/user/signup`, data),
-  logout: () => api.get("/api/auth/user/logout"),
+  login: data => api.post("/login", data),
+  singup: data => api.post(`/signup`, data),
+  logout: () => api.get("/logout"),
 };
 
 export const ProflieAPI = {
-  myprofile: () => api.get("/api/auth/user/profile"),
-  otherprofile: id => api.get(`/api/auth/user/profile/${id}`),
-  modify: data => api.put("/api/auth/user/profile", data),
+  myprofile: () => api.get("/profile"),
+  otherprofile: id => api.get(`/profile/${id}`),
+  modify: data => api.put("/profile", data),
 };
 
 export const TwitAPI = {
-  addtwit: data => api.post(`/api/auth/twit`, data),
-  gettwit: () => api.get(`/api/twit`),
-  getonetwit: id => api.get(`/api/twit/${id}`),
-  deletetwit: id => api.delete(`/api/auth/twit/${id}`),
+  addtwit: data => api.post(`/twit`, data),
+  gettwit: () => api.get(`/twit`),
+  getonetwit: id => api.get(`/twit/${id}`),
+  deletetwit: id => api.delete(`/twit/${id}`),
 };
 
 export const CommentAPI = {
-  addcomment: data => api.post(`api/auth/comment`, data),
-  deletecomment: id => api.delete(`api/auth/comment/${id}`),
+  addcomment: data => api.post(`/comment`, data),
+  deletecomment: id => api.delete(`/comment/${id}`),
 };
 
 export const LikeAPI = {
-  togglelike: data => api.post(`api/auth/like/${data.id}`),
-  getlike: data => api.get,
+  togglelike: data => api.post(`/like/${data.id}`),
+  
 };
