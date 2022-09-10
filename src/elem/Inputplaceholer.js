@@ -20,14 +20,14 @@ const Inputplaceholer = ({ text, onChange, ref, name }) => {
 export default forwardRef(Inputplaceholer);
 
 const IdInput = styled.input`
-  margin: 15px auto 10px auto;
-  padding: 12px 0 0 10px;
+  margin: 15px 0;
+  padding: 0px 5px;
   border: 1px solid rgb(214, 218, 227);
   border-radius: 5px;
   background-color: transparent;
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 24px;
-  width: 230px;
+  width: 100%;
   height: 50px;
 
   &::placeholder {
@@ -36,12 +36,10 @@ const IdInput = styled.input`
 
   &:not(:placeholder-shown) {
     outline: none;
-    border: 1px solid rgb(051, 153, 255, 0.9);
-    + label {
+    + span {
       position: absolute;
       top: 19px;
-      left: 15%;
-      color: rgb(051, 153, 255, 0.9);
+      left: 3%;
       pointer-events: none;
       font-size: 0.8rem;
       transition: all 0.2s ease;
@@ -52,13 +50,13 @@ const IdInput = styled.input`
   }
   &:focus {
     outline: none;
-    border: 1px solid rgb(051, 153, 255, 0.9);
+    border: 2px solid #1d9bf0;
 
-    + label {
+    + span {
       position: absolute;
       top: 19px;
-      left: 15%;
-      color: rgb(051, 153, 255, 0.9);
+      left: 3%;
+      color: #1d9bf0;
       pointer-events: none;
       font-size: 0.8rem;
       transition: all 0.2s ease;
@@ -73,16 +71,15 @@ const StyledDiv = styled.div`
   display: flex;
   position: relative;
   width: 70%;
-
   margin: auto;
 `;
 
-const Labelstlyed = styled.label`
+const Labelstlyed = styled.span`
   position: absolute;
-  top: 34px;
-  left: 15%;
+  top: 35px;
+  left: 3%;
   z-index: -1;
-  color: rgb(200, 200, 200);
+  color: #536471;
   transition: all 0.2s ease;
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;

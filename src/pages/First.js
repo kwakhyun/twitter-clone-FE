@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
 const First = () => {
   const navigate = useNavigate();
   return (
@@ -31,7 +32,6 @@ const First = () => {
           <StyledDesc color="#1d9bf0"> 개인정보 처리</StyledDesc>
           <StyledDesc color="#1d9bf0">방침</StyledDesc>에 동의해야 합니다.
         </StyledDescText>
-
         <StyledSpan size="20px">이미 트위터에 가입하셨나요?</StyledSpan>
         <StyledButton
           color="#1d9bf0"

@@ -11,58 +11,56 @@ const Login = () => {
   return (
     <>
       <FaTwitter size="35px" color="#1d9bf0" />
-      <h1>트위터에 로그인하기</h1>
+      <StyledTitleSpan>트위터에 로그인하기</StyledTitleSpan>
       <StyledButton>Google로 로그인하기</StyledButton>
-      <StyledDiv>
+      <StyledLineDiv>
         <hr />
-        <TextStyled>또는</TextStyled>
-      </StyledDiv>
+        <StyledText>또는</StyledText>
+      </StyledLineDiv>
       <Inputplaceholer
-        text="아이디를 입력하세요"
+        text="아이디를 입력해주세요."
         onChange={onChange}
         ref={InputRef}
         name="userId"
-        width="400px"
-        height="200px"
       />
       <StyledButton bgcolor="black" color="white">
         다음
       </StyledButton>
       <StyledButton>비밀번호를 잊으셨나요?</StyledButton>
-      <Spanbox>
+      <span>
         계정이 없으신가요?
-        <Span>가입하기</Span>
-      </Spanbox>
+        <StyledSpan>가입하기</StyledSpan>
+      </span>
     </>
   );
 };
 
+const StyledTitleSpan = styled.span`
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-top: 50px;
+`;
+
 const StyledButton = styled.button`
-  border: 1px solid ${props => "gray" || props.color};
-  padding: 0px 15px;
+  border: 1px solid ${(props) => props.color || "rgb(214, 218, 227)"};
+  padding: 0px;
+  margin: 15px;
   border-radius: 20px;
   font-size: 15px;
   font-weight: bold;
   width: 70%;
   height: 40px;
-  color: ${props => props.color};
-  background-color: ${props => props.bgcolor || "white"};
-  margin: 8px;
+  color: ${(props) => props.color};
+  background-color: ${(props) => props.bgcolor || "white"};
 `;
 
-const Span = styled.span`
-  margin-left: 5px;
-  color: #1d9bf0;
-`;
-const Spanbox = styled.span`
-  margin-top: 50px;
-`;
 const StyledDiv = styled.div`
   position: relative;
   width: 70%;
   margin: auto;
 `;
-const TextStyled = styled.text`
+const StyledText = styled.text`
   position: absolute;
   top: -2px;
   left: 127px;
@@ -70,5 +68,14 @@ const TextStyled = styled.text`
   height: 20px;
   background-color: white;
   text-align: center;
+`;
+
+const StyledSpan = styled.span`
+  color: ${(props) => "#1d9bf0" || props.color};
+`;
+const StyledLineDiv = styled.div`
+  position: relative;
+  width: 70%;
+  margin: auto;
 `;
 export default Login;
