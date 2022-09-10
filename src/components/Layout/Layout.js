@@ -11,6 +11,6 @@ const Layouts = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 445px;
+  max-width: 767px;
   height: 100%;
 `;
