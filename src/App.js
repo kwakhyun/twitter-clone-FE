@@ -7,6 +7,7 @@ import First from "./pages/First";
 import Profile from "./pages/Profile";
 import EditProfile from "./components/profile/EditProfile";
 import Detail from "./pages/Detail";
+import AddTweet from "./pages/AddTweet";
 
 function App() {
   const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ function App() {
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/editProfile" element={<EditProfile />} />
+          <Route path="/addtweet" element={<AddTweet />} />
         </Routes>
       </Layout>
     </QueryClientProvider>

@@ -6,12 +6,12 @@ export const api = axios.create({
   headers: {
     "Comment-Type": "multipart/form-data",
   },
-  withCredentials: true,
+  withCredentials: false,
 });
 
 axios.interceptors.request.use(
   function (config) {
-  return config;
+    return config;
   },
   function (error) {
     // Do something with request error
@@ -45,7 +45,7 @@ export const ProflieAPI = {
 
 export const TwitAPI = {
   addtwit: data => api.post(`/twit`, data),
-  gettwit: () => api.get(`/twit`),
+  gettwit: () => api.get(`/data`),
   getonetwit: id => api.get(`/twit/${id}`),
   deletetwit: id => api.delete(`/twit/${id}`),
 };
@@ -57,5 +57,4 @@ export const CommentAPI = {
 
 export const LikeAPI = {
   togglelike: data => api.post(`/like/${data.id}`),
-  
 };

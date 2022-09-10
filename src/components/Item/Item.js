@@ -1,37 +1,40 @@
 import React from "react";
 import styled from "styled-components";
-
+import { PostedTime } from "../../hooks/PostedTime";
 import { BsBoxArrowUp } from "react-icons/bs";
 import { TiArrowRepeat } from "react-icons/ti";
 import { BiMessageRounded } from "react-icons/bi";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-const Item = ({ children }) => {
+
+const Item = ({ twit }) => {
+  let postedTime = PostedTime(twit.createdAt);
+
   return (
     <StyledItemContainer>
       <StlyedItemInnerContainer>
         <StyledDirectionBox>
           <StyledColuemLeft>
-            <StlyedUserImage src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNWY2WGeTZOwNzA9PZLbaKPARcnkcxaMylmwRBg3juIQ&s" />
+            <StlyedUserImage src={twit.userFrofileImage} />
           </StyledColuemLeft>
           <StyledDirectionBox direct="column">
             <StyledUserInfoBOx>
               <Styleddiv>
                 <StyledText fs="0.8rem" fw="bold">
-                  TAEGWON
+                  {twit.nickname}
                 </StyledText>
                 <StyledText fs="0.5rem">@999</StyledText>
-                <StyledText fs="0.5rem">_3시간전</StyledText>
+                <StyledText fs="0.5rem">_{postedTime}</StyledText>
               </Styleddiv>
               <StyledText fs="0.3rem">●●●</StyledText>
             </StyledUserInfoBOx>
-            <StyledText>여기는 내용이 들어갈꺼에요</StyledText>
-            <StyledTwiteImage src="https://i.ytimg.com/an_webp/IqwYYPxya6U/mqdefault_6s.webp?du=3000&sqp=CNW975gG&rs=AOn4CLBKzakxYKqPZGh-h_o0q1AZYjPkpw" />
+            <StyledText>{twit.content}</StyledText>
+            <StyledTwiteImage src={twit.fileUrl} />
             <StyledUserInfoBOx>
               <Styleddiv color="skyblue">
                 <StyledIconBox backcolor="skyblue">
                   <BiMessageRounded size="1.3rem" />
                 </StyledIconBox>
-                <StyledText fs="0.7rem">525252</StyledText>
+                <StyledText fs="0.7rem">{twit.commentCnt}</StyledText>
               </Styleddiv>
               <Styleddiv color="lightgreen">
                 <StyledIconBox backcolor="lightgreen">
@@ -43,7 +46,7 @@ const Item = ({ children }) => {
                 <StyledIconBox backcolor="lightpink">
                   <FaHeart color="red" size="1.3rem" />
                 </StyledIconBox>
-                <StyledText fs="0.7rem">123123</StyledText>
+                <StyledText fs="0.7rem">{twit.likeCnt}</StyledText>
               </Styleddiv>
               <Styleddiv>
                 <StyledIconBox backcolor="skyblue">

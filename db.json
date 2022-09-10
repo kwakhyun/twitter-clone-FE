@@ -1,5 +1,34 @@
 {
-    "twite":{ 
-        "id"
+  "data": [
+    {
+      "userFrofileImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNWY2WGeTZOwNzA9PZLbaKPARcnkcxaMylmwRBg3juIQ&s",
+      "nickname": "taegwon",
+      "userId": 1,
+      "createdAt": "2022-09-08T09:04:11.050186",
+      "content": "만들어봤어요",
+      "fileUrl": "https://i.ytimg.com/an_webp/IqwYYPxya6U/mqdefault_6s.webp?du=3000&sqp=CNW975gG&rs=AOn4CLBKzakxYKqPZGh-h_o0q1AZYjPkpw",
+      "commentCnt": 2,
+      "likeCnt": 5252
+    },
+    {
+      "userFrofileImage": "https://i.ytimg.com/an_webp/OQgk8k5pfws/mqdefault_6s.webp?du=3000&sqp=CL-D75gG&rs=AOn4CLApSbCBmWRwrGorYI9SYYv-NS3DSQ",
+      "nickname": "test",
+      "userId": 2,
+      "createdAt": "2022-09-06T09:04:11.050186",
+      "content": "강아지는 귀여워",
+      "fileUrl": "https://i.ytimg.com/an_webp/jTlGY8Wig1Y/mqdefault_6s.webp?du=3000&sqp=CM6w75gG&rs=AOn4CLBgJb2Su4in5V86DgGBfLUPJvQmEA",
+      "commentCnt": 4321,
+      "likeCnt": 111222333
+    },
+    {
+      "userFrofileImage": "https://i.ytimg.com/an_webp/iMIoaEy7uIY/mqdefault_6s.webp?du=3000&sqp=COSg75gG&rs=AOn4CLDMrvvpmPApg6Y1Dym2EZwnqqXQdQ",
+      "nickname": "prac",
+      "userId": 3,
+      "createdAt": "2022-09-10T01:04:11.050186",
+      "content": "만들어봤",
+      "fileUrl": "https://i.ytimg.com/an_webp/QJC3KWCO7_Y/mqdefault_6s.webp?du=3000&sqp=CKj-7pgG&rs=AOn4CLAxrrHTUcdpdjDA4ylEnig-drOC6A",
+      "commentCnt": 4124124,
+      "likeCnt": 1111
     }
+  ]
 }
