@@ -13,4 +13,5 @@ const Layouts = styled.div`
   align-items: center;
   max-width: 767px;
   height: 100%;
+  margin: auto;
 `;

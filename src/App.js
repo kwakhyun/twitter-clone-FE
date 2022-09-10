@@ -2,9 +2,11 @@ import { Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Home from "./pages/Home";
-import { Layout } from "./components";
+import { Layout, Signup, Login } from "./components";
+import First from "./pages/First";
 import Profile from "./pages/Profile";
 import EditProfile from "./components/profile/EditProfile";
+
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -12,10 +14,9 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* <Route path="/login" element={} />
-        <Route path="/signup" element={} />
-        <Route path="/detail/:id" element={} />
-        <Route path="/addpost" element={} />*/}
+          <Route path="/first" element={<First />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/editProfile" element={<EditProfile />} />
         </Routes>
