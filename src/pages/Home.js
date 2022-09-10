@@ -1,7 +1,15 @@
 import React from "react";
-import { Layout } from "../components/index";
-const Home = () => {
-  return <div>asdas</div>;
+
+import { Header, Footer, ItemList } from "../components";
+const Mainpage = () => {
+  return (
+    <>
+      <Header></Header>
+
+      <ItemList></ItemList>
+      <Footer />
+    </>
+  );
 };
 
-export default Home;
+export default Mainpage;
