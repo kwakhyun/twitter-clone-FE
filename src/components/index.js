@@ -4,4 +4,10 @@ import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import Item from "./Item/Item";
 import ItemList from "./Itemlist/Itemlist";
-export { Item, ItemList, Layout, Header, Footer };
+import Signup from "../pages/Signup";
+import Login from "../pages/Login";
+export { Item, ItemList, Layout, Header, Footer,Signup, Login };
+
+
+
+
