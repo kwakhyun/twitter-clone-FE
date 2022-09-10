@@ -11,7 +11,7 @@ const Header = () => {
           <StyledText>Home</StyledText>
         </StyledHeader>
         <StyledHeader>
-          <FaTwitter size="25px" color="blue" />
+          <FaTwitter size="25px" color="rgb(051,153,255,0.9)" />
         </StyledHeader>
       </StlyedHeaderBox>
     </Wrap>

@@ -41,7 +41,7 @@ const StyledP = styled.p`
 `;
 
 const StyledSpan = styled.span`
-  font-size: ${(props) => props.size || "23px"};
+  font-size: ${props => props.size || "23px"};
   font-weight: bold;
   margin-bottom: 10px;
   margin-top: 50px;
@@ -63,21 +63,21 @@ const TextStyled = styled.text`
 `;
 
 const StyledButton = styled.button`
-  border: 1px solid ${(props) => props.border || "gray"};
+  border: 1px solid ${props => props.border || "gray"};
   padding: 0px 15px;
   border-radius: 20px;
   font-size: 15px;
   font-weight: bold;
   width: 70%;
   height: 40px;
-  color: ${(props) => props.color};
-  background-color: ${(props) => props.bgcolor || "white"};
+  color: ${props => props.color};
+  background-color: ${props => props.bgcolor || "white"};
   margin: 8px;
 `;
 
 const StyledDesc = styled.span`
   font-size: 11px;
-  color: ${(props) => props.color};
+  color: ${props => props.color};
 `;
 
 const StyledDescText = styled.text`
