@@ -31,7 +31,7 @@ const Signup = () => {
         </StyledDesc>
         <StyledInputContainer>
           <StyledInputSpan>생년월일</StyledInputSpan>
-          <StyledInput type="text"></StyledInput>
+          <StyledInput type="date"></StyledInput>
         </StyledInputContainer>
       </StyledContentContainer>
       <StyledNextButton bgcolor="#0f1419" color="white">

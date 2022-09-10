@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
 
-const Signup = () => {
+const Login = () => {
   return (
     <>
       <FaTwitter color="#1d9bf0" size="35px" />
@@ -98,4 +98,4 @@ const StyledText = styled.text`
   background-color: white;
   text-align: center;
 `;
-export default Signup;
+export default Login;
