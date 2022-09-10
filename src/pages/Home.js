@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { TwitAPI } from "../api/jsonsever";
 import { useQuery, useQueryClient } from "react-query";
-import { Addbutton, Header, Footer, ItemList, Item } from "../components";
+import { Addbutton, Header, Footer, Item } from "../components";
 const Mainpage = () => {
   const getTwit = async () => {
     const res = await TwitAPI.gettwit();
@@ -22,17 +22,15 @@ const Mainpage = () => {
     <>
       <Header />
 
-      <ItemList>
-        <StyledItemContainer>
-          {data.data.map(x => {
-            return (
-              <React.Fragment key={x.userId}>
-                <Item twit={x} />
-              </React.Fragment>
-            );
-          })}
-        </StyledItemContainer>
-      </ItemList>
+      <StyledItemContainer>
+        {data.data.map((x) => {
+          return (
+            <React.Fragment key={x.userId}>
+              <Item twit={x} />
+            </React.Fragment>
+          );
+        })}
+      </StyledItemContainer>
 
       <Addbutton />
       <Footer />
