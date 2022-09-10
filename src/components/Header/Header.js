@@ -1,13 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
 import { FaTwitter } from "react-icons/fa";
+
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <Wrap>
       <StlyedHeaderBox>
         <StyledHeader>
-          <StlyedUserImage src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNWY2WGeTZOwNzA9PZLbaKPARcnkcxaMylmwRBg3juIQ&s" />
+          <StlyedUserImage
+            onClick={() => navigate("/profile")}
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNWY2WGeTZOwNzA9PZLbaKPARcnkcxaMylmwRBg3juIQ&s"
+          />
           <StyledText>Home</StyledText>
         </StyledHeader>
         <StyledHeader>

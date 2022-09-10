@@ -1,7 +1,8 @@
 import { useQuery } from "react-query";
+import ItemList from "../Itemlist/Itemlist";
 
 const Tweets = () => {
-  return <div>내 트윗</div>;
+  return <ItemList isProfile={true} />;
 };
 
 export default Tweets;

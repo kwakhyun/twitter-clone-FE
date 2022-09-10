@@ -1,7 +1,8 @@
 import { useQuery } from "react-query";
+import ItemList from "../Itemlist/Itemlist";
 
 const Likes = () => {
-  return <div>내가 좋아요한 트윗</div>;
+  return <ItemList isProfile={true} />;
 };
 
 export default Likes;
