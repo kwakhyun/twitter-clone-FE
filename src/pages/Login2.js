@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
 
-const Login = () => {
+const Login2 = () => {
   return (
     <>
       <FaTwitter color="#1d9bf0" size="35px" />
@@ -13,9 +13,7 @@ const Login = () => {
         <StyledText>또는</StyledText>
       </StyledLineDiv>
       <StyledInputContainer>
-        <StyledInputSpan>
-          휴대폰 번호, 이메일 주소 또는 사용자 아이디
-        </StyledInputSpan>
+        <StyledInputSpan>아이디를 입력해주세요.</StyledInputSpan>
         <StyledInput type="text"></StyledInput>
       </StyledInputContainer>
       <StyledButton bgcolor="black" color="white">
@@ -98,4 +96,4 @@ const StyledText = styled.text`
   background-color: white;
   text-align: center;
 `;
-export default Login;
+export default Login2;
