@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Text } from ".";
 
-const Input = props => {
+const Input = (props) => {
   const {
     hei,
     type,
@@ -60,7 +60,7 @@ Input.defaultProps = {
 };
 
 const NormalInput = styled.input`
-  height: ${props => props.hei};
+  height: ${(props) => props.hei};
   border: 3px solid #c4c4c4;
   border-radius: 6px;
   width: 100%;

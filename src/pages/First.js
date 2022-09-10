@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
-
+import { useNavigate } from "react-router-dom";
 const First = () => {
+  const navigate = useNavigate();
   return (
     <>
       <FaTwitter color="#1d9bf0" size="40px" />
@@ -9,10 +10,17 @@ const First = () => {
       <StyledSpan>오늘 트위터에 가입하세요.</StyledSpan>
       <StyledButton>Google 계정으로 가입하기</StyledButton>
       <StyledDiv>
-        <hr /> <TextStyled>또는</TextStyled>
+        <hr /> <StyledText>또는</StyledText>
       </StyledDiv>
 
-      <StyledButton bgcolor="#1d9bf0" border="#1d9bf0" color="white">
+      <StyledButton
+        onClick={() => {
+          navigate("/signup");
+        }}
+        bgcolor="#1d9bf0"
+        border="#1d9bf0"
+        color="white"
+      >
         휴대폰 번호나 이메일 주소로 가입하기
       </StyledButton>
       <>
@@ -25,7 +33,14 @@ const First = () => {
         </StyledDescText>
 
         <StyledSpan size="20px">이미 트위터에 가입하셨나요?</StyledSpan>
-        <StyledButton color="#1d9bf0">로그인</StyledButton>
+        <StyledButton
+          color="#1d9bf0"
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          로그인
+        </StyledButton>
         <FaTwitter color="#1d9bf0" size="80%" />
       </>
     </>
@@ -41,7 +56,7 @@ const StyledP = styled.p`
 `;
 
 const StyledSpan = styled.span`
-  font-size: ${props => props.size || "23px"};
+  font-size: ${(props) => props.size || "23px"};
   font-weight: bold;
   margin-bottom: 10px;
   margin-top: 50px;
@@ -52,32 +67,32 @@ const StyledDiv = styled.div`
   width: 70%;
   margin: auto;
 `;
-const TextStyled = styled.text`
+const StyledText = styled.text`
   position: absolute;
   top: -2px;
   left: 127px;
-  width: 12%;
+  width: 15%;
   height: 20px;
   background-color: white;
   text-align: center;
 `;
 
 const StyledButton = styled.button`
-  border: 1px solid ${props => props.border || "gray"};
+  border: 1px solid ${(props) => props.border || "rgb(214, 218, 227)"};
   padding: 0px 15px;
   border-radius: 20px;
   font-size: 15px;
   font-weight: bold;
   width: 70%;
   height: 40px;
-  color: ${props => props.color};
-  background-color: ${props => props.bgcolor || "white"};
+  color: ${(props) => props.color};
+  background-color: ${(props) => props.bgcolor || "white"};
   margin: 8px;
 `;
 
 const StyledDesc = styled.span`
   font-size: 11px;
-  color: ${props => props.color};
+  color: ${(props) => props.color};
 `;
 
 const StyledDescText = styled.text`
