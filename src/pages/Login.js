@@ -1,19 +1,13 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
-
+import { Inputplaceholer } from "../elem";
+import useInput from "../hooks/useInput";
 const Login = () => {
-  const [IsFocus, setIsFocus] = useState(false);
   const InputRef = useRef(null);
-  const Ref = useRef(null);
 
-  const handleFocus = () => {
-    if (IsFocus) {
-      document.querySelector(".text").innerHTML =
-        "휴대폰 번호, 이메일 주소 또는 사용자 아이디";
-    }
-  };
-
+  const [inputs, onChange] = useInput();
+  console.log(inputs);
   return (
     <>
       <FaTwitter size="35px" color="#1d9bf0" />
@@ -23,31 +17,14 @@ const Login = () => {
         <hr />
         <TextStyled>또는</TextStyled>
       </StyledDiv>
-      <StyledDiv>
-        {IsFocus && InputRef.current.value !== undefined ? (
-          <div>
-            <text>휴대폰 번호, 이메일 주소 또는 사용자 아이디</text>
-            <IdInput
-              autoFocus
-              onBlur={() => {
-                setIsFocus(false);
-              }}
-              ref={Ref}
-            ></IdInput>
-          </div>
-        ) : (
-          <IdInput
-            ref={InputRef}
-            onFocus={() => {
-              setIsFocus(true);
-              Ref.current.focus();
-            }}
-            placeholder="휴대폰 번호, 이메일 주소 또는 사용자 아이디"
-            type="text"
-          ></IdInput>
-        )}
-      </StyledDiv>
-
+      <Inputplaceholer
+        text="아이디를 입력하세요"
+        onChange={onChange}
+        ref={InputRef}
+        name="userId"
+        width="400px"
+        height="200px"
+      />
       <StyledButton bgcolor="black" color="white">
         다음
       </StyledButton>
@@ -71,17 +48,6 @@ const StyledButton = styled.button`
   color: ${props => props.color};
   background-color: ${props => props.bgcolor || "white"};
   margin: 8px;
-`;
-
-const IdInput = styled.input`
-  margin: 15px 0px 10px 0px;
-  padding: 14px 16px;
-  border: 1px solid rgb(214, 218, 227);
-  border-radius: 5px;
-  background-color: transparent;
-  font-size: 14px;
-  line-height: 24px;
-  width: 230px;
 `;
 
 const Span = styled.span`
