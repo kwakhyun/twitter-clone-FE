@@ -26,11 +26,12 @@ const Wrap = styled.div`
   left: 0px;
   width: 100%;
   max-height: 50px;
+  z-index: 2;
 `;
 const StlyedHeaderBox = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgb(255, 255, 255, 0.5);
+  background-color: rgb(255, 255, 255, 0.7);
   width: 100%;
   height: 50px;
   align-items: center;
