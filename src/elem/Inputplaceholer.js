@@ -21,14 +21,13 @@ export default forwardRef(Inputplaceholer);
 
 const IdInput = styled.input`
   margin: 15px 0;
-  padding: 0px 5px;
+  padding: 25px 0 5px 5px;
   border: 1px solid rgb(214, 218, 227);
   border-radius: 5px;
   background-color: transparent;
   font-size: 1rem;
   line-height: 24px;
   width: 100%;
-  height: 50px;
 
   &::placeholder {
     color: transparent;
@@ -38,7 +37,7 @@ const IdInput = styled.input`
     outline: none;
     + span {
       position: absolute;
-      top: 19px;
+      top: 23px;
       left: 3%;
       pointer-events: none;
       font-size: 0.8rem;
@@ -54,7 +53,7 @@ const IdInput = styled.input`
 
     + span {
       position: absolute;
-      top: 19px;
+      top: 23px;
       left: 3%;
       color: #1d9bf0;
       pointer-events: none;
@@ -76,7 +75,7 @@ const StyledDiv = styled.div`
 
 const Labelstlyed = styled.span`
   position: absolute;
-  top: 35px;
+  top: 32px;
   left: 3%;
   z-index: -1;
   color: #536471;
