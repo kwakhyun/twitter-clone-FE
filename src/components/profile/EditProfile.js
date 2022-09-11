@@ -12,6 +12,15 @@ const EditProfile = () => {
   const [haveBio, setHaveBio] = useState(false);
   const [countBio, setCountBio] = useState(0);
 
+  useEffect(() => {
+    if (name.current.value) {
+      setCountName(name.current.value.length);
+    }
+    if (bio.current.value) {
+      setCountBio(bio.current.value.length);
+    }
+  }, []);
+
   const nameFocus = () => {
     name.current.focus();
     document.querySelector(".name-count").style.display = "block";
@@ -72,7 +81,7 @@ const EditProfile = () => {
             ref={name}
             onChange={onChangeName}
             onBlur={onBlurName}
-            maxLength={49}
+            maxLength={50}
             defaultValue="kh"
           />
         </StyledNameDiv>
@@ -87,7 +96,7 @@ const EditProfile = () => {
             ref={bio}
             onChange={onChangeBio}
             onBlur={onBlurBio}
-            maxLength={159}
+            maxLength={160}
           ></textarea>
         </StyledBioDiv>
       </StyledContainer>
@@ -98,6 +107,7 @@ const EditProfile = () => {
 const StyledContainer = styled.div`
   width: 100%;
   .blank-message {
+    display: none;
     color: #f42a36;
     font-size: 12px;
     font-weight: 500;
@@ -150,6 +160,7 @@ const StyledNameDiv = styled.div`
     margin: 27px 0 0 5px;
   }
   .name-count {
+    display: none;
     position: absolute;
     color: gray;
     font-weight: 500;
@@ -196,6 +207,7 @@ const StyledBioDiv = styled.div`
     margin: 27px 0 0 5px;
   }
   .bio-count {
+    display: none;
     position: absolute;
     color: gray;
     font-weight: 500;
