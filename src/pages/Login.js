@@ -3,11 +3,19 @@ import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
 import { Inputplaceholer } from "../elem";
 import useInput from "../hooks/useInput";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
   const InputRef = useRef(null);
-
   const [inputs, onChange] = useInput();
-  console.log(inputs);
+
+  const navigate = useNavigate();
+
+  const onClickNext = () => {
+    navigate("/loginpw", { state: inputs.userId });
+  };
+
   return (
     <>
       <FaTwitter size="35px" color="#1d9bf0" />
@@ -22,8 +30,9 @@ const Login = () => {
         onChange={onChange}
         ref={InputRef}
         name="userId"
+        type="text"
       />
-      <StyledButton bgcolor="black" color="white">
+      <StyledButton bgcolor="black" color="white" onClick={onClickNext}>
         다음
       </StyledButton>
       <StyledButton>비밀번호를 잊으셨나요?</StyledButton>
@@ -55,11 +64,6 @@ const StyledButton = styled.button`
   background-color: ${(props) => props.bgcolor || "white"};
 `;
 
-const StyledDiv = styled.div`
-  position: relative;
-  width: 70%;
-  margin: auto;
-`;
 const StyledText = styled.text`
   position: absolute;
   top: -2px;

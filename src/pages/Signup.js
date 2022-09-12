@@ -29,15 +29,15 @@ const Signup = () => {
 };
 
 const StyledButton = styled.button`
-  border: 1px solid ${props => "gray" || props.color};
+  border: 1px solid ${(props) => "gray" || props.color};
   padding: 0px 15px;
   border-radius: 20px;
   font-size: 15px;
   font-weight: bold;
   width: 70%;
   height: 40px;
-  color: ${props => props.color};
-  background-color: ${props => props.bgcolor || "white"};
+  color: ${(props) => props.color};
+  background-color: ${(props) => props.bgcolor || "white"};
   margin: 8px;
 `;
 
