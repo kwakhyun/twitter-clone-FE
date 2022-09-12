@@ -11,31 +11,29 @@ import axios from "axios";
 const Login = () => {
   const navigate = useNavigate();
   const InputRef = useRef(null);
-  const id = useRef(null);
+
   const [inputs, onChange] = useInput();
 
-  const onClickNext = () => {
-    navigate("/loginpw", { state: inputs.userId });
-  };
-
-  const idCheck = async (data) => {
-    console.log(data);
-    const response = await axios.post("http://13.125.250.180/api/member/userid", {
-      userId: data, 
-    });
+  const idCheck = async data => {
+    const response = await axios.post(
+      "http://13.125.250.180/api/member/userid",
+      {
+        userId: data,
+      }
+    );
     return response;
   };
 
   const { mutate } = useMutation(idCheck, {
-    onSuccess: (response) => {
-      if(response.data.success) {
-        navigate("/loginpw", { state: id.current.value})
+    onSuccess: response => {
+      if (response.data.success) {
+        navigate("/loginpw", { state: inputs.userId });
       } else {
         alert("아이디가 존재하지 않습니다.");
       }
     },
-    onError: (error) => {
-      console.log(error)
+    onError: error => {
+      console.log(error);
       console.log("네트워크 오류");
     },
   });
@@ -49,19 +47,19 @@ const Login = () => {
         <hr />
         <StyledText>또는</StyledText>
       </StyledLineDiv>
-      {/* <Inputplaceholer
+      <Inputplaceholer
         text="아이디를 입력해주세요."
         onChange={onChange}
         ref={InputRef}
         name="userId"
         type="text"
-      /> */}
-      <input type="text" ref={id} />
+      />
+
       <StyledButton
         bgcolor="black"
         color="white"
         onClick={() => {
-          mutate(id.current.value);
+          mutate(inputs.userId);
         }}
       >
         다음
@@ -83,7 +81,7 @@ const StyledTitleSpan = styled.span`
 `;
 
 const StyledButton = styled.button`
-  border: 1px solid ${(props) => props.color || "rgb(214, 218, 227)"};
+  border: 1px solid ${props => props.color || "rgb(214, 218, 227)"};
   padding: 0px;
   margin: 15px;
   border-radius: 20px;
@@ -91,8 +89,8 @@ const StyledButton = styled.button`
   font-weight: bold;
   width: 70%;
   height: 40px;
-  color: ${(props) => props.color};
-  background-color: ${(props) => props.bgcolor || "white"};
+  color: ${props => props.color};
+  background-color: ${props => props.bgcolor || "white"};
 `;
 
 const StyledText = styled.text`
@@ -106,7 +104,7 @@ const StyledText = styled.text`
 `;
 
 const StyledSpan = styled.span`
-  color: ${(props) => "#1d9bf0" || props.color};
+  color: ${props => "#1d9bf0" || props.color};
 `;
 const StyledLineDiv = styled.div`
   position: relative;

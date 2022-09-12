@@ -1,6 +1,6 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { TwitAPI } from "../api/jsonsever";
+
 import { AiOutlinePicture } from "react-icons/ai";
 import { BiLeftArrowAlt } from "react-icons/bi";
 const Addtweet = ({ tweet }) => {
