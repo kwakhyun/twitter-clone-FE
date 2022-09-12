@@ -99,6 +99,12 @@ const EditProfile = () => {
             maxLength={160}
           ></textarea>
         </StyledBioDiv>
+
+        <StyledDateDiv>
+          <span>Birth date - </span>
+          <span>Edit</span>
+          <div>May 1, 2022</div>
+        </StyledDateDiv>
       </StyledContainer>
     </>
   );
@@ -224,6 +230,11 @@ const StyledBioSpan = styled.span`
   margin-left: 8px;
   font-size: ${({ haveValue }) => (haveValue ? "0.8rem" : "1rem")};
   transition: 0.2s;
+`;
+
+const StyledDateDiv = styled.div`
+  margin-top: 25px;
+  margin-left: 25px;
 `;
 
 export default EditProfile;
