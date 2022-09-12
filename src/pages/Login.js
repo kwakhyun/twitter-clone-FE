@@ -5,16 +5,40 @@ import { Inputplaceholer } from "../elem";
 import useInput from "../hooks/useInput";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 const Login = () => {
-  const InputRef = useRef(null);
-  const [inputs, onChange] = useInput();
-
   const navigate = useNavigate();
+  const InputRef = useRef(null);
+  const id = useRef(null);
+  const [inputs, onChange] = useInput();
 
   const onClickNext = () => {
     navigate("/loginpw", { state: inputs.userId });
   };
+
+  const idCheck = async (data) => {
+    console.log(data);
+    const response = await axios.post("http://13.125.250.180/api/member/userid", {
+      userId: data, 
+    });
+    return response;
+  };
+
+  const { mutate } = useMutation(idCheck, {
+    onSuccess: (response) => {
+      if(response.data.success) {
+        navigate("/loginpw", { state: id.current.value})
+      } else {
+        alert("아이디가 존재하지 않습니다.");
+      }
+    },
+    onError: (error) => {
+      console.log(error)
+      console.log("네트워크 오류");
+    },
+  });
 
   return (
     <>
@@ -25,14 +49,21 @@ const Login = () => {
         <hr />
         <StyledText>또는</StyledText>
       </StyledLineDiv>
-      <Inputplaceholer
+      {/* <Inputplaceholer
         text="아이디를 입력해주세요."
         onChange={onChange}
         ref={InputRef}
         name="userId"
         type="text"
-      />
-      <StyledButton bgcolor="black" color="white" onClick={onClickNext}>
+      /> */}
+      <input type="text" ref={id} />
+      <StyledButton
+        bgcolor="black"
+        color="white"
+        onClick={() => {
+          mutate(id.current.value);
+        }}
+      >
         다음
       </StyledButton>
       <StyledButton>비밀번호를 잊으셨나요?</StyledButton>

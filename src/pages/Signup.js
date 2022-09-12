@@ -3,11 +3,34 @@ import styled from "styled-components";
 import { BsX } from "react-icons/bs";
 import { Inputplaceholer } from "../elem";
 import { useEffect, useRef, useState } from "react";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 const Signup2 = () => {
   const name = useRef(null);
+  const id = useRef(null);
+  const password = useRef(null);
+  const date = useRef(null);
   const [haveName, setHaveName] = useState(true);
   const [countName, setCountName] = useState(0);
+
+  const signup = async (data) => {
+    await axios.post("http://13.125.250.180/api/member/signup", {
+      userId: data.userId,
+      nickname: data.nickname,
+      password: data.password,
+      dateOfBirth: data.dateOfBirth,
+    });
+  };
+
+  const { mutate } = useMutation(signup, {
+    onSuccess: () => {
+      alert("가입을 환영합니다!");
+    },
+    onError: () => {
+      alert("가입에 실패했습니다.");
+    },
+  });
 
   useEffect(() => {
     if (name.current.value) {
@@ -62,8 +85,8 @@ const Signup2 = () => {
           </StyledNameDiv>
           <span className="blank-message">이름을 입력해 주세요.</span>
         </StyledContainer>
-        <input type="text" />
-        <input type="text" />
+        <input type="text" ref={id} />
+        <input type="text" ref={password} />
 
         <StyledSpan>생년월일</StyledSpan>
         <StyledDesc>
@@ -72,10 +95,21 @@ const Signup2 = () => {
         </StyledDesc>
         <StyledInputContainer>
           <StyledInputSpan>생년월일</StyledInputSpan>
-          <StyledInput type="date"></StyledInput>
+          <StyledInput type="date" ref={date}></StyledInput>
         </StyledInputContainer>
       </StyledContentContainer>
-      <StyledNextButton bgcolor="#0f1419" color="white">
+      <StyledNextButton
+        onClick={() => {
+          mutate({
+            nickname: name.current.value,
+            userId: id.current.value,
+            password: password.current.value,
+            dateOfBirth: date.current.value,
+          });
+        }}
+        bgcolor="#0f1419"
+        color="white"
+      >
         가입하기
       </StyledNextButton>
     </>

@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Item from "../components/Item/Item";
 import { useQuery, useMutation } from "react-query";
-import { TwitAPI } from "../api/api";
-import { replyAPI } from "../api/api";
+import { tweetAPI } from "../shared/api";
+import { replyAPI } from "../shared/api";
 import { useRef } from "react";
 
 const Comment = () => {
@@ -25,7 +25,7 @@ const Comment = () => {
     }
   };
 
-  const { data } = useQuery("getTweet", TwitAPI.gettwit);
+  const { data } = useQuery("getTweet", tweetAPI.getTweet);
   console.log(data);
   // const {data: commentList} = useQuery("getTweet", TwitAPI.gettwit);
   // console.log(data);

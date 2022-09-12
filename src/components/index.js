@@ -5,12 +5,12 @@ import Footer from "./Footer/Footer";
 import Item from "./Item/Item";
 import Signup from "../pages/Signup";
 import Login from "../pages/Login";
-import Addbutton from "./Addbutton";
-import Addtweet from "./Addtweet";
+import AddButton from "./AddButton";
+import AddTweet from "./AddTweet";
 import LoginPw from "../pages/LoginPw";
 export {
-  Addtweet,
-  Addbutton,
+  AddTweet,
+  AddButton,
   Item,
   Layout,
   Header,

@@ -3,12 +3,49 @@ import { FaTwitter } from "react-icons/fa";
 import { BsX } from "react-icons/bs";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Inputplaceholer } from "../elem";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useMutation } from "react-query";
+import axios from "axios";
+import { useRef } from "react";
 
 const LoginPw = () => {
-  const [showPw, SetShowPw] = useState(false);
   const { state } = useLocation();
+  const navigate = useNavigate();
+  const id = useRef(null);
+  const password = useRef(null);
+  const [showPw, SetShowPw] = useState(false);
+
+  const onLogin = async (data) => {
+    console.log(data.userId);
+    console.log(data.password);
+    const response = await axios.post(
+      "http://13.125.250.180/api/member/login",
+      {
+        userId: data.userId,
+        password: data.password,
+      }
+    );
+    console.log(response);
+    return response;
+  };
+
+  const { mutate } = useMutation(onLogin, {
+    onSuccess: ({ data, headers }) => {
+      if (data.success) {
+        alert("로그인 성공!");
+        localStorage.setItem("access_token", headers["authorization"]);
+        localStorage.setItem("refresh_token", headers["refresh-token"]);
+        navigate("/");
+      } else {
+        alert(data.error.message);
+      }
+    },
+    onError: () => {
+      alert("로그인에 실패했습니다.");
+    },
+  });
+
   return (
     <>
       <StyledTopContainer>
@@ -26,18 +63,28 @@ const LoginPw = () => {
         disabled="true"
         type="text"
       />
-      <Inputplaceholer
+      {/* <Inputplaceholer
         text="비밀번호"
         name="userId"
         type={showPw ? "text" : "password"}
       />
-      {showPw ? <FaRegEyeSlash /> : <FaRegEye />}
+      {showPw ? <FaRegEyeSlash /> : <FaRegEye />} */}
+      <input type="password" ref={password} />
 
       <StyledSpan margin="200px">비밀번호 찾기</StyledSpan>
-      <StyledButton>로그인하기</StyledButton>
+      <StyledButton
+        onClick={() =>
+          mutate({
+            userId: state,
+            password: password.current.value,
+          })
+        }
+      >
+        로그인하기
+      </StyledButton>
       <StyledSpan color="black">
         계정이 없으신가요?
-        <StyledSpan>가입하기</StyledSpan>
+        <StyledSpan> 가입하기</StyledSpan>
       </StyledSpan>
     </>
   );
