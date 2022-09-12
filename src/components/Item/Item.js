@@ -6,35 +6,35 @@ import { AiOutlineRetweet } from "react-icons/ai";
 import { BiMessageRounded } from "react-icons/bi";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
-const Item = ({ twit }) => {
-  let postedTime = PostedTime(twit.createdAt);
+const Item = ({ tweet }) => {
+  let postedTime = PostedTime(tweet.createdAt);
 
   return (
     <StyledItemContainer>
       <StlyedItemInnerContainer>
         <StyledDirectionBox>
           <StyledColuemLeft>
-            <StlyedUserImage src={twit.userFrofileImage} />
+            <StlyedUserImage src={tweet.userFrofileImage} />
           </StyledColuemLeft>
           <StyledDirectionBox direct="column">
             <StyledUserInfoBOx>
               <StyledDiv>
                 <StyledText fs="0.8rem" fw="bold">
-                  {twit.nickname}
+                  {tweet.nickname}
                 </StyledText>
                 <StyledText fs="0.5rem">@999</StyledText>
                 <StyledText fs="0.5rem">_{postedTime}</StyledText>
               </StyledDiv>
               <StyledText fs="0.3rem">●●●</StyledText>
             </StyledUserInfoBOx>
-            <StyledText>{twit.content}</StyledText>
-            <StyledTwiteImage src={twit.fileUrl} />
+            <StyledText>{tweet.content}</StyledText>
+            <StyledTwiteImage src={tweet.fileUrl} />
             <StyledUserInfoBOx>
               <StyledDiv color="skyblue">
                 <StyledIconBox backcolor="skyblue">
                   <BiMessageRounded size="1.3rem" />
                 </StyledIconBox>
-                <StyledText fs="0.7rem">{twit.commentCnt}</StyledText>
+                <StyledText fs="0.7rem">{tweet.commentCnt}</StyledText>
               </StyledDiv>
               <StyledDiv color="lightgreen">
                 <StyledIconBox backcolor="lightgreen">
@@ -46,7 +46,7 @@ const Item = ({ twit }) => {
                 <StyledIconBox backcolor="lightpink">
                   <FaHeart color="red" size="1.3rem" />
                 </StyledIconBox>
-                <StyledText fs="0.7rem">{twit.likeCnt}</StyledText>
+                <StyledText fs="0.7rem">{tweet.likeCnt}</StyledText>
               </StyledDiv>
               <StyledDiv>
                 <StyledIconBox backcolor="skyblue">
@@ -111,7 +111,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-const StyledText = styled.text`
+const StyledText = styled.span`
   box-sizing: border-box;
   font-size: ${props => props.fs};
   font-weight: ${props => props.fw};
@@ -133,7 +133,7 @@ const StlyedUserImage = styled.img`
   left: -1px;
 `;
 
-const StyledIconBox = styled.text`
+const StyledIconBox = styled.span`
   background-color: transparent;
   width: 30px;
   height: 30px;

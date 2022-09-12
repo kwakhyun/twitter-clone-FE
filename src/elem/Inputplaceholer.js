@@ -27,7 +27,8 @@ const Inputplaceholer = ({
     </WrapStyled>
   );
 };
-export default forwardRef(Inputplaceholer);
+export default Inputplaceholer;
+// export default forwardRef(Inputplaceholer); 에러 발생으로 주석처리
 
 const IdInput = styled.input`
   margin: 15px 0 0px 0;

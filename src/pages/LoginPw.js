@@ -9,16 +9,14 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import { useRef } from "react";
 import useInput from "../hooks/useInput";
+
 const LoginPw = () => {
-  const { state } = useLocation();
   const navigate = useNavigate();
-  const id = useRef(null);
-  const password = useRef(null);
+  const { state } = useLocation();
   const [showPw, SetShowPw] = useState(false);
   const [inputs, onChange] = useInput();
-  const onLogin = async data => {
-    console.log(data.userId);
-    console.log(inputs.password);
+
+  const onLogin = async (data) => {
     const response = await axios.post(
       "http://13.125.250.180/api/member/login",
       {
@@ -26,7 +24,6 @@ const LoginPw = () => {
         password: inputs.password,
       }
     );
-
     return response;
   };
 
@@ -120,7 +117,7 @@ const StyledButton = styled.button`
   background-color: black;
 `;
 const StyledSpan = styled.span`
-  color: ${props => props.color || "#1d9bf0"};
+  color: ${(props) => props.color || "#1d9bf0"};
   font-size: 14px;
-  margin-right: ${props => props.margin || "90px"}; ;
+  margin-right: ${(props) => props.margin || "90px"}; ;
 `;
