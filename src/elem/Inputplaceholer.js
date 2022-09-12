@@ -1,6 +1,14 @@
 import React, { useRef, useState, forwardRef } from "react";
 import styled from "styled-components";
-const Inputplaceholer = ({ text, onChange, ref, name }) => {
+const Inputplaceholer = ({
+  text,
+  onChange,
+  ref,
+  name,
+  defaultValue,
+  disabled,
+  type,
+}) => {
   const InputRef = useRef(null);
   return (
     <WrapStyled>
@@ -8,9 +16,11 @@ const Inputplaceholer = ({ text, onChange, ref, name }) => {
         <IdInput
           ref={ref}
           name={name}
-          type="text"
+          type={type}
           onChange={onChange}
           placeholder={text}
+          defaultValue={defaultValue}
+          disabled={disabled}
         ></IdInput>
         <Labelstlyed>{text}</Labelstlyed>
       </StyledDiv>
@@ -28,6 +38,9 @@ const IdInput = styled.input`
   font-size: 1rem;
   line-height: 24px;
   width: 100%;
+  &:disabled {
+    background-color: rgb(210, 210, 210, 0.3);
+  }
 
   &::placeholder {
     color: transparent;
