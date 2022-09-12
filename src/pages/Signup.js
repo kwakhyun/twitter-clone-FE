@@ -5,16 +5,15 @@ import { Inputplaceholer } from "../elem";
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
-
+import useInput from "../hooks/useInput";
 const Signup2 = () => {
   const name = useRef(null);
-  const id = useRef(null);
-  const password = useRef(null);
+
   const date = useRef(null);
   const [haveName, setHaveName] = useState(true);
   const [countName, setCountName] = useState(0);
-
-  const signup = async (data) => {
+  const [inputs, onChange] = useInput();
+  const signup = async data => {
     await axios.post("http://13.125.250.180/api/member/signup", {
       userId: data.userId,
       nickname: data.nickname,
@@ -85,9 +84,22 @@ const Signup2 = () => {
           </StyledNameDiv>
           <span className="blank-message">이름을 입력해 주세요.</span>
         </StyledContainer>
-        <input type="text" ref={id} />
-        <input type="text" ref={password} />
-
+        <StyledContainer>
+          <Inputplaceholer
+            onChange={onChange}
+            type="text"
+            name="userId"
+            text="아이디"
+          />
+        </StyledContainer>
+        <StyledContainer>
+          <Inputplaceholer
+            type="password"
+            onChange={onChange}
+            name="password"
+            text="비밀번호"
+          />
+        </StyledContainer>
         <StyledSpan>생년월일</StyledSpan>
         <StyledDesc>
           이 정보는 공개적으로 표시되지 않습니다. 비즈니스, 반려동물 등 계정
@@ -102,8 +114,8 @@ const Signup2 = () => {
         onClick={() => {
           mutate({
             nickname: name.current.value,
-            userId: id.current.value,
-            password: password.current.value,
+            userId: inputs.userId,
+            password: inputs.password,
             dateOfBirth: date.current.value,
           });
         }}

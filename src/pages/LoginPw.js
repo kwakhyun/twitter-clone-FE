@@ -8,25 +8,25 @@ import { useState } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { useRef } from "react";
-
+import useInput from "../hooks/useInput";
 const LoginPw = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const id = useRef(null);
   const password = useRef(null);
   const [showPw, SetShowPw] = useState(false);
-
-  const onLogin = async (data) => {
+  const [inputs, onChange] = useInput();
+  const onLogin = async data => {
     console.log(data.userId);
-    console.log(data.password);
+    console.log(inputs.password);
     const response = await axios.post(
       "http://13.125.250.180/api/member/login",
       {
         userId: data.userId,
-        password: data.password,
+        password: inputs.password,
       }
     );
-    console.log(response);
+
     return response;
   };
 
@@ -62,21 +62,22 @@ const LoginPw = () => {
         name="userId"
         disabled="true"
         type="text"
+        onChange={onChange}
       />
-      {/* <Inputplaceholer
+      <Inputplaceholer
         text="비밀번호"
-        name="userId"
+        name="password"
+        onChange={onChange}
         type={showPw ? "text" : "password"}
       />
-      {showPw ? <FaRegEyeSlash /> : <FaRegEye />} */}
-      <input type="password" ref={password} />
+      {/* {showPw ? <FaRegEyeSlash /> : <FaRegEye />} */}
 
       <StyledSpan margin="200px">비밀번호 찾기</StyledSpan>
       <StyledButton
         onClick={() =>
           mutate({
             userId: state,
-            password: password.current.value,
+            password: inputs?.password,
           })
         }
       >
@@ -119,7 +120,7 @@ const StyledButton = styled.button`
   background-color: black;
 `;
 const StyledSpan = styled.span`
-  color: ${(props) => props.color || "#1d9bf0"};
+  color: ${props => props.color || "#1d9bf0"};
   font-size: 14px;
-  margin-right: ${(props) => props.margin || "90px"}; ;
+  margin-right: ${props => props.margin || "90px"}; ;
 `;

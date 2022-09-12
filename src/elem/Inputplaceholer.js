@@ -30,7 +30,7 @@ const Inputplaceholer = ({
 export default forwardRef(Inputplaceholer);
 
 const IdInput = styled.input`
-  margin: 15px 0;
+  margin: 15px 0 0px 0;
   padding: 25px 0 5px 5px;
   border: 1px solid rgb(214, 218, 227);
   border-radius: 5px;
