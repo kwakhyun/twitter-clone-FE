@@ -7,7 +7,7 @@ import First from "./pages/First";
 import Profile from "./pages/Profile";
 import EditProfile from "./components/profile/EditProfile";
 import Detail from "./pages/Detail";
-import AddTweet from "./pages/AddTweet";
+import AddTweet from "./components/AddTweet";
 
 function App() {
   const queryClient = new QueryClient();
