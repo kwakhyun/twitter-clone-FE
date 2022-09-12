@@ -11,7 +11,6 @@ import axios from "axios";
 const Login = () => {
   const navigate = useNavigate();
   const InputRef = useRef(null);
-
   const [inputs, onChange] = useInput();
 
   const idCheck = async data => {

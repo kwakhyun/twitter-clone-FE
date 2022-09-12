@@ -1,9 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { RiQuillPenFill } from "react-icons/ri";
+
 const AddButton = () => {
+  const navigate = useNavigate();
+
   return (
-    <StyledButtonContainer>
+    <StyledButtonContainer onClick={() => navigate("/addtweet")}>
       <StlyedRelative>
         <StyledP>+</StyledP>
         <StyledIcon>

@@ -1,15 +1,17 @@
-import { useQuery } from "react-query";
+import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import ProfileHeader from "../Header/ProfileHeader";
 import styled from "styled-components";
-import { useEffect, useRef, useState } from "react";
 
 const EditProfile = () => {
+  const { state } = useLocation();
+
   const name = useRef(null);
   const [haveName, setHaveName] = useState(true);
   const [countName, setCountName] = useState(0);
 
   const bio = useRef(null);
-  const [haveBio, setHaveBio] = useState(false);
+  const [haveBio, setHaveBio] = useState(true);
   const [countBio, setCountBio] = useState(0);
 
   useEffect(() => {
@@ -18,6 +20,8 @@ const EditProfile = () => {
     }
     if (bio.current.value) {
       setCountBio(bio.current.value.length);
+    } else {
+      setHaveBio(false);
     }
   }, []);
 
@@ -82,7 +86,7 @@ const EditProfile = () => {
             onChange={onChangeName}
             onBlur={onBlurName}
             maxLength={50}
-            defaultValue="kh"
+            defaultValue={state?.nickname}
           />
         </StyledNameDiv>
         <span className="blank-message">Name can't be blank</span>
@@ -97,13 +101,13 @@ const EditProfile = () => {
             onChange={onChangeBio}
             onBlur={onBlurBio}
             maxLength={160}
+            defaultValue={state?.bio}
           ></textarea>
         </StyledBioDiv>
 
         <StyledDateDiv>
-          <span>Birth date - </span>
-          <span>Edit</span>
-          <div>May 1, 2022</div>
+          <span>Birth date</span>
+          <div>{state?.birthDate}</div>
         </StyledDateDiv>
       </StyledContainer>
     </>

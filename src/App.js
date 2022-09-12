@@ -1,4 +1,5 @@
-import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Home from "./pages/Home";
@@ -10,7 +11,15 @@ import Detail from "./pages/Detail";
 import AddTweet from "./components/AddTweet";
 
 function App() {
+  const navigate = useNavigate();
   const queryClient = new QueryClient();
+
+  useEffect(() => {
+    if (!localStorage.getItem("access_token")) {
+      navigate("/first");
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Layout>

@@ -1,8 +1,8 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-
 import { AiOutlinePicture } from "react-icons/ai";
 import { BiLeftArrowAlt } from "react-icons/bi";
+
 const Addtweet = ({ tweet }) => {
   const Textref = useRef(null); // text값 가져올려고 사용
   const [attachment, setAttachment] = useState(null); //파일 미리보기
@@ -16,6 +16,7 @@ const Addtweet = ({ tweet }) => {
       setButtondisable(false);
     }
   };
+
   useEffect(() => {
     if (Textref.current) {
       checkForm();
@@ -30,8 +31,9 @@ const Addtweet = ({ tweet }) => {
     Textref.current.style.height = attachment ? "80px" : "150px";
     Textref.current.style.height = Textref.current.scrollHeight + "px";
   }, [attachment, Textref]);
+
   // 파일 미리보기
-  const onFileChange = event => {
+  const onFileChange = (event) => {
     const {
       target: { files },
     } = event; // 이거랑 같은것 const filed = event.target.files;
@@ -39,7 +41,7 @@ const Addtweet = ({ tweet }) => {
     setFileZero(theFile);
     console.log(theFile);
     const reader = new FileReader();
-    reader.onloadend = finishedEvent => {
+    reader.onloadend = (finishedEvent) => {
       const {
         currentTarget: { result },
       } = finishedEvent;
@@ -47,13 +49,15 @@ const Addtweet = ({ tweet }) => {
     };
     reader.readAsDataURL(theFile);
   };
+
   //업로드할 이미지 지우기
-  const onClearPhot = e => {
+  const onClearPhot = (e) => {
     setAttachment(null);
     setFileZero(null);
   };
+
   // value들 서버로 보내기
-  const onSubmiHandle = async e => {
+  const onSubmiHandle = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     const file = fileZero;
@@ -244,7 +248,7 @@ const TextStyled = styled.textarea`
   outline: none;
   min-height: 38px;
   border: none;
-  height: ${props => (props.attachment ? "80px" : "150px")};
+  height: ${(props) => (props.attachment ? "80px" : "150px")};
   /* caret-color: lightskyblue; */ // 깜빡이는 막대기 친구 색갈변경
   box-sizing: border-box;
   line-height: 20px;

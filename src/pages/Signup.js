@@ -6,13 +6,14 @@ import { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
 import useInput from "../hooks/useInput";
-const Signup2 = () => {
-  const name = useRef(null);
 
+const Signup = () => {
+  const name = useRef(null);
   const date = useRef(null);
   const [haveName, setHaveName] = useState(true);
   const [countName, setCountName] = useState(0);
   const [inputs, onChange] = useInput();
+
   const signup = async data => {
     await axios.post("http://13.125.250.180/api/member/signup", {
       userId: data.userId,
@@ -264,4 +265,4 @@ const StyledDesc = styled.span`
   font-size: 13px;
 `;
 
-export default Signup2;
+export default Signup;

@@ -6,10 +6,27 @@ import AddButton from "../components/AddButton";
 import styled from "styled-components";
 import Tweets from "../components/profile/Tweets";
 import Likes from "../components/profile/Likes";
+import { BsCalendar3 } from "react-icons/bs";
+import { useQuery } from "react-query";
+import { proflieAPI } from "../shared/api";
+import axios from "axios";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [tabIndex, setTabIndex] = useState(0);
+
+  const getProfile = async () => {
+    return await axios.get("http://13.125.250.180/api/auth/member/profile", {
+      headers: {
+        authorization: localStorage.getItem("access_token"),
+        "refresh-Token": localStorage.getItem("refresh_token"),
+      },
+    });
+  };
+
+  const { data } = useQuery("getProfile", getProfile);
+  const profile = data?.data.data;
+  console.log(profile);
 
   const tabArray = [
     {
@@ -47,15 +64,29 @@ const Profile = () => {
           alt="img"
         />
         <StyledProfileImg src="https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMyAg/MDAxNjA0MjI5NDA4NDMy.5zGHwAo_UtaQFX8Hd7zrDi1WiV5KrDsPHcRzu3e6b8Eg.IlkR3QN__c3o7Qe9z5_xYyCyr2vcx7L_W1arNFgwAJwg.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%8C%8C%EC%8A%A4%ED%85%94.jpg?type=w800" />
-        <StyledButton onClick={() => navigate("/editProfile")}>
+        <StyledButton
+          onClick={() =>
+            navigate("/editProfile", {
+              state: {
+                nickname: profile?.nickname,
+                bio: profile?.bio,
+                birthDate: profile?.dateOfBirth,
+              },
+            })
+          }
+        >
           Edit profile
         </StyledButton>
         <StyledInfo>
-          <h3>nickname</h3>
-          <span>@khyun9685</span>
-          <p>안녕하세요, 저는 프론트엔드 개발자입니다.</p>
-          <span className="follow">3 Following</span>
-          <span className="follow">4 Followers</span>
+          <h3>{profile?.nickname}</h3>
+          <span>@{profile?.userId}</span>
+          <p>{profile?.bio}</p>
+          <div className="join-date">
+            <BsCalendar3 className="icon" />
+            <div>Joined {profile?.createdAt}</div>
+          </div>
+          <span className="follow">0 Following</span>
+          <span className="follow">0 Followers</span>
         </StyledInfo>
 
         <StyledTabDiv>
@@ -123,6 +154,15 @@ const StyledInfo = styled.div`
   }
   p {
     font-size: 14px;
+  }
+  .join-date {
+    display: flex;
+    color: gray;
+    font-size: 16px;
+    margin-bottom: 10px;
+    .icon {
+      padding: 3px 5px 0 0;
+    }
   }
   .follow {
     color: #000;
