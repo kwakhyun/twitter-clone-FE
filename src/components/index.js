@@ -7,6 +7,7 @@ import Signup from "../pages/Signup";
 import Login from "../pages/Login";
 import Addbutton from "./Addbutton";
 import Addtweet from "./Addtweet";
+import LoginPw from "../pages/LoginPw";
 export {
   Addtweet,
   Addbutton,
@@ -16,4 +17,5 @@ export {
   Footer,
   Signup,
   Login,
+  LoginPw,
 };

@@ -33,22 +33,26 @@ api.interceptors.response.use(
   }
 );
 export const AccountAPI = {
-  login: data => api.post("/api/user/login", data),
-  singup: data => api.post(`/api/user/signup`, data),
-  logout: () => api.get("/api/auth/user/logout"),
+  login: data => api.post("/api/member/login", data),
+  singup: data => api.post(`/api/member/signup`, data),
+  logout: () => api.get("/api/auth/member/logout"),
 };
 
 export const ProflieAPI = {
-  myprofile: () => api.get("/api/auth/user/profile"),
-  otherprofile: id => api.get(`/api/auth/user/profile/${id}`),
-  modify: data => api.put("/api/auth/user/profile", data),
+  myProfile: () => api.get("/api/auth/member/profile"),
+  otherProfile: id => api.get(`/api/auth/member/profile/${id}`),
+  modify: data => api.put("/api/auth/member/profile", data),
 };
 
 export const TwitAPI = {
-  addtwit: data => api.post(`/api/auth/twit`, data),
-  gettwit: () => api.get(`/api/twit`),
-  getonetwit: id => api.get(`/api/twit/${id}`),
-  deletetwit: id => api.delete(`/api/auth/twit/${id}`),
+  addTwit: data => api.post(`/api/auth/twit`, data),
+  getAllTwit: () => api.get(`/api/auth/twit`),
+  getMyTwit: () => api.get(`/api/auth/mytwit`),
+  getOtherTwit: userid => api.get(`/api/auth/mytwit/${userid}`),
+  getDetailTwit: twitid => api.get(`/api/auth/twit/${twitid}`),
+  getParentTwit: twitid => api.get(`/api/auth/twit/${twitid}/parent`),
+  getLikeTiwt: () => api.get(`/api/auth/likepage`),
+  deleteTwit: twitid => api.delete(`/api/auth/twit/${twitid}`),
 };
 
 export const replyAPI = {
@@ -57,6 +61,13 @@ export const replyAPI = {
 };
 
 export const LikeAPI = {
-  togglelike: data => api.post(`/api/auth/like/${data.id}`),
-  getlike: data => api.get,
+  toggleLike: id => api.post(`/api/auth/twitlike/${id}`),
+};
+
+export const FollowAPI = {
+  toggleFollow: userid => api.post(`/api/auth/follow/${userid}`),
+};
+
+export const ReTwit = {
+  getReTwit: twitid => api.post(`/api/auth/retwit/${twitid}`),
 };
