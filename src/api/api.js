@@ -1,26 +1,23 @@
 import axios from "axios";
-import { getRefreshToken, getAccessToken } from "./cookie";
-const BASE_URL = "http://13.125.250.180";
+// import { getRefreshToken, getAccessToken } from "./cookie";
+const BASE_URL = "http://13.125.250.180/api/";
 export const api = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    "Comment-Type": "multipart/form-data",
-  },
   withCredentials: true,
 });
 
 axios.interceptors.request.use(
-  function (config) {
-    const refreshToken = getRefreshToken();
-    const accessToken = getAccessToken();
-    config.headers["Authorization"] = `${accessToken}`;
-    config.headers["Refresh-Token"] = `${refreshToken}`;
-    return config;
-  },
-  function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
+  // function (config) {
+  //   const refreshToken = getRefreshToken();
+  //   const accessToken = getAccessToken();
+  //   config.headers["Authorization"] = `${accessToken}`;
+  //   config.headers["Refresh-Token"] = `${refreshToken}`;
+  //   return config;
+  // },
+  // function (error) {
+  //   // Do something with request error
+  //   return Promise.reject(error);
+  // }
 );
 
 api.interceptors.response.use(
@@ -58,9 +55,9 @@ export const TwitAPI = {
   deleteTwit: twitid => api.delete(`/api/auth/twit/${twitid}`),
 };
 
-export const CommentAPI = {
-  addComment: (twitid, data) => api.post(`/api/auth/comment/${twitid}`, data),
-  deleteComment: id => api.delete(`api/auth/comment/${id}`),
+export const replyAPI = {
+  addReply: data => api.post(`/api/auth/comment`, data),
+  deleteReply: id => api.delete(`api/auth/comment/${id}`),
 };
 
 export const LikeAPI = {

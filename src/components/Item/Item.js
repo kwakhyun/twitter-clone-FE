@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { PostedTime } from "../../hooks/PostedTime";
 import { BsBoxArrowUp } from "react-icons/bs";
-import { TiArrowRepeat } from "react-icons/ti";
+import { AiOutlineRetweet } from "react-icons/ai";
 import { BiMessageRounded } from "react-icons/bi";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
@@ -18,41 +18,41 @@ const Item = ({ twit }) => {
           </StyledColuemLeft>
           <StyledDirectionBox direct="column">
             <StyledUserInfoBOx>
-              <Styleddiv>
+              <StyledDiv>
                 <StyledText fs="0.8rem" fw="bold">
                   {twit.nickname}
                 </StyledText>
                 <StyledText fs="0.5rem">@999</StyledText>
                 <StyledText fs="0.5rem">_{postedTime}</StyledText>
-              </Styleddiv>
+              </StyledDiv>
               <StyledText fs="0.3rem">●●●</StyledText>
             </StyledUserInfoBOx>
             <StyledText>{twit.content}</StyledText>
             <StyledTwiteImage src={twit.fileUrl} />
             <StyledUserInfoBOx>
-              <Styleddiv color="skyblue">
+              <StyledDiv color="skyblue">
                 <StyledIconBox backcolor="skyblue">
                   <BiMessageRounded size="1.3rem" />
                 </StyledIconBox>
                 <StyledText fs="0.7rem">{twit.commentCnt}</StyledText>
-              </Styleddiv>
-              <Styleddiv color="lightgreen">
+              </StyledDiv>
+              <StyledDiv color="lightgreen">
                 <StyledIconBox backcolor="lightgreen">
-                  <TiArrowRepeat size="1.3rem" />
+                  <AiOutlineRetweet size="1.3rem" />
                 </StyledIconBox>
                 <StyledText fs="0.7rem">525252</StyledText>
-              </Styleddiv>
-              <Styleddiv color="lightpink">
+              </StyledDiv>
+              <StyledDiv color="lightpink">
                 <StyledIconBox backcolor="lightpink">
                   <FaHeart color="red" size="1.3rem" />
                 </StyledIconBox>
                 <StyledText fs="0.7rem">{twit.likeCnt}</StyledText>
-              </Styleddiv>
-              <Styleddiv>
+              </StyledDiv>
+              <StyledDiv>
                 <StyledIconBox backcolor="skyblue">
                   <BsBoxArrowUp size="1.3rem" />
                 </StyledIconBox>
-              </Styleddiv>
+              </StyledDiv>
             </StyledUserInfoBOx>
           </StyledDirectionBox>
         </StyledDirectionBox>
@@ -101,7 +101,7 @@ const StyledUserInfoBOx = styled.div`
   justify-content: space-between;
 `;
 
-const Styleddiv = styled.div`
+const StyledDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 3px;

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileHeader from "../components/Header/ProfileHeader";
+import Footer from "../components/Footer/Footer";
+import AddButton from "../components/Addbutton";
 import styled from "styled-components";
 import Tweets from "../components/profile/Tweets";
 import Likes from "../components/profile/Likes";
@@ -69,6 +71,8 @@ const Profile = () => {
           {tabArray[tabIndex].content}
         </StyledTabDiv>
       </StyledContainer>
+      <AddButton />
+      <Footer />
     </>
   );
 };

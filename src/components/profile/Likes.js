@@ -6,9 +6,9 @@ import Item from "../Item/Item";
 const Likes = () => {
   const getTwit = async () => {
     const res = await TwitAPI.gettwit();
-
     return res;
   };
+  
   const { data, isLoading } = useQuery("twite", () => getTwit(), {
     staleTime: 1000,
     keepPreviousData: true,
