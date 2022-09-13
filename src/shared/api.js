@@ -2,13 +2,13 @@ import axios from "axios";
 import { getRefreshToken, getAccessToken } from "./storage";
 
 export const api = axios.create({
-  baseURL: "http://13.125.55.110/api/auth",
+  baseURL: "http://15.164.229.25/api/auth",
 
   withCredentials: true,
 });
 
 export const instanceAdd = axios.create({
-  baseURL: "http://13.125.55.110/api/auth",
+  baseURL: "http://15.164.229.25/api/auth",
 
   headers: {
     "Content-Type": "multipart/form-data",
@@ -32,15 +32,9 @@ instanceAdd.interceptors.request.use((config) => {
   }
 });
 
-instanceAdd.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
-    // 오류 응답을 처리
-    return Promise.reject(error);
-  }
-);
+instanceAdd.interceptors.response.use((response) => {
+  return response;
+});
 
 api.interceptors.request.use((config) => {
   const refreshToken = getRefreshToken();
@@ -57,15 +51,18 @@ api.interceptors.request.use((config) => {
   }
 });
 
-api.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
-    // 오류 응답을 처리
-    return Promise.reject(error);
+api.interceptors.response.use((response) => {
+  if (response.headers["authorization"]) {
+    localStorage.removeItem("access-token");
+    localStorage.setItem("access-token", response.headers["authorization"]);
+  } else if (response.data.error === "INVALID_TOKEN") {
+    localStorage.removeItem("access-token");
+    localStorage.removeItem("refresh-token");
+    alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+    window.location.href = "/login";
   }
-);
+  return response;
+});
 
 export const accountAPI = {
   logout: () => api.get("/member/logout"),
@@ -79,7 +76,7 @@ export const proflieAPI = {
 
 export const tweetAPI = {
   getAllTwit: () => api.get("/twit"),
-  getDetailTwit: (twitid) => api.get(`/twit/${twitid}`),
+  getDetailTwit: (twit_id) => api.get(`/twit/${twit_id}`),
   getParentTwit: (twitid) => api.get(`/twit/${twitid}/parent`),
 
   getMyTwit: () => api.get(`/mytwit`),

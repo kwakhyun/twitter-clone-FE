@@ -1,20 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { AddButton, Header, Footer, Item } from "../components";
 import { tweetAPI } from "../shared/api";
 
 const Mainpage = () => {
-  const getTweets = async () => {
-    return await tweetAPI.getAllTwit();
-  };
+  const navigate = useNavigate();
 
   const { data } = useQuery("getTweets", tweetAPI.getAllTwit, {
     staleTime: 0,
     keepPreviousData: true,
   });
   const tweets = data?.data.data;
-  console.log(tweets);
 
   // const { data, isLoading } = useQuery("twite", tweetAPI.getAllTwit {
   //   staleTime: 1000,
@@ -31,9 +29,9 @@ const Mainpage = () => {
       <StyledItemContainer>
         {tweets?.map((tweet) => {
           return (
-            <React.Fragment key={tweet.id}>
+            <div key={tweet.id} onClick={() => navigate(`/detail/${tweet.id}`)}>
               <Item tweet={tweet} />
-            </React.Fragment>
+            </div>
           );
         })}
       </StyledItemContainer>
