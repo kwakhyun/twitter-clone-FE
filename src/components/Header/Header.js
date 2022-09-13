@@ -14,7 +14,7 @@ const Header = () => {
             onClick={() => navigate("/profile")}
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNWY2WGeTZOwNzA9PZLbaKPARcnkcxaMylmwRBg3juIQ&s"
           />
-          <StyledText>Home</StyledText>
+          <span>Home</span>
         </StyledHeader>
         <StyledHeader>
           <FaTwitter size="25px" color="rgb(051,153,255,0.9)" />
@@ -51,8 +51,6 @@ const StyledHeader = styled.div`
   align-items: center;
   font-weight: 700;
 `;
-
-const StyledText = styled.text``;
 
 const StlyedUserImage = styled.img`
   border-radius: 9999px;

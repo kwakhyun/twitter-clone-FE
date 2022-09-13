@@ -8,7 +8,9 @@ import Login from "../pages/Login";
 import AddButton from "./AddButton";
 import AddTweet from "./AddTweet";
 import LoginPw from "../pages/LoginPw";
+import InfiniteLanding from "./Item/InfiniteLading";
 export {
+  InfiniteLanding,
   AddTweet,
   AddButton,
   Item,

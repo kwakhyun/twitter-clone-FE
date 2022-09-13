@@ -16,7 +16,7 @@ const Signup = () => {
   const [inputs, onChange] = useInput();
   const navigate = useNavigate();
 
-  const signup = async (data) => {
+  const signup = async data => {
     await axios.post("http://13.125.55.110/api/member/signup", {
       userId: data.userId,
       nickname: data.nickname,
