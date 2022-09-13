@@ -16,7 +16,7 @@ export const instanceAdd = axios.create({
   withCredentials: true,
 });
 
-instanceAdd.interceptors.request.use((config) => {
+instanceAdd.interceptors.request.use(config => {
   const refreshToken = getRefreshToken();
   const accessToken = getAccessToken();
 
@@ -31,9 +31,15 @@ instanceAdd.interceptors.request.use((config) => {
   }
 });
 
-instanceAdd.interceptors.response.use((response) => {
-  return response;
-});
+instanceAdd.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    // 오류 응답을 처리
+    return Promise.reject(error);
+  }
+);
 
 api.interceptors.request.use(config => {
   const refreshToken = getRefreshToken();
@@ -50,18 +56,15 @@ api.interceptors.request.use(config => {
   }
 });
 
-api.interceptors.response.use((response) => {
-  if (response.headers["authorization"]) {
-    localStorage.removeItem("access-token");
-    localStorage.setItem("access-token", response.headers["authorization"]);
-  } else if (response.data.error === "INVALID_TOKEN") {
-    localStorage.removeItem("access-token");
-    localStorage.removeItem("refresh-token");
-    alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
-    window.location.href = "/login";
+api.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    // 오류 응답을 처리
+    return Promise.reject(error);
   }
-  return response;
-});
+);
 
 export const accountAPI = {
   logout: () => api.get("/member/logout"),
@@ -74,9 +77,9 @@ export const proflieAPI = {
 };
 
 export const tweetAPI = {
-  getAllTwit: () => api.get("/twit"),
-  getDetailTwit: (twit_id) => api.get(`/twit/${twit_id}`),
-  getParentTwit: (twitid) => api.get(`/twit/${twitid}/parent`),
+  getAllTwit: page => api.get(`/twit?page=${page}&size=${10}`),
+  getDetailTwit: twitid => api.get(`/twit/${twitid}`),
+  getParentTwit: twitid => api.get(`/twit/${twitid}/parent`),
 
   getMyTwit: () => api.get(`/mytwit`),
   getLikeTiwt: () => api.get(`/likepage`),

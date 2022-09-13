@@ -85,9 +85,9 @@ const AddTweet = ({ tweet }) => {
     });
 
     formData.append("requestDto", blob);
-    for (let value of formData.values()) {
-      console.log(value);
-    }
+    // for (let value of formData.values()) {
+    //   console.log(value);
+    // } 값 확인하기
 
     mutate(formData);
   };
