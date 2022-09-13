@@ -1,10 +1,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { proflieAPI } from "../../shared/api";
 import styled from "styled-components";
 import { BsArrowLeft } from "react-icons/bs";
 
 const ProfileHeader = ({ isEdit }) => {
   const navigate = useNavigate();
+
+  const { mutate } = useMutation(proflieAPI.modify, {
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   return (
     <Wrap>
@@ -31,7 +42,19 @@ const ProfileHeader = ({ isEdit }) => {
         {isEdit ? (
           <StyledHeader>
             <StyledButton>
-              <button className="save">Save</button>
+              <button
+                className="save"
+                onClick={() =>
+                  mutate({
+                    profileReqDto: {
+                      nickname: "kh",
+                      bio: "hello",
+                    },
+                  })
+                }
+              >
+                Save
+              </button>
             </StyledButton>
           </StyledHeader>
         ) : null}
@@ -69,7 +92,6 @@ const StyledButton = styled.div`
   cursor: pointer;
   font-size: 20px;
   .arrow {
-    
   }
   .save {
     font-weight: bold;

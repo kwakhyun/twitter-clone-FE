@@ -2,13 +2,13 @@ import axios from "axios";
 import { getRefreshToken, getAccessToken } from "./storage";
 
 export const api = axios.create({
-  baseURL: "http://15.164.229.25/api/auth",
+  baseURL: "http://13.125.55.110/api/auth",
 
   withCredentials: true,
 });
 
 export const instanceAdd = axios.create({
-  baseURL: "http://15.164.229.25/api/auth",
+  baseURL: "http://13.125.55.110/api/auth",
 
   headers: {
     "Content-Type": "multipart/form-data",
@@ -17,7 +17,7 @@ export const instanceAdd = axios.create({
   withCredentials: true,
 });
 
-instanceAdd.interceptors.request.use(config => {
+instanceAdd.interceptors.request.use((config) => {
   const refreshToken = getRefreshToken();
   const accessToken = getAccessToken();
 
@@ -42,7 +42,7 @@ instanceAdd.interceptors.response.use(
   }
 );
 
-api.interceptors.request.use(config => {
+api.interceptors.request.use((config) => {
   const refreshToken = getRefreshToken();
   const accessToken = getAccessToken();
 
@@ -73,36 +73,36 @@ export const accountAPI = {
 
 export const proflieAPI = {
   myProfile: () => api.get("/member/profile"),
-  otherProfile: id => api.get(`/member/profile/${id}`),
-  modify: data => api.put("/member/profile", data),
+  otherProfile: (id) => api.get(`/member/profile/${id}`),
+  modify: (data) => api.put("/member/profile", data),
 };
 
 export const tweetAPI = {
   getAllTwit: () => api.get("/twit"),
-  getDetailTwit: twitid => api.get(`/twit/${twitid}`),
-  getParentTwit: twitid => api.get(`/twit/${twitid}/parent`),
+  getDetailTwit: (twitid) => api.get(`/twit/${twitid}`),
+  getParentTwit: (twitid) => api.get(`/twit/${twitid}/parent`),
 
   getMyTwit: () => api.get(`/mytwit`),
   getLikeTiwt: () => api.get(`/likepage`),
-  getOtherTwit: userid => api.get(`/mytwit/${userid}`),
+  getOtherTwit: (userid) => api.get(`/mytwit/${userid}`),
 
-  addTwit: data => instanceAdd.post(`/twit`, data),
-  deleteTwit: twitid => api.delete(`/twit/${twitid}`),
+  addTwit: (data) => instanceAdd.post(`/twit`, data),
+  deleteTwit: (twitid) => api.delete(`/twit/${twitid}`),
 };
 
 export const replyAPI = {
-  addReply: data => api.post(`/comment`, data),
-  deleteReply: id => api.delete(`/comment/${id}`),
+  addReply: (data) => api.post(`/comment`, data),
+  deleteReply: (id) => api.delete(`/comment/${id}`),
 };
 
 export const likeAPI = {
-  toggleLike: id => api.post(`/twitlike/${id}`),
+  toggleLike: (id) => api.post(`/twitlike/${id}`),
 };
 
 export const followAPI = {
-  toggleFollow: userid => api.post(`/follow/${userid}`),
+  toggleFollow: (userid) => api.post(`/follow/${userid}`),
 };
 
 export const retweetAPI = {
-  getReTwit: twitid => api.post(`/retwit/${twitid}`),
+  getReTwit: (twitid) => api.post(`/retwit/${twitid}`),
 };

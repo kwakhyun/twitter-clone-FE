@@ -17,7 +17,7 @@ const LoginPw = () => {
   const [inputs, onChange] = useInput();
 
   const onLogin = async data => {
-    const response = await axios.post("http://15.164.229.25/api/member/login", {
+    const response = await axios.post("http://13.125.55.110/api/member/login", {
       userId: data.userId,
       password: inputs.password,
     });

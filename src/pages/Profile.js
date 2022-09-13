@@ -15,16 +15,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const [tabIndex, setTabIndex] = useState(0);
 
-  const getProfile = async () => {
-    return await axios.get("http://13.125.250.180/api/auth/member/profile", {
-      headers: {
-        authorization: localStorage.getItem("access_token"),
-        "refresh-Token": localStorage.getItem("refresh_token"),
-      },
-    });
-  };
-
-  const { data } = useQuery("getProfile", getProfile);
+  const { data } = useQuery("getProfile", proflieAPI.myProfile);
   const profile = data?.data.data;
   console.log(profile);
 

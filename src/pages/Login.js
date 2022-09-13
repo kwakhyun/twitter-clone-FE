@@ -12,7 +12,7 @@ const Login = () => {
 
   const idCheck = async (data) => {
     const response = await axios.post(
-      "http://15.164.229.25/api/member/userid",
+      "http://13.125.55.110/api/member/userid",
       {
         userId: data,
       }
