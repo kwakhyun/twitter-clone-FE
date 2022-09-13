@@ -18,7 +18,7 @@ const LoginPw = () => {
   const [inputs, onChange] = useInput();
   const [passwordExist, setPasswordExist] = useState(true);
 
-  const onLogin = async (data) => {
+  const onLogin = async data => {
     const response = await axios.post("http://15.164.229.25/api/member/login", {
       userId: data.userId,
       password: inputs.password,
