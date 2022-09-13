@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { AiOutlinePicture } from "react-icons/ai";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
-const Addtweet = ({ tweet }) => {
+const AddTweet = ({ tweet }) => {
   const Textref = useRef(null); // text값 가져올려고 사용
   const [attachment, setAttachment] = useState(null); //파일 미리보기
   const [fileZero, setFileZero] = useState(null); //files의 첫번째 파일보낼때씀
@@ -138,7 +138,7 @@ const Addtweet = ({ tweet }) => {
   );
 };
 
-export default Addtweet;
+export default AddTweet;
 const LabelBoxStyled = styled.div`
   width: 45px;
   height: 45px;
