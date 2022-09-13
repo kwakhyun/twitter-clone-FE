@@ -14,7 +14,6 @@ const Inputplaceholer = ({
     <WrapStyled>
       <StyledDiv>
         <IdInput
-          ref={ref}
           name={name}
           type={type}
           onChange={onChange}
