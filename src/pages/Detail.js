@@ -10,13 +10,18 @@ import axios from "axios";
 const Detail = () => {
   const { id } = useParams();
 
-  const getDetail = async id => {
-    return await axios.get(`http://15.164.229.25/api/auth/twit/${id}`, {
-      headers: {
-        Authorization: localStorage.getItem("access-token"),
-        "refresh-Token": localStorage.getItem("refresh-token"),
-      },
-    });
+
+ // const getDetail = async id => {
+   // return await axios.get(`http://15.164.229.25/api/auth/twit/${id}`, {
+   //   headers: {
+     //   Authorization: localStorage.getItem("access-token"),
+     //   "refresh-Token": localStorage.getItem("refresh-token"),
+    //  },
+  //  });
+
+  const getDetail = async (id) => {
+    return await tweetAPI.getDetailTwit(id);
+
   };
 
   const { data } = useQuery("getDetail", getDetail(id));
