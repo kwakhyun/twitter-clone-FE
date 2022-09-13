@@ -68,7 +68,7 @@ const EditProfile = () => {
   };
 
   const { mutate } = useMutation(proflieAPI.modify, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       navigate("/profile");
     },
   });

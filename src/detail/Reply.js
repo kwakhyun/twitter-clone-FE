@@ -1,15 +1,14 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Item from "../components/Item/Item";
-import { useQuery, useMutation } from "react-query";
-import { tweetAPI } from "../shared/api";
+import { useMutation, useQueryClient } from "react-query";
 import { replyAPI } from "../shared/api";
-import { useRef } from "react";
+import ReplyItem from "./ReplyItem";
 
-const Comment = () => {
+const Reply = ({ detail }) => {
   const navigate = useNavigate();
   const value = useRef(null);
+  const file = useRef(null);
   const [haveValue, setHaveValue] = useState(false);
 
   const showDiv = () => {
@@ -25,26 +24,61 @@ const Comment = () => {
     }
   };
 
-  const { data } = useQuery("getTweet", tweetAPI.getTweet);
-  console.log(data);
-  // const {data: commentList} = useQuery("getTweet", TwitAPI.gettwit);
-  // console.log(data);
+  const onReply = () => {
+    value.current.value = "";
+    document.querySelector(".id-info-div").style.display = "none";
+    document.querySelector(".file-input-div").style.display = "none";
+    setHaveValue(false);
+  };
 
+  const queryClient = useQueryClient();
   const { mutate } = useMutation(replyAPI.addReply, {
-    onSuccess: () => {},
-    onError: () => {},
+    onSuccess: () => {
+      onReply();
+      queryClient.invalidateQueries("getDetail");
+    },
   });
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append(
+      "requestDto",
+      new Blob(
+        [
+          JSON.stringify({
+            content: value.current.value,
+          }),
+        ],
+        {
+          type: "application/json",
+        }
+      )
+    );
+    formData.append("multipartFile", file.current.files[0]);
+    mutate({
+      data: formData,
+      id: detail.twitId,
+    });
+  };
+
   return (
-    <StyledComment>
-      <StyledFormDiv>
-        <div className="id-info-div">Replying to @khyun9685</div>
+    <StyledContainer>
+      <StyledForm
+        name="file"
+        encType="multipart/form-data"
+        onSubmit={handleSubmit}
+      >
+        <div className="id-info-div">
+          Replying to
+          <span> @{detail?.userId}</span>
+        </div>
         <div className="init-div">
           <div className="init-left-div">
             <img
               onClick={() => navigate("/profile")}
-              src="https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMyAg/MDAxNjA0MjI5NDA4NDMy.5zGHwAo_UtaQFX8Hd7zrDi1WiV5KrDsPHcRzu3e6b8Eg.IlkR3QN__c3o7Qe9z5_xYyCyr2vcx7L_W1arNFgwAJwg.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%8C%8C%EC%8A%A4%ED%85%94.jpg?type=w800"
-              alt="profile img"
+              src={detail?.userProfileImage}
+              alt="img"
             />
             <input
               ref={value}
@@ -64,19 +98,26 @@ const Comment = () => {
           </button>
         </div>
         <div className="file-input-div">
-          <input type="file" />
+          <input type="file" name="file" ref={file} />
         </div>
-      </StyledFormDiv>
-      <div>{}</div>
-    </StyledComment>
+      </StyledForm>
+      {detail?.commentList.map((reply) => {
+        return (
+          <div key={reply.id}>
+            <ReplyItem reply={reply} />
+          </div>
+        );
+      })}
+    </StyledContainer>
   );
 };
 
-const StyledComment = styled.div`
+const StyledContainer = styled.div`
   width: 100%;
+  height: 120vh;
 `;
 
-const StyledFormDiv = styled.div`
+const StyledForm = styled.form`
   padding: 10px 0;
   border-bottom: 1px solid #e6ecf0;
 
@@ -104,6 +145,11 @@ const StyledFormDiv = styled.div`
   .id-info-div {
     display: none;
     margin: 0 70px;
+    color: gray;
+    span {
+      font-weight: 500;
+      color: #1da1f2;
+    }
   }
 
   .reply-btn {
@@ -128,4 +174,4 @@ const StyledFormDiv = styled.div`
   }
 `;
 
-export default Comment;
+export default Reply;
