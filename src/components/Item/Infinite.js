@@ -13,7 +13,7 @@ const Infinite = ({ tweets, fetching, fetchMoreData }) => {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
-
+    console.log(scrollHeight, scrollTop, clientHeight);
     if (scrollTop + clientHeight >= scrollHeight && fetching === false) {
       fetchMoreData();
     }
