@@ -58,8 +58,7 @@ export const tweetAPI = {
 };
 
 export const replyAPI = {
-  addReply: (data) => api.post(`/comment`, data),
-  deleteReply: (id) => api.delete(`/comment/${id}`),
+  addReply: (data) => api.post(`/comment/${data.id}`, data.data),
 };
 
 export const likeAPI = {
