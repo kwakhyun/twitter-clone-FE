@@ -5,10 +5,12 @@ import useInput from "../hooks/useInput";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import axios from "axios";
+import { useState } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
   const [inputs, onChange] = useInput();
+  const [idExist, setIdExist] = useState(true);
 
   const idCheck = async (data) => {
     const response = await axios.post(
@@ -22,16 +24,14 @@ const Login = () => {
 
   const { mutate } = useMutation(idCheck, {
     onSuccess: (response) => {
+      console.log(response.data);
       if (response.data.success) {
         navigate("/loginpw", { state: inputs.userId });
       } else {
-        alert("아이디가 존재하지 않습니다.");
+        setIdExist(false);
       }
     },
-    onError: (error) => {
-      console.log(error);
-      console.log("네트워크 오류");
-    },
+    onError: (error) => {},
   });
 
   return (
@@ -62,8 +62,11 @@ const Login = () => {
       <StyledButton>비밀번호를 잊으셨나요?</StyledButton>
       <span className="testclass">
         계정이 없으신가요?
-        <StyledSpan>가입하기</StyledSpan>
+        <StyledSpan onClick={() => navigate("/signup")}>가입하기</StyledSpan>
       </span>
+      {idExist ? null : (
+        <StyledDiv>죄송합니다. 해당 계정을 찾을 수 없습니다.</StyledDiv>
+      )}
     </>
   );
 };
@@ -105,6 +108,16 @@ const StyledLineDiv = styled.div`
   position: relative;
   width: 70%;
   margin: auto;
+`;
+
+const StyledDiv = styled.div`
+  position: fixed;
+  background-color: #1d9bf0;
+  bottom: 0px;
+  padding: 10px 0px 10px 20px;
+  max-height: 45px;
+  width: 100%;
+  color: white;
 `;
 
 export default Login;

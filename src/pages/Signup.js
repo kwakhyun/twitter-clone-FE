@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
 import useInput from "../hooks/useInput";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const name = useRef(null);
@@ -13,8 +14,9 @@ const Signup = () => {
   const [haveName, setHaveName] = useState(true);
   const [countName, setCountName] = useState(0);
   const [inputs, onChange] = useInput();
+  const navigate = useNavigate();
 
-  const signup = async data => {
+  const signup = async (data) => {
     await axios.post("http://13.125.55.110/api/member/signup", {
       userId: data.userId,
       nickname: data.nickname,
@@ -63,78 +65,92 @@ const Signup = () => {
   return (
     <>
       <StyledTopContainer>
-        <BsX size="30px" />
+        <BsX
+          onClick={() => {
+            navigate("/first");
+          }}
+          size="30px"
+        />
         <StyledStepNumber>회원가입</StyledStepNumber>
       </StyledTopContainer>
-      <StyledContentContainer>
-        <StyledTitleSpan>계정을 생성하세요</StyledTitleSpan>
-        <StyledContainer>
-          <StyledNameDiv onClick={nameFocus} haveValue={haveName}>
-            <StyledNameSpan className="name-span" haveValue={haveName}>
-              이름
-            </StyledNameSpan>
-            <span className="name-count">{countName} / 50</span>
-            <input
+
+      <StyledContainerBox>
+        <StyledContentContainer>
+          <StyledTitleSpan>계정을 생성하세요</StyledTitleSpan>
+
+          <StyledContainer>
+            <StyledNameDiv onClick={nameFocus} haveValue={haveName}>
+              <StyledNameSpan className="name-span" haveValue={haveName}>
+                이름
+              </StyledNameSpan>
+              <span className="name-count">{countName} / 50</span>
+              <input
+                type="text"
+                ref={name}
+                onChange={onChangeName}
+                onBlur={onBlurName}
+                maxLength={50}
+                defaultValue=""
+              />
+            </StyledNameDiv>
+            <span className="blank-message">이름을 입력해 주세요.</span>
+          </StyledContainer>
+
+          <StyledContainer>
+            <Inputplaceholer
+              onChange={onChange}
               type="text"
-              ref={name}
-              onChange={onChangeName}
-              onBlur={onBlurName}
-              maxLength={50}
-              defaultValue=""
+              name="userId"
+              text="사용자 아이디"
             />
-          </StyledNameDiv>
-          <span className="blank-message">이름을 입력해 주세요.</span>
-        </StyledContainer>
-        <StyledContainer>
-          <Inputplaceholer
-            onChange={onChange}
-            type="text"
-            name="userId"
-            text="아이디"
-          />
-        </StyledContainer>
-        <StyledContainer>
-          <Inputplaceholer
-            type="password"
-            onChange={onChange}
-            name="password"
-            text="비밀번호"
-          />
-        </StyledContainer>
-        <StyledSpan>생년월일</StyledSpan>
-        <StyledDesc>
-          이 정보는 공개적으로 표시되지 않습니다. 비즈니스, 반려동물 등 계정
-          주제에 상관없이 나의 연령을 확인하세요.
-        </StyledDesc>
-        <StyledInputContainer>
-          <StyledInputSpan>생년월일</StyledInputSpan>
-          <StyledInput type="date" ref={date}></StyledInput>
-        </StyledInputContainer>
-      </StyledContentContainer>
-      <StyledNextButton
-        onClick={() => {
-          mutate({
-            nickname: name.current.value,
-            userId: inputs.userId,
-            password: inputs.password,
-            dateOfBirth: date.current.value,
-          });
-        }}
-        bgcolor="#0f1419"
-        color="white"
-      >
-        가입하기
-      </StyledNextButton>
+          </StyledContainer>
+          <StyledContainer>
+            <Inputplaceholer
+              type="password"
+              onChange={onChange}
+              name="password"
+              text="비밀번호"
+            />
+            <span>8자 이상이어야 합니다.</span>
+          </StyledContainer>
+          <StyledSpan>생년월일</StyledSpan>
+          <StyledDesc>
+            이 정보는 공개적으로 표시되지 않습니다. 비즈니스, 반려동물 등 계정
+            주제에 상관없이 나의 연령을 확인하세요.
+          </StyledDesc>
+          <StyledInputContainer>
+            <StyledInputSpan>생년월일</StyledInputSpan>
+            <StyledInput type="date" ref={date}></StyledInput>
+          </StyledInputContainer>
+        </StyledContentContainer>
+        <StyledNextButton
+          onClick={() => {
+            mutate({
+              nickname: name.current.value,
+              userId: inputs.userId,
+              password: inputs.password,
+              dateOfBirth: date.current.value,
+            });
+          }}
+          bgcolor="#0f1419"
+          color="white"
+        >
+          가입하기
+        </StyledNextButton>
+      </StyledContainerBox>
     </>
   );
 };
 
+const StyledContainerBox = styled.div`
+  width: 85%;
+`;
 const StyledTopContainer = styled.div`
   display: flex;
-  margin: 10px 0 0 15px;
   align-items: center;
   justify-content: left;
   width: 100%;
+  margin: 10px 0 30px 20px;
 `;
 const StyledStepNumber = styled.span`
   font-weight: bold;
@@ -146,7 +162,6 @@ const StyledContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 30px;
 `;
 
 const StyledTitleSpan = styled.span`
@@ -173,7 +188,7 @@ const StyledNameDiv = styled.div`
   margin-top: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 90vw;
+  width: 100%;
   height: 55px;
   border: ${({ haveValue }) =>
     haveValue ? "2px solid #e8e8e8" : "2px solid #f42a36"};
@@ -202,6 +217,7 @@ const StyledNameDiv = styled.div`
     font-weight: 500;
     font-size: 0.8rem;
     margin-top: 8px;
+    margin-right: 5px;
     right: 8%;
   }
 `;
