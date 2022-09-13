@@ -2,16 +2,19 @@ import React, { useRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { AiOutlinePicture } from "react-icons/ai";
 import { BiLeftArrowAlt } from "react-icons/bi";
-
-import { tweetAPI } from "../shared/api";
-import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { tweetAPI, proflieAPI } from "../shared/api";
+import { useMutation, useQuery } from "react-query";
 
 const AddTweet = ({ tweet }) => {
+  const { data } = useQuery("getProfile", proflieAPI.myProfile);
+  const profile = data?.data.data;
+
   const Textref = useRef(null); // text값 가져올려고 사용
   const [attachment, setAttachment] = useState(null); //파일 미리보기
   const [fileZero, setFileZero] = useState(null); //files의 첫번째 파일보낼때씀
   const [Buttondisable, setButtondisable] = useState(true); // 버튼 disable 관리
-
+  const navigate = useNavigate();
   const checkForm = () => {
     if (attachment === null && Textref.current.value === "") {
       setButtondisable(true);
@@ -24,8 +27,7 @@ const AddTweet = ({ tweet }) => {
   };
   const { mutate } = useMutation(TweetAdd, {
     onSuccess: res => {
-      console.log(res);
-      return res;
+      navigate("/");
     },
   });
 
@@ -106,7 +108,7 @@ const AddTweet = ({ tweet }) => {
       </StlyedHead>
 
       <StlyedGridBox>
-        <StlyedUserImage src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNWY2WGeTZOwNzA9PZLbaKPARcnkcxaMylmwRBg3juIQ&s" />
+        <StlyedUserImage src={profile?.imageUrl} />
         <StlyedContentBOX onSubmit={onSubmiHandle}>
           <TextStyled
             name="content"
@@ -132,7 +134,6 @@ const AddTweet = ({ tweet }) => {
             </LabelStyled>
           </LabelBoxStyled>
           <FileInputStyled id="file" type="file" onChange={onFileChange} />
-          <button type="submit">제출하기</button>
         </StlyedContentBOX>
       </StlyedGridBox>
     </>
@@ -230,6 +231,7 @@ const StlyedUserImage = styled.img`
   border-radius: 9999px;
   width: 45px;
   height: 45px;
+  z-index: 3;
 `;
 
 const StlyedContentBOX = styled.form`

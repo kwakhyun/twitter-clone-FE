@@ -13,6 +13,12 @@ const InfiniteLanding = () => {
     return await tweetAPI.getAllTwit(body.page);
   };
 
+  //   const { data } = useQuery(["getTweets",page], getTweets(body), {
+  //     staleTime: 0,
+  //     keepPreviousData: true,
+  //   });
+  //   const tweets = data?.data.data;
+
   useEffect(() => {
     const body = {
       page: page,
@@ -21,23 +27,14 @@ const InfiniteLanding = () => {
     getData(body);
   }, []);
 
-  const getData = body => {
-    // const { data, isError, isSuccess } = useQuery(
-    //   ["getTweets", page],
-    //   getTweets(body),
-    //   {
-    //     staleTime: 0,
-    //     keepPreviousData: true,
-    //   }
-    // );
-    // const tweets = data?.data.data;
-    // if (isSuccess) {
-    //   if (body.loadMore) setListTweet([...listTweet, ...tweets]);
-    //   else setListTweet(tweets);
-    // }
-    // if (isError) {
-    //   alert("글을 가져오는데 실패 했습니다.");
-    // }
+  const getData = async body => {
+    tweetAPI
+      .getAllTwit(body.page)
+      .then(res => {
+        if (body.loadMore) setListTweet([...listTweet, ...res.data.data]);
+        else setListTweet(res.data.data);
+      })
+      .catch(err => alert("글을 가져오는데 실패 했습니다."));
   };
 
   const fetchMoreData = () => {
