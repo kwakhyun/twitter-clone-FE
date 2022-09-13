@@ -16,7 +16,7 @@ const Item = ({ tweet }) => {
       <StlyedItemInnerContainer>
         <StyledDirectionBox>
           <StyledColuemLeft>
-            <StlyedUserImage src={tweet.userFrofileImage} />
+            <StlyedUserImage src={tweet.userProfileImage} />
           </StyledColuemLeft>
           <StyledDirectionBox direct="column">
             <StyledUserInfoBOx>
@@ -91,7 +91,7 @@ const StlyedItemInnerContainer = styled.div`
 const StyledDirectionBox = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: ${(props) => props.direct};
+  flex-direction: ${props => props.direct};
 `;
 const StyledColuemLeft = styled.div`
   width: 13%;
@@ -112,15 +112,15 @@ const StyledDiv = styled.div`
   align-items: center;
   gap: 3px;
   &:hover {
-    color: ${(props) => props.color};
+    color: ${props => props.color};
     opacity: 1;
   }
 `;
 
 const StyledText = styled.span`
   box-sizing: border-box;
-  font-size: ${(props) => props.fs};
-  font-weight: ${(props) => props.fw};
+  font-size: ${props => props.fs};
+  font-weight: ${props => props.fw};
 `;
 
 const StyledTwiteImage = styled.img`
@@ -147,7 +147,7 @@ const StyledIconBox = styled.span`
   justify-content: center;
   align-items: center;
   &:hover {
-    background-color: ${(props) => props.backcolor};
+    background-color: ${props => props.backcolor};
     border-radius: 9999px;
     color: black;
 

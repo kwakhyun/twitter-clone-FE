@@ -10,12 +10,12 @@ const Mainpage = () => {
     keepPreviousData: true,
   });
   const tweets = data?.data.data;
-
+  console.log(tweets);
   return (
     <>
       <Header />
       <StyledItemContainer>
-        {tweets?.map((tweet) => {
+        {tweets?.map(tweet => {
           return (
             <div key={tweet.id}>
               <Item tweet={tweet} />
