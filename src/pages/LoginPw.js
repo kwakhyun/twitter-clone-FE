@@ -16,14 +16,11 @@ const LoginPw = () => {
   const [showPw, SetShowPw] = useState(false);
   const [inputs, onChange] = useInput();
 
-  const onLogin = async (data) => {
-    const response = await axios.post(
-      "http://13.125.250.180/api/member/login",
-      {
-        userId: data.userId,
-        password: inputs.password,
-      }
-    );
+  const onLogin = async data => {
+    const response = await axios.post("http://15.164.229.25/api/member/login", {
+      userId: data.userId,
+      password: inputs.password,
+    });
     return response;
   };
 
@@ -117,7 +114,7 @@ const StyledButton = styled.button`
   background-color: black;
 `;
 const StyledSpan = styled.span`
-  color: ${(props) => props.color || "#1d9bf0"};
+  color: ${props => props.color || "#1d9bf0"};
   font-size: 14px;
-  margin-right: ${(props) => props.margin || "90px"}; ;
+  margin-right: ${props => props.margin || "90px"}; ;
 `;

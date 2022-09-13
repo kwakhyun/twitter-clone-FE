@@ -7,17 +7,17 @@ import axios from "axios";
 
 const Mainpage = () => {
   const getTweets = async () => {
-    return await axios.get("http://13.125.250.180/api/auth/twit", {
-      headers: {
-        authorization: localStorage.getItem("access_token"),
-        "refresh-Token": localStorage.getItem("refresh_token"),
-      },
-    });
-    // return await tweetAPI.getAllTwit(); ??? 이거 왜 안될까요 태권님?!
+    return await tweetAPI.getAllTwit();
+
+    // ;await axios.get("http://13.125.250.180/api/auth/twit" ??? 이거 왜 안될까요 태권님?!
   };
 
-  const { data } = useQuery("getTweets", getTweets);
+  const { data } = useQuery("getTweets", getTweets, {
+    staleTime: 0,
+    keepPreviousData: true,
+  });
   const tweets = data?.data.data;
+  console.log(tweets);
 
   // const { data, isLoading } = useQuery("twite", tweetAPI.getAllTwit {
   //   staleTime: 1000,
@@ -32,7 +32,7 @@ const Mainpage = () => {
     <>
       <Header />
       <StyledItemContainer>
-        {tweets?.map((tweet) => {
+        {tweets?.map(tweet => {
           return (
             <React.Fragment key={tweet.id}>
               <Item tweet={tweet} />
