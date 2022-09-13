@@ -16,7 +16,7 @@ const Profile = () => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const getProfile = async () => {
-    return await axios.get("http://13.125.250.180/api/auth/member/profile", {
+    return await axios.get("http://13.125.55.110/api/auth/member/profile", {
       headers: {
         authorization: localStorage.getItem("access_token"),
         "refresh-Token": localStorage.getItem("refresh_token"),

@@ -15,9 +15,10 @@ const LoginPw = () => {
   const { state } = useLocation();
   const [showPw, SetShowPw] = useState(false);
   const [inputs, onChange] = useInput();
+  const [passwordExist, setPasswordExist] = useState(true);
 
-  const onLogin = async data => {
-    const response = await axios.post("http://15.164.229.25/api/member/login", {
+  const onLogin = async (data) => {
+    const response = await axios.post("http://13.125.55.110/api/member/login", {
       userId: data.userId,
       password: inputs.password,
     });
@@ -32,7 +33,7 @@ const LoginPw = () => {
         localStorage.setItem("refresh_token", headers["refresh-token"]);
         navigate("/");
       } else {
-        alert(data.error.message);
+        setPasswordExist(false);
       }
     },
     onError: () => {
@@ -81,6 +82,7 @@ const LoginPw = () => {
         계정이 없으신가요?
         <StyledSpan> 가입하기</StyledSpan>
       </StyledSpan>
+      {passwordExist ? null : <StyledDiv>잘못된 비밀번호입니다.</StyledDiv>}
     </>
   );
 };
@@ -104,7 +106,7 @@ const StyledButton = styled.button`
   border: none;
   padding: 0px;
   margin: 15px;
-  margin-top: 100%;
+  margin-top: 90%;
   border-radius: 30px;
   font-size: 15px;
   font-weight: bold;
@@ -114,7 +116,16 @@ const StyledButton = styled.button`
   background-color: black;
 `;
 const StyledSpan = styled.span`
-  color: ${props => props.color || "#1d9bf0"};
+  color: ${(props) => props.color || "#1d9bf0"};
   font-size: 14px;
-  margin-right: ${props => props.margin || "90px"}; ;
+  margin-right: ${(props) => props.margin || "90px"}; ;
+`;
+const StyledDiv = styled.div`
+  position: fixed;
+  background-color: #1d9bf0;
+  bottom: 0px;
+  padding: 10px 0px 10px 20px;
+  max-height: 45px;
+  width: 100%;
+  color: white;
 `;

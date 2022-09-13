@@ -23,7 +23,7 @@ const First = () => {
           border="#1d9bf0"
           color="white"
         >
-          휴대폰 번호나 이메일 주소로 가입하기
+          아이디로 가입하기
         </StyledButton>
         <StyledDesc>
           가입하시려면 <StyledDesc color="#1d9bf0">쿠키 사용</StyledDesc>을
