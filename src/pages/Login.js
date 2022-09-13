@@ -12,7 +12,7 @@ const Login = () => {
 
   const idCheck = async (data) => {
     const response = await axios.post(
-      "http://13.125.250.180/api/member/userid",
+      "http://13.125.55.110/api/member/userid",
       {
         userId: data,
       }
@@ -62,7 +62,7 @@ const Login = () => {
       <StyledButton>비밀번호를 잊으셨나요?</StyledButton>
       <span>
         계정이 없으신가요?
-        <StyledSpan>가입하기</StyledSpan>
+        <StyledSpan onClick={() => navigate("/signup")}>가입하기</StyledSpan>
       </span>
     </>
   );
