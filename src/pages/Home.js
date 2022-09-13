@@ -14,15 +14,6 @@ const Mainpage = () => {
   });
   const tweets = data?.data.data;
 
-  // const { data, isLoading } = useQuery("twite", tweetAPI.getAllTwit {
-  //   staleTime: 1000,
-  //   keepPreviousData: true,
-  // });
-
-  // if (isLoading) {
-  //   return <div>로딩중...</div>;
-  // }
-
   return (
     <>
       <Header />

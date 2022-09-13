@@ -12,7 +12,6 @@ export const instanceAdd = axios.create({
 
   headers: {
     "Content-Type": "multipart/form-data",
-    Accept: "multipart/form-data",
   },
   withCredentials: true,
 });
@@ -36,7 +35,7 @@ instanceAdd.interceptors.response.use((response) => {
   return response;
 });
 
-api.interceptors.request.use((config) => {
+api.interceptors.request.use(config => {
   const refreshToken = getRefreshToken();
   const accessToken = getAccessToken();
 
@@ -70,8 +69,8 @@ export const accountAPI = {
 
 export const proflieAPI = {
   myProfile: () => api.get("/member/profile"),
-  otherProfile: (id) => api.get(`/member/profile/${id}`),
-  modify: (data) => api.put("/member/profile", data),
+  otherProfile: id => api.get(`/member/profile/${id}`),
+  modify: data => api.put("/member/profile", data),
 };
 
 export const tweetAPI = {
@@ -81,25 +80,25 @@ export const tweetAPI = {
 
   getMyTwit: () => api.get(`/mytwit`),
   getLikeTiwt: () => api.get(`/likepage`),
-  getOtherTwit: (userid) => api.get(`/mytwit/${userid}`),
+  getOtherTwit: userid => api.get(`/mytwit/${userid}`),
 
-  addTwit: (data) => instanceAdd.post(`/twit`, data),
-  deleteTwit: (twitid) => api.delete(`/twit/${twitid}`),
+  addTwit: data => instanceAdd.post(`/twit`, data),
+  deleteTwit: twitid => api.delete(`/twit/${twitid}`),
 };
 
 export const replyAPI = {
-  addReply: (data) => api.post(`/comment`, data),
-  deleteReply: (id) => api.delete(`/comment/${id}`),
+  addReply: data => api.post(`/comment`, data),
+  deleteReply: id => api.delete(`/comment/${id}`),
 };
 
 export const likeAPI = {
-  toggleLike: (id) => api.post(`/twitlike/${id}`),
+  toggleLike: id => api.post(`/twitlike/${id}`),
 };
 
 export const followAPI = {
-  toggleFollow: (userid) => api.post(`/follow/${userid}`),
+  toggleFollow: userid => api.post(`/follow/${userid}`),
 };
 
 export const retweetAPI = {
-  getReTwit: (twitid) => api.post(`/retwit/${twitid}`),
+  getReTwit: twitid => api.post(`/retwit/${twitid}`),
 };

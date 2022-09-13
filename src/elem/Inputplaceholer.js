@@ -31,7 +31,7 @@ export default Inputplaceholer;
 // export default forwardRef(Inputplaceholer); 에러 발생으로 주석처리
 
 const IdInput = styled.input`
-  margin: 25px 0 0px 0;
+  margin: 20px 0 0 0;
   padding: 25px 0 5px 5px;
   border: 1px solid rgb(214, 218, 227);
   border-radius: 5px;
@@ -51,7 +51,7 @@ const IdInput = styled.input`
     outline: none;
     + span {
       position: absolute;
-      top: 23px;
+      top: 30%;
       left: 3%;
       pointer-events: none;
       font-size: 0.8rem;
@@ -67,7 +67,7 @@ const IdInput = styled.input`
 
     + span {
       position: absolute;
-      top: 23px;
+      top: 30%;
       left: 3%;
       color: #1d9bf0;
       pointer-events: none;
@@ -89,7 +89,7 @@ const StyledDiv = styled.div`
 
 const Labelstlyed = styled.span`
   position: absolute;
-  top: 32px;
+  top: 40%;
   left: 3%;
   z-index: -1;
   color: #536471;
