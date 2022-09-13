@@ -6,9 +6,7 @@ export const api = axios.create({
   withCredentials: true,
 });
 
-
 api.interceptors.request.use((config) => {
-
   const refreshToken = getRefreshToken();
   const accessToken = getAccessToken();
 
@@ -44,12 +42,12 @@ export const proflieAPI = {
 };
 
 export const tweetAPI = {
-  getAllTwit: page => api.get(`/twit?page=${page}&size=${10}`),
-  getDetailTwit: twitid => api.get(`/twit/${twitid}`),
-  getParentTwit: twitid => api.get(`/twit/${twitid}/parent`),
+  getAllTwit: (page) => api.get(`/twit?page=${page}&size=${10}`),
+  getDetailTwit: (twitid) => api.get(`/twit/${twitid}`),
+  getParentTwit: (twitid) => api.get(`/twit/${twitid}/parent`),
 
   getMyTwit: () => api.get(`/mytwit`),
-  getLikeTiwt: () => api.get(`/likepage`),
+  getLikeTiwt: (member_id) => api.get(`/likepage/${member_id}`),
   getOtherTwit: (userid) => api.get(`/mytwit/${userid}`),
 
   addTwit: (data) => api.post(`/twit`, data),
