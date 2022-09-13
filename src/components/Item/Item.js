@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { PostedTime } from "../../hooks/PostedTime";
 import { BsBoxArrowUp } from "react-icons/bs";
 import { AiOutlineRetweet } from "react-icons/ai";
@@ -7,6 +8,7 @@ import { BiMessageRounded } from "react-icons/bi";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 const Item = ({ tweet }) => {
+  const navigate = useNavigate();
   let postedTime = PostedTime(tweet.createdAt);
 
   return (
@@ -27,8 +29,12 @@ const Item = ({ tweet }) => {
               </StyledDiv>
               <StyledText fs="0.3rem">●●●</StyledText>
             </StyledUserInfoBOx>
-            <StyledText>{tweet.content}</StyledText>
-            <StyledTwiteImage src={tweet.fileUrl} />
+
+            <div onClick={() => navigate(`/detail/${tweet.id}`)}>
+              <StyledText>{tweet.content}</StyledText>
+              <StyledTwiteImage src={tweet.fileUrl} />
+            </div>
+
             <StyledUserInfoBOx>
               <StyledDiv color="skyblue">
                 <StyledIconBox backcolor="skyblue">
@@ -85,7 +91,7 @@ const StlyedItemInnerContainer = styled.div`
 const StyledDirectionBox = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: ${props => props.direct};
+  flex-direction: ${(props) => props.direct};
 `;
 const StyledColuemLeft = styled.div`
   width: 13%;
@@ -106,15 +112,15 @@ const StyledDiv = styled.div`
   align-items: center;
   gap: 3px;
   &:hover {
-    color: ${props => props.color};
+    color: ${(props) => props.color};
     opacity: 1;
   }
 `;
 
 const StyledText = styled.span`
   box-sizing: border-box;
-  font-size: ${props => props.fs};
-  font-weight: ${props => props.fw};
+  font-size: ${(props) => props.fs};
+  font-weight: ${(props) => props.fw};
 `;
 
 const StyledTwiteImage = styled.img`
@@ -141,7 +147,7 @@ const StyledIconBox = styled.span`
   justify-content: center;
   align-items: center;
   &:hover {
-    background-color: ${props => props.backcolor};
+    background-color: ${(props) => props.backcolor};
     border-radius: 9999px;
     color: black;
 

@@ -5,10 +5,6 @@ import { AddButton, Header, Footer, Item } from "../components";
 import { tweetAPI } from "../shared/api";
 
 const Mainpage = () => {
-  const getTweets = async () => {
-    return await tweetAPI.getAllTwit();
-  };
-
   const { data } = useQuery("getTweets", tweetAPI.getAllTwit, {
     staleTime: 0,
     keepPreviousData: true,
@@ -21,9 +17,9 @@ const Mainpage = () => {
       <StyledItemContainer>
         {tweets?.map((tweet) => {
           return (
-            <React.Fragment key={tweet.id}>
+            <div key={tweet.id}>
               <Item tweet={tweet} />
-            </React.Fragment>
+            </div>
           );
         })}
       </StyledItemContainer>
