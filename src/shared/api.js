@@ -2,17 +2,16 @@ import axios from "axios";
 import { getRefreshToken, getAccessToken } from "./storage";
 
 export const api = axios.create({
-  baseURL: "http://15.164.229.25/api/auth",
+  baseURL: "http://13.125.55.110/api/auth",
 
   withCredentials: true,
 });
 
 export const instanceAdd = axios.create({
-  baseURL: "http://15.164.229.25/api/auth",
+  baseURL: "http://13.125.55.110/api/auth",
 
   headers: {
     "Content-Type": "multipart/form-data",
-    Accept: "multipart/form-data",
   },
   withCredentials: true,
 });
@@ -78,7 +77,7 @@ export const proflieAPI = {
 };
 
 export const tweetAPI = {
-  getAllTwit: () => api.get("/twit"),
+  getAllTwit: page => api.get(`/twit/?page=${page}`),
   getDetailTwit: twitid => api.get(`/twit/${twitid}`),
   getParentTwit: twitid => api.get(`/twit/${twitid}/parent`),
 

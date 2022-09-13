@@ -8,8 +8,6 @@ import axios from "axios";
 const Mainpage = () => {
   const getTweets = async () => {
     return await tweetAPI.getAllTwit();
-
-    // ;await axios.get("http://13.125.250.180/api/auth/twit" ??? 이거 왜 안될까요 태권님?!
   };
 
   const { data } = useQuery("getTweets", getTweets, {
@@ -17,16 +15,6 @@ const Mainpage = () => {
     keepPreviousData: true,
   });
   const tweets = data?.data.data;
-  console.log(tweets);
-
-  // const { data, isLoading } = useQuery("twite", tweetAPI.getAllTwit {
-  //   staleTime: 1000,
-  //   keepPreviousData: true,
-  // });
-
-  // if (isLoading) {
-  //   return <div>로딩중...</div>;
-  // }
 
   return (
     <>

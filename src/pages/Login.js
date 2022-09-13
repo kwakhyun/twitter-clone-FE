@@ -10,9 +10,9 @@ const Login = () => {
   const navigate = useNavigate();
   const [inputs, onChange] = useInput();
 
-  const idCheck = async (data) => {
+  const idCheck = async data => {
     const response = await axios.post(
-      "http://15.164.229.25/api/member/userid",
+      "http://13.125.55.110/api/member/userid",
       {
         userId: data,
       }
@@ -21,14 +21,14 @@ const Login = () => {
   };
 
   const { mutate } = useMutation(idCheck, {
-    onSuccess: (response) => {
+    onSuccess: response => {
       if (response.data.success) {
         navigate("/loginpw", { state: inputs.userId });
       } else {
         alert("아이디가 존재하지 않습니다.");
       }
     },
-    onError: (error) => {
+    onError: error => {
       console.log(error);
       console.log("네트워크 오류");
     },
@@ -76,7 +76,7 @@ const StyledTitleSpan = styled.span`
 `;
 
 const StyledButton = styled.button`
-  border: 1px solid ${(props) => props.color || "rgb(214, 218, 227)"};
+  border: 1px solid ${props => props.color || "rgb(214, 218, 227)"};
   padding: 0px;
   margin: 15px;
   border-radius: 20px;
@@ -84,8 +84,8 @@ const StyledButton = styled.button`
   font-weight: bold;
   width: 70%;
   height: 40px;
-  color: ${(props) => props.color};
-  background-color: ${(props) => props.bgcolor || "white"};
+  color: ${props => props.color};
+  background-color: ${props => props.bgcolor || "white"};
 `;
 
 const StyledText = styled.span`
@@ -99,7 +99,7 @@ const StyledText = styled.span`
 `;
 
 const StyledSpan = styled.span`
-  color: ${(props) => "#1d9bf0" || props.color};
+  color: ${props => "#1d9bf0" || props.color};
 `;
 const StyledLineDiv = styled.div`
   position: relative;
