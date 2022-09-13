@@ -1,10 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ProfileHeader from "../Header/ProfileHeader";
 import styled from "styled-components";
+import { useMutation } from "react-query";
+import { proflieAPI } from "../../shared/api";
 
 const EditProfile = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
+  const profileFile = useRef(null);
+  const backgroundFile = useRef(null);
 
   const name = useRef(null);
   const [haveName, setHaveName] = useState(true);
@@ -62,18 +67,50 @@ const EditProfile = () => {
     }
   };
 
+  const { mutate } = useMutation(proflieAPI.modify, {
+    onSuccess: (data) => {
+      navigate("/profile");
+    },
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("profileFile", profileFile.current.files[0]);
+    formData.append("backgroundFile", backgroundFile.current.files[0]);
+    formData.append(
+      "profileReqDto",
+      new Blob(
+        [
+          JSON.stringify({
+            nickname: name.current.value,
+            bio: bio.current.value,
+          }),
+        ],
+        {
+          type: "application/json",
+        }
+      )
+    );
+    mutate(formData);
+  };
+
   return (
-    <>
+    <form name="file" encType="multipart/form-data" onSubmit={handleSubmit}>
       <ProfileHeader isEdit={true} />
       <StyledContainer>
-        <StyledBackImg
-          src="http://file3.instiz.net/data/file3/2018/03/01/3/f/b/3fbb1ea5b4d47195118330ec0be2706e.jpg"
-          alt="background-img"
-        />
-        <StyledProfileImg
-          src="https://w.namu.la/s/9cbb48da2cd403ec50cb15a51b822834aa39c596cbfac6d42914b397ce6c1d656ac4de5f880b136bf2623eb9921249d5c9c36e8544e2ca8c85e1df13064ce5a75e9ed339d54703dfb5e4f807c55f3cb0cffed37cec45742c786253f382bb0172"
-          alt="profile-img"
-        />
+        {state?.backgroundImageUrl ? (
+          <StyledBackImg src={state?.backgroundImageUrl} alt="background-img" />
+        ) : (
+          <StyledBackImg
+            src="http://file3.instiz.net/data/file3/2018/03/01/3/f/b/3fbb1ea5b4d47195118330ec0be2706e.jpg"
+            alt="background-img"
+          />
+        )}
+        <input type="file" name="file" ref={backgroundFile} />
+
+        <StyledProfileImg src={state?.imageUrl} alt="profile-img" />
+        <input type="file" name="file" ref={profileFile} />
 
         <StyledNameDiv onClick={nameFocus} haveValue={haveName}>
           <StyledNameSpan className="name-span" haveValue={haveName}>
@@ -90,7 +127,6 @@ const EditProfile = () => {
           />
         </StyledNameDiv>
         <span className="blank-message">Name can't be blank</span>
-
         <StyledBioDiv onClick={bioFocus}>
           <StyledBioSpan className="bio-span" haveValue={haveBio}>
             Bio
@@ -104,13 +140,12 @@ const EditProfile = () => {
             defaultValue={state?.bio}
           ></textarea>
         </StyledBioDiv>
-
         <StyledDateDiv>
           <span>Birth date</span>
           <div>{state?.birthDate}</div>
         </StyledDateDiv>
       </StyledContainer>
-    </>
+    </form>
   );
 };
 

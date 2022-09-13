@@ -31,7 +31,9 @@ const ProfileHeader = ({ isEdit }) => {
         {isEdit ? (
           <StyledHeader>
             <StyledButton>
-              <button className="save">Save</button>
+              <button type="submit" className="save">
+                Save
+              </button>
             </StyledButton>
           </StyledHeader>
         ) : null}
@@ -69,7 +71,6 @@ const StyledButton = styled.div`
   cursor: pointer;
   font-size: 20px;
   .arrow {
-    
   }
   .save {
     font-weight: bold;
