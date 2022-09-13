@@ -8,15 +8,26 @@ import Tweets from "../components/profile/Tweets";
 import Likes from "../components/profile/Likes";
 import { BsCalendar3 } from "react-icons/bs";
 import { useQuery } from "react-query";
-import { proflieAPI } from "../shared/api";
+import { proflieAPI, tweetAPI } from "../shared/api";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [tabIndex, setTabIndex] = useState(0);
 
-  const { data } = useQuery("getProfile", proflieAPI.myProfile);
-  const profile = data?.data.data;
-  console.log(profile);
+  const getProfile = useQuery("getProfile", proflieAPI.myProfile);
+  const profile = getProfile.data?.data.data;
+
+  const { data, isLoading, isError } = useQuery(
+    "getMyTweets",
+    async () => await tweetAPI.getMyTwit()
+  );
+  const myTweets = data?.data.data;
+  if (isLoading) return <div>Loading..</div>;
+  if (isError) return <div>Error</div>;
+  console.log(myTweets);
+
+  const memberId = myTweets[0]?.memberId;
+  console.log(memberId);
 
   const tabArray = [
     {
@@ -29,7 +40,7 @@ const Profile = () => {
           Tweets
         </div>
       ),
-      content: <Tweets />,
+      content: <Tweets tweets={myTweets} />,
     },
     {
       key: "likes",
@@ -41,7 +52,7 @@ const Profile = () => {
           Likes
         </div>
       ),
-      content: <Likes />,
+      content: <Likes memberId={memberId} />,
     },
   ];
 

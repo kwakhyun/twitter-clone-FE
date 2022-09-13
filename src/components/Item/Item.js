@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { PostedTime } from "../../hooks/PostedTime";
 import { BsBoxArrowUp } from "react-icons/bs";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { BiMessageRounded } from "react-icons/bi";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { IoHeartOutline, IoHeart } from "react-icons/io5";
+import { useMutation } from "react-query";
+import { likeAPI } from "../../shared/api";
 
 const Item = ({ tweet }) => {
   const navigate = useNavigate();
+  const [like, setLike] = useState(false);
   let postedTime = PostedTime(tweet.createdAt);
+
+  const { mutate } = useMutation(likeAPI.toggleLike, {
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
 
   return (
     <StyledItemContainer>
@@ -49,8 +58,18 @@ const Item = ({ tweet }) => {
                 <StyledText fs="0.7rem">525252</StyledText>
               </StyledDiv>
               <StyledDiv color="lightpink">
-                <StyledIconBox backcolor="lightpink">
-                  <FaHeart color="red" size="1.3rem" />
+                <StyledIconBox
+                  backcolor="lightpink"
+                  onClick={() => {
+                    setLike(!like);
+                    mutate(tweet.id);
+                  }}
+                >
+                  {like ? (
+                    <IoHeart color="red" size="1.3rem" />
+                  ) : (
+                    <IoHeartOutline color="red" size="1.3rem" />
+                  )}
                 </StyledIconBox>
                 <StyledText fs="0.7rem">{tweet.likeCnt}</StyledText>
               </StyledDiv>
@@ -91,7 +110,7 @@ const StlyedItemInnerContainer = styled.div`
 const StyledDirectionBox = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: ${props => props.direct};
+  flex-direction: ${(props) => props.direct};
 `;
 const StyledColuemLeft = styled.div`
   width: 13%;
@@ -112,15 +131,15 @@ const StyledDiv = styled.div`
   align-items: center;
   gap: 3px;
   &:hover {
-    color: ${props => props.color};
+    color: ${(props) => props.color};
     opacity: 1;
   }
 `;
 
 const StyledText = styled.span`
   box-sizing: border-box;
-  font-size: ${props => props.fs};
-  font-weight: ${props => props.fw};
+  font-size: ${(props) => props.fs};
+  font-weight: ${(props) => props.fw};
 `;
 
 const StyledTwiteImage = styled.img`
@@ -147,7 +166,7 @@ const StyledIconBox = styled.span`
   justify-content: center;
   align-items: center;
   &:hover {
-    background-color: ${props => props.backcolor};
+    background-color: ${(props) => props.backcolor};
     border-radius: 9999px;
     color: black;
 

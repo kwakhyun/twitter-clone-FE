@@ -1,31 +1,16 @@
 import React from "react";
-import { useQuery } from "react-query";
 import Item from "../Item/Item";
 
-const Tweets = () => {
-  // const getTwit = async () => {
-  //   const res = await TwitAPI.gettwit();
-  //   return res;
-  // };
-
-  // const { data, isLoading } = useQuery("twite", () => getTwit(), {
-  //   staleTime: 1000,
-  //   keepPreviousData: true,
-  // });
-
-  // if (isLoading) {
-  //   return <div>로딩중...</div>;
-  // }
-
+const Tweets = ({ tweets }) => {
   return (
     <div>
-      {/* {data.data.map((x) => {
+      {tweets.map((tweet) => {
         return (
-          <React.Fragment key={x.userId}>
-            <Item twit={x} />
-          </React.Fragment>
+          <div key={tweet.id}>
+            <Item tweet={tweet} />
+          </div>
         );
-      })} */}
+      })}
     </div>
   );
 };
