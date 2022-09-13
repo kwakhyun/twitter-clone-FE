@@ -3,14 +3,13 @@ import styled from "styled-components";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { AddButton, Header, Footer, Item } from "../components";
 import { tweetAPI } from "../shared/api";
-import axios from "axios";
 
 const Mainpage = () => {
   const getTweets = async () => {
     return await tweetAPI.getAllTwit();
   };
 
-  const { data } = useQuery("getTweets", getTweets, {
+  const { data } = useQuery("getTweets", tweetAPI.getAllTwit, {
     staleTime: 0,
     keepPreviousData: true,
   });
@@ -20,7 +19,7 @@ const Mainpage = () => {
     <>
       <Header />
       <StyledItemContainer>
-        {tweets?.map(tweet => {
+        {tweets?.map((tweet) => {
           return (
             <React.Fragment key={tweet.id}>
               <Item tweet={tweet} />

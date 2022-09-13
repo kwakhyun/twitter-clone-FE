@@ -9,12 +9,14 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import { useRef } from "react";
 import useInput from "../hooks/useInput";
+import { useEffect } from "react";
 
 const LoginPw = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const [showPw, SetShowPw] = useState(false);
+  const [showPassWord, setShowPassWord] = useState(false);
   const [inputs, onChange] = useInput();
+  const [passwordExist, setPasswordExist] = useState(true);
 
   const onLogin = async data => {
     const response = await axios.post("http://13.125.55.110/api/member/login", {
@@ -32,7 +34,7 @@ const LoginPw = () => {
         localStorage.setItem("refresh_token", headers["refresh-token"]);
         navigate("/");
       } else {
-        alert(data.error.message);
+        setPasswordExist(false);
       }
     },
     onError: () => {
@@ -40,81 +42,131 @@ const LoginPw = () => {
     },
   });
 
+  useEffect(() => {
+    console.log("dd");
+  }, [showPassWord]);
+
   return (
     <>
       <StyledTopContainer>
         <StyledxContainer>
-          <BsX size="30px" />
+          <BsX
+            onClick={() => {
+              navigate("/first");
+            }}
+            size="30px"
+          />
         </StyledxContainer>
         <FaTwitter size="30px" color="#1d9bf0" />
       </StyledTopContainer>
 
-      <StyledTitleSpan>비밀번호를 입력하세요.</StyledTitleSpan>
-      <Inputplaceholer
-        text="사용자아이디"
-        defaultValue={state}
-        name="userId"
-        disabled="true"
-        type="text"
-        onChange={onChange}
-      />
-      <Inputplaceholer
-        text="비밀번호"
-        name="password"
-        onChange={onChange}
-        type={showPw ? "text" : "password"}
-      />
-      {/* {showPw ? <FaRegEyeSlash /> : <FaRegEye />} */}
+      <StyledContainerBox>
+        <StyledTitleDiv>비밀번호를 입력하세요.</StyledTitleDiv>
+        <Inputplaceholer
+          text="사용자아이디"
+          defaultValue={state}
+          name="userId"
+          disabled="true"
+          type="text"
+          onChange={onChange}
+        />
+        <div style={{ position: "relative" }}>
+          <Inputplaceholer
+            text="비밀번호"
+            name="password"
+            onChange={onChange}
+            type={showPassWord ? "text" : "password"}
+          />
+          <StyledEyeDiv
+            onClick={() => {
+              setShowPassWord(!showPassWord);
+            }}
+          >
+            {showPassWord ? <FaRegEyeSlash /> : <FaRegEye />}
+          </StyledEyeDiv>
+        </div>
 
-      <StyledSpan margin="200px">비밀번호 찾기</StyledSpan>
-      <StyledButton
-        onClick={() =>
-          mutate({
-            userId: state,
-            password: inputs?.password,
-          })
-        }
-      >
-        로그인하기
-      </StyledButton>
-      <StyledSpan color="black">
-        계정이 없으신가요?
-        <StyledSpan> 가입하기</StyledSpan>
-      </StyledSpan>
+        <StyledSpan>비밀번호 찾기</StyledSpan>
+        <StyledButton
+          onClick={() =>
+            mutate({
+              userId: state,
+              password: inputs?.password,
+            })
+          }
+        >
+          로그인하기
+        </StyledButton>
+        <span className="desc">
+          계정이 없으신가요?
+          <StyledSpan onClick={() => navigate("/signup")}>가입하기</StyledSpan>
+        </span>
+      </StyledContainerBox>
+
+      {passwordExist ? null : <StyledDiv>잘못된 비밀번호입니다.</StyledDiv>}
     </>
   );
 };
 export default LoginPw;
 
+const StyledContainerBox = styled.div`
+  margin: 0px;
+  padding: 30px;
+  .desc {
+    font-size: 14px;
+  }
+  .inputStyle {
+    margin: 0px;
+  }
+`;
+
 const StyledTopContainer = styled.div`
   display: flex;
-  margin: 10px 0 0 15px;
   align-items: center;
+  justify-content: left;
   width: 100%;
+  margin: 10px 0 0 20px;
+  .bird {
+    margin-left: 35%;
+  }
 `;
 const StyledxContainer = styled.div`
   margin-right: 38%;
 `;
-const StyledTitleSpan = styled.span`
+const StyledTitleDiv = styled.div`
   font-size: 25px;
   font-weight: bold;
-  margin: 20px 80px 20px 0;
+  padding: 0 0 15px 0;
 `;
 const StyledButton = styled.button`
   border: none;
   padding: 0px;
-  margin: 15px;
   margin-top: 100%;
+  margin-bottom: 30px;
   border-radius: 30px;
   font-size: 15px;
   font-weight: bold;
-  width: 85%;
+  width: 100%;
   height: 50px;
   color: white;
   background-color: black;
 `;
 const StyledSpan = styled.span`
-  color: ${props => props.color || "#1d9bf0"};
+  color: #1d9bf0;
   font-size: 14px;
-  margin-right: ${props => props.margin || "90px"}; ;
+`;
+const StyledDiv = styled.div`
+  position: fixed;
+  background-color: #1d9bf0;
+  bottom: 80px;
+  padding: 10px 0px 10px 20px;
+  max-height: 45px;
+  width: 100%;
+  color: white;
+`;
+
+const StyledEyeDiv = styled.div`
+  position: absolute;
+  right: 5%;
+  bottom: 20%;
 `;

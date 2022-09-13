@@ -23,7 +23,7 @@ const First = () => {
           border="#1d9bf0"
           color="white"
         >
-          휴대폰 번호나 이메일 주소로 가입하기
+          아이디로 가입하기
         </StyledButton>
         <StyledDesc>
           가입하시려면 <StyledDesc color="#1d9bf0">쿠키 사용</StyledDesc>을
@@ -112,9 +112,14 @@ const StyledSpan2 = styled.span`
   font-weight: bold;
 `;
 const StyledDiv2 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   .firstBg {
     width: 100vw;
-    height: 410px;
+    height: auto;
+    min-height: 300px;
     position: relative;
     z-index: 1;
   }
@@ -122,9 +127,10 @@ const StyledDiv2 = styled.div`
     color: white;
     position: absolute;
     z-index: 2;
-    width: 80%;
-    height: 80%;
-    top: 55%;
-    left: 10%;
+    width: 60%;
+    height: 50%;
+    max-height: 380px;
+    
+    display: inline-block;
   }
 `;

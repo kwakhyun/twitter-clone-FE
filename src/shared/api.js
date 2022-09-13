@@ -77,7 +77,7 @@ export const proflieAPI = {
 };
 
 export const tweetAPI = {
-  getAllTwit: page => api.get(`/twit/?page=${page}`),
+  getAllTwit: () => api.get("/twit"),
   getDetailTwit: twitid => api.get(`/twit/${twitid}`),
   getParentTwit: twitid => api.get(`/twit/${twitid}/parent`),
 
