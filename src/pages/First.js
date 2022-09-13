@@ -98,6 +98,7 @@ const StyledButton = styled.button`
   height: 40px;
   color: ${(props) => props.color};
   background-color: ${(props) => props.bgcolor || "white"};
+  z-index: 3;
 `;
 
 const StyledDesc = styled.span`

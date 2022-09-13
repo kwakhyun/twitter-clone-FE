@@ -1,16 +1,13 @@
-import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
 import { Inputplaceholer } from "../elem";
 import useInput from "../hooks/useInput";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  const InputRef = useRef(null);
   const [inputs, onChange] = useInput();
 
   const idCheck = async (data) => {
@@ -49,7 +46,6 @@ const Login = () => {
       <Inputplaceholer
         text="아이디를 입력해주세요."
         onChange={onChange}
-        ref={InputRef}
         name="userId"
         type="text"
       />
