@@ -112,9 +112,14 @@ const StyledSpan2 = styled.span`
   font-weight: bold;
 `;
 const StyledDiv2 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   .firstBg {
     width: 100vw;
-    height: 410px;
+    height: auto;
+    min-height: 300px;
     position: relative;
     z-index: 1;
   }
@@ -122,9 +127,10 @@ const StyledDiv2 = styled.div`
     color: white;
     position: absolute;
     z-index: 2;
-    width: 80%;
-    height: 80%;
-    top: 55%;
-    left: 10%;
+    width: 60%;
+    height: 50%;
+    max-height: 380px;
+    
+    display: inline-block;
   }
 `;
