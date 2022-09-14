@@ -73,7 +73,7 @@ const EditProfile = () => {
     },
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     const formData = new FormData();
     formData.append("profileFile", profileFile.current.files[0]);
@@ -107,10 +107,12 @@ const EditProfile = () => {
             alt="background-img"
           />
         )}
-        <input type="file" name="file" ref={backgroundFile} />
+        <StyledBackLabel htmlFor="backgroundFile" />
 
+        <StyledInputHide type="file" id="backgroundFile" ref={backgroundFile} />
         <StyledProfileImg src={state?.imageUrl} alt="profile-img" />
-        <input type="file" name="file" ref={profileFile} />
+        <StyledProfileLabel htmlFor="profileFile" />
+        <StyledInputHide type="file" id="profileFile" ref={profileFile} />
 
         <StyledNameDiv onClick={nameFocus} haveValue={haveName}>
           <StyledNameSpan className="name-span" haveValue={haveName}>
@@ -150,7 +152,7 @@ const EditProfile = () => {
 };
 
 const StyledContainer = styled.div`
-  width: 100%;
+  width: 100vw;
   .blank-message {
     display: none;
     color: #f42a36;
@@ -164,7 +166,15 @@ const StyledBackImg = styled.img`
   width: 100%;
   height: 190px;
 `;
-
+const StyledBackLabel = styled.label`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 190px;
+  width: 100%;
+  z-index: 4;
+  background-color: transparent;
+`;
 const StyledProfileImg = styled.img`
   width: 80px;
   height: 80px;
@@ -173,6 +183,26 @@ const StyledProfileImg = styled.img`
   position: absolute;
   top: 150px;
   left: 20px;
+`;
+const StyledProfileLabel = styled.label`
+  background-color: transparent;
+  z-index: 5;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  position: absolute;
+  top: 150px;
+  left: 20px;
+`;
+
+const StyledInputHide = styled.input`
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
 `;
 
 const StyledNameDiv = styled.div`

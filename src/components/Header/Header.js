@@ -2,17 +2,19 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
-
+import { useQuery } from "react-query";
+import { proflieAPI } from "../../shared/api";
 const Header = () => {
   const navigate = useNavigate();
-
+  const { data } = useQuery("getProfile", proflieAPI.myProfile);
+  const profile = data?.data.data;
   return (
     <Wrap>
       <StlyedHeaderBox>
         <StyledHeader>
           <StlyedUserImage
             onClick={() => navigate("/profile")}
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNWY2WGeTZOwNzA9PZLbaKPARcnkcxaMylmwRBg3juIQ&s"
+            src={profile?.imageUrl}
           />
           <span>Home</span>
         </StyledHeader>

@@ -30,6 +30,7 @@ const LoginPw = () => {
     onSuccess: ({ data, headers }) => {
       if (data.success) {
         alert("로그인 성공!");
+        localStorage.setItem("user_id", data.data.userId);
         localStorage.setItem("access_token", headers["authorization"]);
         localStorage.setItem("refresh_token", headers["refresh-token"]);
         navigate("/");

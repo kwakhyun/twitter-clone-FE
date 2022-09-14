@@ -6,17 +6,39 @@ import { BsBoxArrowUp } from "react-icons/bs";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { BiMessageRounded } from "react-icons/bi";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
-import { useMutation } from "react-query";
-import { likeAPI } from "../../shared/api";
-
-const Item = ({ tweet }) => {
+import { useMutation, useQueryClient } from "react-query";
+import { likeAPI, tweetAPI } from "../../shared/api";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { getUserId } from "../../shared/storage";
+import { useEffect } from "react";
+const Item = ({ tweet, setListTweet, listTweet }) => {
+  const myUserId = getUserId();
+  console.log(tweet);
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
   let postedTime = PostedTime(tweet.createdAt);
 
+  useEffect(() => {
+    setLike(tweet.like);
+  }, []);
+
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation(tweetAPI.deleteTwit, {
+    onSuccess: () => {
+      const deletedTweets = listTweet.filter(x => {
+        return x?.id !== tweet?.id;
+      });
+      setListTweet(deletedTweets);
+    },
+  });
+
   const { mutate } = useMutation(likeAPI.toggleLike, {
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: data => {
+      const idx = listTweet.findIndex(x => x.id === tweet.id);
+      const likeTweets = listTweet.map((x, i) =>
+        i === idx ? { ...x, ...(x.like = !tweet.like) } : x
+      );
+      setListTweet(likeTweets);
     },
   });
 
@@ -36,7 +58,19 @@ const Item = ({ tweet }) => {
                 <StyledText fs="0.5rem">@999</StyledText>
                 <StyledText fs="0.5rem">_{postedTime}</StyledText>
               </StyledDiv>
-              <StyledText fs="0.3rem">●●●</StyledText>
+              <StyledText fs="1.3rem">
+                {myUserId === tweet.userId ? (
+                  <RiDeleteBin6Line
+                    onClick={() => {
+                      if (window.confirm("Delete Tweet?")) {
+                        deleteMutation.mutate(tweet?.id);
+                      }
+                    }}
+                  />
+                ) : (
+                  ""
+                )}
+              </StyledText>
             </StyledUserInfoBOx>
 
             <div onClick={() => navigate(`/detail/${tweet.id}`)}>
@@ -55,7 +89,7 @@ const Item = ({ tweet }) => {
                 <StyledIconBox backcolor="lightgreen">
                   <AiOutlineRetweet size="1.3rem" />
                 </StyledIconBox>
-                <StyledText fs="0.7rem">525252</StyledText>
+                <StyledText fs="0.7rem">{tweet?.retwitCnt}</StyledText>
               </StyledDiv>
               <StyledDiv color="lightpink">
                 <StyledIconBox
@@ -110,7 +144,7 @@ const StlyedItemInnerContainer = styled.div`
 const StyledDirectionBox = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: ${(props) => props.direct};
+  flex-direction: ${props => props.direct};
 `;
 const StyledColuemLeft = styled.div`
   width: 13%;
@@ -131,15 +165,15 @@ const StyledDiv = styled.div`
   align-items: center;
   gap: 3px;
   &:hover {
-    color: ${(props) => props.color};
+    color: ${props => props.color};
     opacity: 1;
   }
 `;
 
 const StyledText = styled.span`
   box-sizing: border-box;
-  font-size: ${(props) => props.fs};
-  font-weight: ${(props) => props.fw};
+  font-size: ${props => props.fs};
+  font-weight: ${props => props.fw};
 `;
 
 const StyledTwiteImage = styled.img`
@@ -166,7 +200,7 @@ const StyledIconBox = styled.span`
   justify-content: center;
   align-items: center;
   &:hover {
-    background-color: ${(props) => props.backcolor};
+    background-color: ${props => props.backcolor};
     border-radius: 9999px;
     color: black;
 
