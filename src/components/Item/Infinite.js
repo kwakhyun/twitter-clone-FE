@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import Item from "./Item";
 import styled from "styled-components";
 
-const Infinite = ({ tweets, fetching, fetchMoreData }) => {
+const Infinite = ({ listTweet, fetching, fetchMoreData, setListTweet }) => {
   const [tweetInfo, setPostInfo] = useState([]);
 
   useEffect(() => {
-    setPostInfo(tweets);
-  }, [tweets]);
+    setPostInfo(listTweet);
+  }, [listTweet]);
 
   const handleScroll = () => {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
-    console.log(scrollHeight, scrollTop, clientHeight);
-    if (scrollTop + clientHeight >= scrollHeight && fetching === false) {
+    // console.log(scrollHeight, scrollTop, clientHeight);
+    if (scrollTop + 1 + clientHeight >= scrollHeight && fetching === false) {
       fetchMoreData();
     }
   };
@@ -29,7 +29,14 @@ const Infinite = ({ tweets, fetching, fetchMoreData }) => {
   return (
     <StyledItemContainer>
       {tweetInfo &&
-        tweetInfo.map((post, idx) => <Item key={idx} tweet={post} />)}
+        tweetInfo.map(post => (
+          <Item
+            key={post.id}
+            tweet={post}
+            setListTweet={setListTweet}
+            listTweet={listTweet}
+          />
+        ))}
     </StyledItemContainer>
   );
 };

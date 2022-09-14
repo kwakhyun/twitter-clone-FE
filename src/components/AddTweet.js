@@ -97,7 +97,12 @@ const AddTweet = ({ tweet }) => {
       <StlyedHead>
         <StlyedHeaderBox>
           <StyledHeader>
-            <BiLeftArrowAlt size="2rem" />
+            <BiLeftArrowAlt
+              size="2rem"
+              onClick={() => {
+                navigate(-1);
+              }}
+            />
           </StyledHeader>
           <StyledHeader>
             <StyledButton disabled={Buttondisable} onClick={onSubmiHandle}>
