@@ -17,14 +17,8 @@ const Detail = () => {
     }
   );
   const detailData = data?.data.data;
-
-  if (isLoading) {
-    return <div>Loading..</div>;
-  }
-
-  if (error) {
-    return <div>ERROR!</div>;
-  }
+  if (isLoading) return <div>Loading..</div>;
+  if (error) return <div>Error</div>;
 
   return (
     <>

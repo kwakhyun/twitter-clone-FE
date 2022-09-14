@@ -17,7 +17,7 @@ const ReplyItem = ({ reply }) => {
       queryClient.invalidateQueries("getDetail");
     },
   });
-
+console.log(reply)
   return (
     <StyledReply>
       <StyledProfileImg src={reply?.userProfileImage} alt="img" />
@@ -42,6 +42,8 @@ const ReplyItem = ({ reply }) => {
           <span> @{reply?.userId}</span>
         </span>
         <p className="text">{reply?.content}</p>
+        {reply?.fileUrl ? <img src={reply?.fileUrl} alt="img" /> : null}
+
         <StyledIconDiv>
           <div>
             <StyledIcon color="skyblue">

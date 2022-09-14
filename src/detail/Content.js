@@ -26,7 +26,9 @@ const Content = ({ detail }) => {
 
       <StyledContent>
         {detail?.content}
-        <StyledContentImg src={detail?.fileUrl} alt="img" />
+        {detail?.fileUrl ? (
+          <StyledContentImg src={detail?.fileUrl} alt="img" />
+        ) : null}
       </StyledContent>
 
       <div className="time">
