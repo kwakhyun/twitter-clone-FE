@@ -13,10 +13,11 @@ const Signup = () => {
   const date = useRef(null);
   const [haveName, setHaveName] = useState(true);
   const [countName, setCountName] = useState(0);
+  const [password, setPassword] = useState("");
   const [inputs, onChange] = useInput();
   const navigate = useNavigate();
 
-  const signup = async data => {
+  const signup = async (data) => {
     await axios.post("http://15.164.229.25/api/member/signup", {
       userId: data.userId,
       nickname: data.nickname,
@@ -28,6 +29,7 @@ const Signup = () => {
   const { mutate } = useMutation(signup, {
     onSuccess: () => {
       alert("가입을 환영합니다!");
+      navigate("/login");
     },
     onError: () => {
       alert("가입에 실패했습니다.");
@@ -63,7 +65,7 @@ const Signup = () => {
   };
 
   return (
-    <StyledWrap>
+    <>
       <StyledTopContainer>
         <BsX
           onClick={() => {
@@ -73,76 +75,76 @@ const Signup = () => {
         />
         <StyledStepNumber>회원가입</StyledStepNumber>
       </StyledTopContainer>
+      <StyledWrap>
+        <StyledContentContainer>
+          <StyledTitleSpan>계정을 생성하세요</StyledTitleSpan>
 
-      <StyledContentContainer>
-        <StyledTitleSpan>계정을 생성하세요</StyledTitleSpan>
+          <StyledContainer>
+            <StyledNameDiv onClick={nameFocus} haveValue={haveName}>
+              <StyledNameSpan className="name-span" haveValue={haveName}>
+                이름
+              </StyledNameSpan>
+              <span className="name-count">{countName} / 50</span>
+              <input
+                type="text"
+                ref={name}
+                onChange={onChangeName}
+                onBlur={onBlurName}
+                maxLength={50}
+                defaultValue=""
+              />
+            </StyledNameDiv>
+            <span className="blank-message">이름을 입력해 주세요.</span>
+          </StyledContainer>
 
-        <StyledContainer>
-          <StyledNameDiv onClick={nameFocus} haveValue={haveName}>
-            <StyledNameSpan className="name-span" haveValue={haveName}>
-              이름
-            </StyledNameSpan>
-            <span className="name-count">{countName} / 50</span>
-            <input
+          <StyledContainer>
+            <Inputplaceholer
+              onChange={onChange}
               type="text"
-              ref={name}
-              onChange={onChangeName}
-              onBlur={onBlurName}
-              maxLength={50}
-              defaultValue=""
+              name="userId"
+              text="사용자 아이디"
             />
-          </StyledNameDiv>
-          <span className="blank-message">이름을 입력해 주세요.</span>
-        </StyledContainer>
-
-        <StyledContainer>
-          <Inputplaceholer
-            onChange={onChange}
-            type="text"
-            name="userId"
-            text="사용자 아이디"
-          />
-        </StyledContainer>
-        <StyledContainer>
-          <Inputplaceholer
-            type="password"
-            onChange={onChange}
-            name="password"
-            text="비밀번호"
-          />
-          <span>8자 이상이어야 합니다.</span>
-        </StyledContainer>
-        <StyledSpan>생년월일</StyledSpan>
-        <StyledDesc>
-          이 정보는 공개적으로 표시되지 않습니다. 비즈니스, 반려동물 등 계정
-          주제에 상관없이 나의 연령을 확인하세요.
-        </StyledDesc>
-        <StyledInputContainer>
-          <StyledInputSpan>생년월일</StyledInputSpan>
-          <StyledInput type="date" ref={date}></StyledInput>
-        </StyledInputContainer>
-      </StyledContentContainer>
-      <StyledNextButton
-        onClick={() => {
-          mutate({
-            nickname: name.current.value,
-            userId: inputs.userId,
-            password: inputs.password,
-            dateOfBirth: date.current.value,
-          });
-        }}
-        bgcolor="#0f1419"
-        color="white"
-      >
-        가입하기
-      </StyledNextButton>
-    </StyledWrap>
+          </StyledContainer>
+          <StyledContainer>
+            <Inputplaceholer
+              type="password"
+              onChange={onChange}
+              name="password"
+              text="비밀번호"
+            />
+            <StyledInputSpan>8자 이상이어야 합니다.</StyledInputSpan>
+          </StyledContainer>
+          <StyledSpan>생년월일</StyledSpan>
+          <StyledDesc>
+            이 정보는 공개적으로 표시되지 않습니다. 비즈니스, 반려동물 등 계정
+            주제에 상관없이 나의 연령을 확인하세요.
+          </StyledDesc>
+          <StyledInputContainer>
+            <StyledInputSpan>생년월일</StyledInputSpan>
+            <StyledInput type="date" ref={date}></StyledInput>
+          </StyledInputContainer>
+        </StyledContentContainer>
+        <StyledJoinButton
+          onClick={() => {
+            mutate({
+              nickname: name.current.value,
+              userId: inputs.userId,
+              password: inputs.password,
+              dateOfBirth: date.current.value,
+            });
+          }}
+          bgcolor="#0f1419"
+          color="white"
+        >
+          가입하기
+        </StyledJoinButton>
+      </StyledWrap>
+    </>
   );
 };
 
 const StyledWrap = styled.div`
-  position: relative;
-  width: 100vw;
+  padding: 0 30px;
   overflow: hidden;
 `;
 
@@ -151,7 +153,7 @@ const StyledTopContainer = styled.div`
   align-items: center;
   justify-content: left;
   width: 100%;
-  margin: 10px 0 30px 20px;
+  padding: 10px 0 30px 20px;
 `;
 const StyledStepNumber = styled.span`
   font-weight: bold;
@@ -178,21 +180,20 @@ const StyledContainer = styled.div`
     color: #f42a36;
     font-size: 12px;
     font-weight: 500;
-    margin-left: 10px;
+    padding-left: 10px;
   }
 `;
 
 const StyledNameDiv = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  margin-top: 10px;
+  margin: 10px 0 0 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
   height: 55px;
   border: ${({ haveValue }) =>
-    haveValue ? "2px solid #e8e8e8" : "2px solid #f42a36"};
+    haveValue ? "1px solid rgb(214,218,227)" : "2px solid #f42a36"};
   &:focus-within {
     border: ${({ haveValue }) =>
       haveValue ? "2px solid #1da1f2" : "2px solid #f42a36"};
@@ -232,7 +233,7 @@ const StyledNameSpan = styled.span`
   transition: 0.2s;
 `;
 
-const StyledNextButton = styled.button`
+const StyledJoinButton = styled.button`
   border: none;
   border-radius: 30px;
   font-size: 16px;
@@ -242,13 +243,13 @@ const StyledNextButton = styled.button`
   color: white;
   background-color: gray;
   opacity: 0.9;
-  bottom: 100%;
+  margin-top: 75%;
 `;
 
 const StyledInputContainer = styled.div`
   position: relative;
   margin: 15px 0;
-  padding: 0px 5px;
+  padding: 5px;
   border: 1px solid rgb(214, 218, 227);
   border-radius: 5px;
   width: 100%;
@@ -260,6 +261,7 @@ const StyledInputContainer = styled.div`
 const StyledInputSpan = styled.span`
   color: gray;
   font-size: 13px;
+  width: 100%;
   z-index: 3;
 `;
 const StyledInput = styled.input`
