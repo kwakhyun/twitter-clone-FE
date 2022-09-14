@@ -1,32 +1,24 @@
-import React, { useRef, useState, forwardRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
-const Inputplaceholer = ({
-  text,
-  onChange,
-  ref,
-  name,
-  defaultValue,
-  disabled,
-  type,
-}) => {
+const Inputplaceholer = React.forwardRef((props, ref) => {
   const InputRef = useRef(null);
   return (
     <WrapStyled>
       <StyledDiv>
         <IdInput
           ref={ref}
-          name={name}
-          type={type}
-          onChange={onChange}
-          placeholder={text}
-          defaultValue={defaultValue}
-          disabled={disabled}
+          name={props.name}
+          type={props.type}
+          onChange={props.onChange}
+          placeholder={props.text}
+          defaultValue={props.defaultValue}
+          disabled={props.disabled}
         ></IdInput>
-        <Labelstlyed>{text}</Labelstlyed>
+        <Labelstlyed>{props.text}</Labelstlyed>
       </StyledDiv>
     </WrapStyled>
   );
-};
+});
 export default Inputplaceholer;
 // export default forwardRef(Inputplaceholer); 에러 발생으로 주석처리
 
@@ -89,7 +81,7 @@ const StyledDiv = styled.div`
 
 const Labelstlyed = styled.span`
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 3%;
   z-index: -1;
   color: #536471;

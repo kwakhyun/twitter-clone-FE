@@ -19,16 +19,14 @@ const InfiniteLanding = () => {
       limit: limit,
     };
     getData(body);
-    console.log(body);
+    // console.log(body);
   }, []);
 
   const getData = async body => {
     tweetAPI
       .getAllTwit(body.page)
       .then(res => {
-        if (body.loadMore) setListTweet([...listTweet, ...res.data.data]);
-        else setListTweet(res.data.data);
-        console.log(res);
+        setListTweet([...listTweet, ...res.data.data]);
       })
       .catch(err => alert("글을 가져오는데 실패 했습니다."));
   };
@@ -39,9 +37,8 @@ const InfiniteLanding = () => {
     let body = {
       page: tmpPage,
       limit: limit,
-      loadMore: true,
     };
-    console.log(body);
+    // console.log(body);
     setPage(tmpPage);
     getData(body);
 
@@ -56,9 +53,10 @@ const InfiniteLanding = () => {
 
   return (
     <Infinite
-      tweets={listTweet}
+      listTweet={listTweet}
       fetchMoreData={fetchMoreData}
       fetching={fetching}
+      setListTweet={setListTweet}
     />
   );
 };

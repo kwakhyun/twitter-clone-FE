@@ -22,12 +22,11 @@ const Profile = () => {
     async () => await tweetAPI.getMyTwit()
   );
   const myTweets = data?.data.data;
+  console.log(myTweets);
   if (isLoading) return <div>Loading..</div>;
   if (isError) return <div>Error</div>;
-  console.log(myTweets);
 
   const memberId = myTweets[0]?.memberId;
-  console.log(memberId);
 
   const tabArray = [
     {
@@ -58,7 +57,7 @@ const Profile = () => {
 
   return (
     <>
-      <ProfileHeader />
+      <ProfileHeader profile={profile} TweetCount={myTweets.length} />
       <StyledContainer>
         {profile?.backgroundImageUrl ? (
           <StyledBackImg src={profile?.backgroundImageUrl} alt="img" />
@@ -93,13 +92,13 @@ const Profile = () => {
             <BsCalendar3 className="icon" />
             <div>Joined {profile?.createdAt}</div>
           </div>
-          <span className="follow">0 Following</span>
-          <span className="follow">0 Followers</span>
+          <span className="follow">{profile.followingCnt} Following</span>
+          <span className="follow">{profile.followerCnt} Followers</span>
         </StyledInfo>
 
         <StyledTabDiv>
           <StyledTab>
-            {tabArray.map((item) => {
+            {tabArray.map(item => {
               return (
                 <div key={item.key} className="tab">
                   {item.tab}

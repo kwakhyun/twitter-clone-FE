@@ -6,17 +6,41 @@ import { BsBoxArrowUp } from "react-icons/bs";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { BiMessageRounded } from "react-icons/bi";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
-import { useMutation } from "react-query";
-import { likeAPI } from "../../shared/api";
+import { useMutation, useQueryClient } from "react-query";
+import { likeAPI, tweetAPI } from "../../shared/api";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { getUserId } from "../../shared/storage";
+import { useEffect } from "react";
+import Modal from "../Modal/Modal";
+const Item = ({ tweet, setListTweet, listTweet }) => {
+  const myUserId = getUserId();
 
-const Item = ({ tweet }) => {
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   let postedTime = PostedTime(tweet.createdAt);
 
+  useEffect(() => {
+    setLike(tweet.like);
+  }, []);
+
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation(tweetAPI.deleteTwit, {
+    onSuccess: () => {
+      const deletedTweets = listTweet.filter(x => {
+        return x?.id !== tweet?.id;
+      });
+      setListTweet(deletedTweets);
+    },
+  });
+
   const { mutate } = useMutation(likeAPI.toggleLike, {
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: data => {
+      const idx = listTweet.findIndex(x => x.id === tweet.id);
+      const likeTweets = listTweet.map((x, i) =>
+        i === idx ? { ...x, ...(x.like = !tweet.like) } : x
+      );
+      setListTweet(likeTweets);
     },
   });
 
@@ -36,7 +60,17 @@ const Item = ({ tweet }) => {
                 <StyledText fs="0.5rem">@999</StyledText>
                 <StyledText fs="0.5rem">_{postedTime}</StyledText>
               </StyledDiv>
-              <StyledText fs="0.3rem">●●●</StyledText>
+              <StyledText fs="1.3rem">
+                {myUserId === tweet.userId ? (
+                  <RiDeleteBin6Line
+                    onClick={() => {
+                      setDeleteModal(true);
+                    }}
+                  />
+                ) : (
+                  ""
+                )}
+              </StyledText>
             </StyledUserInfoBOx>
 
             <div onClick={() => navigate(`/detail/${tweet.id}`)}>
@@ -55,7 +89,7 @@ const Item = ({ tweet }) => {
                 <StyledIconBox backcolor="lightgreen">
                   <AiOutlineRetweet size="1.3rem" />
                 </StyledIconBox>
-                <StyledText fs="0.7rem">525252</StyledText>
+                <StyledText fs="0.7rem">{tweet?.retwitCnt}</StyledText>
               </StyledDiv>
               <StyledDiv color="lightpink">
                 <StyledIconBox
@@ -82,11 +116,60 @@ const Item = ({ tweet }) => {
           </StyledDirectionBox>
         </StyledDirectionBox>
       </StlyedItemInnerContainer>
+      {deleteModal && (
+        <Modal closeModal={() => setDeleteModal(!deleteModal)}>
+          <ModalStyled>
+            <span>Delete Tweet?</span>
+            <p>
+              This can’t be undone and it will be removed from your profile, the
+              timeline of any accounts that follow you, and from Twitter search
+              results.
+            </p>
+            <button
+              onClick={() => {
+                deleteMutation.mutate(tweet?.id);
+                setDeleteModal(!deleteModal);
+              }}
+            >
+              Delete
+            </button>
+          </ModalStyled>
+        </Modal>
+      )}
     </StyledItemContainer>
   );
 };
 
 export default Item;
+
+const ModalStyled = styled.div`
+  span {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  p {
+    font-size: 0.9rem;
+    margin-top: 4px;
+    margin-bottom: 20px;
+  }
+  button {
+    border: 1px solid rgb(220, 220, 220);
+    width: 100%;
+    height: 45px;
+    border: none;
+    border-radius: 12%/60%;
+    color: rgba(0, 0, 0, 0.7);
+    background-color: rgb(230, 0, 0);
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    transition: 0.3s;
+    &:hover {
+      background-color: rgb(210, 0, 0);
+      cursor: pointer;
+    }
+  }
+`;
 
 const StyledItemContainer = styled.div`
   width: 100%;
@@ -110,7 +193,7 @@ const StlyedItemInnerContainer = styled.div`
 const StyledDirectionBox = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: ${(props) => props.direct};
+  flex-direction: ${props => props.direct};
 `;
 const StyledColuemLeft = styled.div`
   width: 13%;
@@ -131,15 +214,15 @@ const StyledDiv = styled.div`
   align-items: center;
   gap: 3px;
   &:hover {
-    color: ${(props) => props.color};
+    color: ${props => props.color};
     opacity: 1;
   }
 `;
 
 const StyledText = styled.span`
   box-sizing: border-box;
-  font-size: ${(props) => props.fs};
-  font-weight: ${(props) => props.fw};
+  font-size: ${props => props.fs};
+  font-weight: ${props => props.fw};
 `;
 
 const StyledTwiteImage = styled.img`
@@ -166,7 +249,7 @@ const StyledIconBox = styled.span`
   justify-content: center;
   align-items: center;
   &:hover {
-    background-color: ${(props) => props.backcolor};
+    background-color: ${props => props.backcolor};
     border-radius: 9999px;
     color: black;
 

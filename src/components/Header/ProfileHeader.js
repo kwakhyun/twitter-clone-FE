@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BsArrowLeft } from "react-icons/bs";
 
-const ProfileHeader = ({ isEdit }) => {
+const ProfileHeader = ({ isEdit, profile, TweetCount }) => {
   const navigate = useNavigate();
 
   return (
@@ -22,8 +22,8 @@ const ProfileHeader = ({ isEdit }) => {
               <h4>Edit profile</h4>
             ) : (
               <>
-                <span className="name">kh</span>
-                <span className="tweet">15 Tweets</span>
+                <span className="name">{profile.nickname}</span>
+                <span className="tweet">{TweetCount} Tweets</span>
               </>
             )}
           </StyledInfo>
@@ -48,7 +48,7 @@ const Wrap = styled.div`
   left: 0px;
   width: 100%;
   max-height: 50px;
-  z-index: 2;
+  z-index: 10;
 `;
 const StlyedHeaderBox = styled.div`
   display: flex;

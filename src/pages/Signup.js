@@ -9,14 +9,18 @@ import useInput from "../hooks/useInput";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const name = useRef(null);
-  const date = useRef(null);
+  const nameRef = useRef(null);
+  const dateRef = useRef(null);
+  const idRef = useRef(null);
+  const passwordRef = useRef(null);
   const [haveName, setHaveName] = useState(true);
   const [countName, setCountName] = useState(0);
+  const [password, setPassword] = useState("");
   const [inputs, onChange] = useInput();
+  const [dateChange, setDateChange] = useState("");
   const navigate = useNavigate();
 
-  const signup = async data => {
+  const signup = async (data) => {
     await axios.post("http://15.164.229.25/api/member/signup", {
       userId: data.userId,
       nickname: data.nickname,
@@ -28,6 +32,7 @@ const Signup = () => {
   const { mutate } = useMutation(signup, {
     onSuccess: () => {
       alert("가입을 환영합니다!");
+      navigate("/login");
     },
     onError: () => {
       alert("가입에 실패했습니다.");
@@ -35,33 +40,32 @@ const Signup = () => {
   });
 
   useEffect(() => {
-    if (name.current.value) {
-      setCountName(name.current.value.length);
+    if (nameRef.current.value) {
+      setCountName(nameRef.current.value.length);
     }
   }, []);
 
   const nameFocus = () => {
-    name.current.focus();
+    nameRef.current.focus();
     document.querySelector(".name-count").style.display = "block";
   };
 
   const onChangeName = () => {
-    if (name.current.value) {
+    if (nameRef.current.value) {
       document.querySelector(".blank-message").style.display = "none";
       setHaveName(true);
     } else {
       document.querySelector(".blank-message").style.display = "block";
       setHaveName(false);
     }
-    setCountName(name.current.value.length);
+    setCountName(nameRef.current.value.length);
   };
 
   const onBlurName = () => {
-    if (name.current.value) {
+    if (nameRef.current.value) {
       document.querySelector(".name-count").style.display = "none";
     }
   };
-
   return (
     <>
       <StyledTopContainer>
@@ -73,8 +77,7 @@ const Signup = () => {
         />
         <StyledStepNumber>회원가입</StyledStepNumber>
       </StyledTopContainer>
-
-      <StyledContainerBox>
+      <StyledWrap>
         <StyledContentContainer>
           <StyledTitleSpan>계정을 생성하세요</StyledTitleSpan>
 
@@ -86,7 +89,7 @@ const Signup = () => {
               <span className="name-count">{countName} / 50</span>
               <input
                 type="text"
-                ref={name}
+                ref={nameRef}
                 onChange={onChangeName}
                 onBlur={onBlurName}
                 maxLength={50}
@@ -99,6 +102,7 @@ const Signup = () => {
           <StyledContainer>
             <Inputplaceholer
               onChange={onChange}
+              ref={idRef}
               type="text"
               name="userId"
               text="사용자 아이디"
@@ -107,11 +111,12 @@ const Signup = () => {
           <StyledContainer>
             <Inputplaceholer
               type="password"
+              ref={passwordRef}
               onChange={onChange}
               name="password"
               text="비밀번호"
             />
-            <span>8자 이상이어야 합니다.</span>
+            <StyledInputSpan>8자 이상이어야 합니다.</StyledInputSpan>
           </StyledContainer>
           <StyledSpan>생년월일</StyledSpan>
           <StyledDesc>
@@ -120,37 +125,59 @@ const Signup = () => {
           </StyledDesc>
           <StyledInputContainer>
             <StyledInputSpan>생년월일</StyledInputSpan>
-            <StyledInput type="date" ref={date}></StyledInput>
+            <StyledInput
+              type="date"
+              ref={dateRef}
+              onChange={(e) => {
+                setDateChange(e.target.value);
+              }}
+            ></StyledInput>
           </StyledInputContainer>
         </StyledContentContainer>
-        <StyledNextButton
+        <StyledJoinButton
+          disabled={
+            !(
+              nameRef.current?.value &&
+              passwordRef.current?.value &&
+              idRef.current?.value &&
+              dateChange
+            )
+          }
+          isDisabled={
+            nameRef.current?.value &&
+            passwordRef.current?.value &&
+            idRef.current?.value &&
+            dateChange
+          }
           onClick={() => {
             mutate({
-              nickname: name.current.value,
+              nickname: nameRef.current.value,
               userId: inputs.userId,
               password: inputs.password,
-              dateOfBirth: date.current.value,
+              dateOfBirth: dateRef.current.value,
             });
           }}
           bgcolor="#0f1419"
           color="white"
         >
           가입하기
-        </StyledNextButton>
-      </StyledContainerBox>
+        </StyledJoinButton>
+      </StyledWrap>
     </>
   );
 };
 
-const StyledContainerBox = styled.div`
-  width: 85%;
+const StyledWrap = styled.div`
+  padding: 0 30px;
+  overflow: hidden;
 `;
+
 const StyledTopContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: left;
   width: 100%;
-  margin: 10px 0 30px 20px;
+  padding: 10px 0 30px 20px;
 `;
 const StyledStepNumber = styled.span`
   font-weight: bold;
@@ -177,21 +204,20 @@ const StyledContainer = styled.div`
     color: #f42a36;
     font-size: 12px;
     font-weight: 500;
-    margin-left: 10px;
+    padding-left: 10px;
   }
 `;
 
 const StyledNameDiv = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  margin-top: 10px;
+  margin: 10px 0 0 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
   height: 55px;
   border: ${({ haveValue }) =>
-    haveValue ? "2px solid #e8e8e8" : "2px solid #f42a36"};
+    haveValue ? "1px solid rgb(214,218,227)" : "2px solid #f42a36"};
   &:focus-within {
     border: ${({ haveValue }) =>
       haveValue ? "2px solid #1da1f2" : "2px solid #f42a36"};
@@ -231,23 +257,23 @@ const StyledNameSpan = styled.span`
   transition: 0.2s;
 `;
 
-const StyledNextButton = styled.button`
+const StyledJoinButton = styled.button`
   border: none;
   border-radius: 30px;
   font-size: 16px;
   font-weight: bold;
-  width: 85%;
+  width: 100%;
   height: 50px;
   color: white;
-  background-color: gray;
+  background-color: ${({ isDisabled }) => (isDisabled ? "black" : "gray")};
   opacity: 0.9;
-  margin-top: 150px;
+  margin-top: 75%;
 `;
 
 const StyledInputContainer = styled.div`
   position: relative;
   margin: 15px 0;
-  padding: 0px 5px;
+  padding: 5px;
   border: 1px solid rgb(214, 218, 227);
   border-radius: 5px;
   width: 100%;
@@ -259,6 +285,7 @@ const StyledInputContainer = styled.div`
 const StyledInputSpan = styled.span`
   color: gray;
   font-size: 13px;
+  width: 100%;
   z-index: 3;
 `;
 const StyledInput = styled.input`

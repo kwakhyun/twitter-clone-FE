@@ -7,10 +7,10 @@ import { BsBoxArrowUp } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { tweetAPI } from "../shared/api";
 import { useMutation, useQueryClient } from "react-query";
-
+import { getUserId } from "../shared/storage";
 const ReplyItem = ({ reply }) => {
   const [like, setLike] = useState(false);
-
+  const myUserId = getUserId();
   const queryClient = useQueryClient();
   const { mutate } = useMutation(tweetAPI.deleteTwit, {
     onSuccess: () => {
@@ -28,14 +28,18 @@ console.log(reply)
             <span className="name">{reply?.nickname}</span>
             <span className="id-1">@{reply?.userId}</span>
           </span>
-          <RiDeleteBin6Line
-            className="delete"
-            onClick={() => {
-              if (window.confirm("Delete Tweet?")) {
-                mutate(reply?.id);
-              }
-            }}
-          />
+          {myUserId === reply.userId ? (
+            <RiDeleteBin6Line
+              className="delete"
+              onClick={() => {
+                if (window.confirm("Delete Tweet?")) {
+                  mutate(reply?.id);
+                }
+              }}
+            />
+          ) : (
+            ""
+          )}
         </div>
         <span className="id-2">
           Replying to
@@ -127,7 +131,7 @@ const StyledIconDiv = styled.div`
   justify-content: space-between;
 `;
 
-const StyledIcon = styled.text`
+const StyledIcon = styled.span`
   color: gray;
   width: 20px;
   height: 20px;

@@ -3,12 +3,19 @@ import styled from "styled-components";
 import { RiHome7Fill } from "react-icons/ri";
 import { BiBell, BiMessageDetail } from "react-icons/bi";
 import { FiSearch } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <Wrap>
       <StlyedFooterBox>
         <StlyedFooter>
-          <RiHome7Fill size="30px" />
+          <RiHome7Fill
+            size="30px"
+            onClick={() => {
+              navigate("/");
+            }}
+          />
           <FiSearch size="30px" />
           <BiBell size="30px" />
           <BiMessageDetail size="30px" />

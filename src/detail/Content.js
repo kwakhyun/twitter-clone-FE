@@ -26,9 +26,9 @@ const Content = ({ detail }) => {
 
       <StyledContent>
         {detail?.content}
-        {detail?.fileUrl ? (
+        {detail?.fileUrl && (
           <StyledContentImg src={detail?.fileUrl} alt="img" />
-        ) : null}
+        )}
       </StyledContent>
 
       <div className="time">
@@ -120,7 +120,7 @@ const StyledIconDiv = styled.div`
   border-bottom: 1px solid #e6ecf0;
 `;
 
-const StyledIcon = styled.text`
+const StyledIcon = styled.span`
   color: gray;
   width: 40px;
   height: 40px;

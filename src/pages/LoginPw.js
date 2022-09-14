@@ -16,9 +16,10 @@ const LoginPw = () => {
   const { state } = useLocation();
   const [showPassWord, setShowPassWord] = useState(false);
   const [inputs, onChange] = useInput();
-  const [passwordExist, setPasswordExist] = useState(true);
+  const [passwordCheck, setPasswordCheck] = useState(true);
 
-  const onLogin = async data => {
+  const passwordRef = useRef();
+  const onLogin = async (data) => {
     const response = await axios.post("http://15.164.229.25/api/member/login", {
       userId: data.userId,
       password: inputs.password,
@@ -29,25 +30,20 @@ const LoginPw = () => {
   const { mutate } = useMutation(onLogin, {
     onSuccess: ({ data, headers }) => {
       if (data.success) {
-        alert("로그인 성공!");
+        localStorage.setItem("user_id", data.data.userId);
         localStorage.setItem("access_token", headers["authorization"]);
         localStorage.setItem("refresh_token", headers["refresh-token"]);
         navigate("/");
       } else {
-        setPasswordExist(false);
+        passwordRef.current.value = "";
+        setPasswordCheck(false);
       }
     },
-    onError: () => {
-      alert("로그인에 실패했습니다.");
-    },
+    onError: () => {},
   });
 
-  useEffect(() => {
-    console.log("dd");
-  }, [showPassWord]);
-
   return (
-    <>
+    <StyledWrap>
       <StyledTopContainer>
         <StyledxContainer>
           <BsX
@@ -63,16 +59,17 @@ const LoginPw = () => {
       <StyledContainerBox>
         <StyledTitleDiv>비밀번호를 입력하세요.</StyledTitleDiv>
         <Inputplaceholer
-          text="사용자아이디"
+          text="사용자 아이디"
           defaultValue={state}
           name="userId"
-          disabled="true"
+          disabled={true}
           type="text"
           onChange={onChange}
         />
         <div style={{ position: "relative" }}>
           <Inputplaceholer
             text="비밀번호"
+            ref={passwordRef}
             name="password"
             onChange={onChange}
             type={showPassWord ? "text" : "password"}
@@ -88,6 +85,8 @@ const LoginPw = () => {
 
         <StyledSpan>비밀번호 찾기</StyledSpan>
         <StyledButton
+          disabled={!passwordRef.current?.value}
+          isDisable={passwordRef.current?.value}
           onClick={() =>
             mutate({
               userId: state,
@@ -99,19 +98,27 @@ const LoginPw = () => {
         </StyledButton>
         <span className="desc">
           계정이 없으신가요?
-          <StyledSpan onClick={() => navigate("/signup")}>가입하기</StyledSpan>
+          <StyledSpan font="14px" onClick={() => navigate("/signup")}>
+            가입하기
+          </StyledSpan>
         </span>
       </StyledContainerBox>
 
-      {passwordExist ? null : <StyledDiv>잘못된 비밀번호입니다.</StyledDiv>}
-    </>
+      {passwordCheck ? null : <StyledDiv>잘못된 비밀번호입니다.</StyledDiv>}
+    </StyledWrap>
   );
 };
 export default LoginPw;
 
+const StyledWrap = styled.div`
+  position: relative;
+  width: 100vw;
+  overflow: hidden;
+`;
+
 const StyledContainerBox = styled.div`
   margin: 0px;
-  padding: 30px;
+  padding: 30px 30px 0 30px;
   .desc {
     font-size: 14px;
   }
@@ -125,7 +132,7 @@ const StyledTopContainer = styled.div`
   align-items: center;
   justify-content: left;
   width: 100%;
-  margin: 10px 0 0 20px;
+  padding: 10px 0 0 20px;
   .bird {
     margin-left: 35%;
   }
@@ -141,24 +148,25 @@ const StyledTitleDiv = styled.div`
 const StyledButton = styled.button`
   border: none;
   padding: 0px;
-  margin-top: 100%;
-  margin-bottom: 30px;
+  margin-top: 140%;
+  margin-bottom: 15px;
   border-radius: 30px;
   font-size: 15px;
   font-weight: bold;
   width: 100%;
   height: 50px;
   color: white;
-  background-color: black;
+  background-color: ${({ isDisable }) => (isDisable ? "black" : "gray")};
+  opacity: 0.9;
 `;
 const StyledSpan = styled.span`
   color: #1d9bf0;
-  font-size: 14px;
+  font-size: ${(props) => props.font || "12px"};
 `;
 const StyledDiv = styled.div`
   position: fixed;
   background-color: #1d9bf0;
-  bottom: 80px;
+  bottom: 0px;
   padding: 10px 0px 10px 20px;
   max-height: 45px;
   width: 100%;
