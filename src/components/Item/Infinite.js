@@ -14,7 +14,7 @@ const Infinite = ({ listTweet, fetching, fetchMoreData, setListTweet }) => {
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
     // console.log(scrollHeight, scrollTop, clientHeight);
-    if (scrollTop + 1 + clientHeight >= scrollHeight && fetching === false) {
+    if (scrollTop + 0.4 + clientHeight >= scrollHeight && fetching === false) {
       fetchMoreData();
     }
   };

@@ -11,11 +11,13 @@ import { likeAPI, tweetAPI } from "../../shared/api";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { getUserId } from "../../shared/storage";
 import { useEffect } from "react";
+import Modal from "../Modal/Modal";
 const Item = ({ tweet, setListTweet, listTweet }) => {
   const myUserId = getUserId();
-  console.log(tweet);
+
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   let postedTime = PostedTime(tweet.createdAt);
 
   useEffect(() => {
@@ -62,9 +64,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
                 {myUserId === tweet.userId ? (
                   <RiDeleteBin6Line
                     onClick={() => {
-                      if (window.confirm("Delete Tweet?")) {
-                        deleteMutation.mutate(tweet?.id);
-                      }
+                      setDeleteModal(true);
                     }}
                   />
                 ) : (
@@ -116,11 +116,59 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
           </StyledDirectionBox>
         </StyledDirectionBox>
       </StlyedItemInnerContainer>
+      {deleteModal && (
+        <Modal closeModal={() => setDeleteModal(!deleteModal)}>
+          <ModalStyled>
+            <span>Delete Tweet?</span>
+            <p>
+              This can’t be undone and it will be removed from your profile, the
+              timeline of any accounts that follow you, and from Twitter search
+              results.
+            </p>
+            <button
+              onClick={() => {
+                deleteMutation.mutate(tweet?.id);
+              }}
+            >
+              Delete
+            </button>
+          </ModalStyled>
+        </Modal>
+      )}
     </StyledItemContainer>
   );
 };
 
 export default Item;
+
+const ModalStyled = styled.div`
+  span {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  p {
+    font-size: 0.9rem;
+    margin-top: 4px;
+    margin-bottom: 20px;
+  }
+  button {
+    border: 1px solid rgb(220, 220, 220);
+    width: 100%;
+    height: 45px;
+    border: none;
+    border-radius: 12%/60%;
+    color: rgba(0, 0, 0, 0.7);
+    background-color: rgb(230, 0, 0);
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    transition: 0.3s;
+    &:hover {
+      background-color: rgb(210, 0, 0);
+      cursor: pointer;
+    }
+  }
+`;
 
 const StyledItemContainer = styled.div`
   width: 100%;
