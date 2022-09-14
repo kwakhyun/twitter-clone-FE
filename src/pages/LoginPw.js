@@ -17,7 +17,7 @@ const LoginPw = () => {
   const [showPassWord, setShowPassWord] = useState(false);
   const [inputs, onChange] = useInput();
   const [passwordExist, setPasswordExist] = useState(true);
-
+  const passwordRef = useRef();
   const onLogin = async (data) => {
     const response = await axios.post("http://15.164.229.25/api/member/login", {
       userId: data.userId,
@@ -86,7 +86,7 @@ const LoginPw = () => {
 
         <StyledSpan>비밀번호 찾기</StyledSpan>
         <StyledButton
-          disabled={inputs.password ? false : true}
+         disabled={passwordRef.current?.value ? false : true}
           onClick={() =>
             mutate({
               userId: state,
