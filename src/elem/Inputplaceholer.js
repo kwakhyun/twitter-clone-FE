@@ -89,7 +89,7 @@ const StyledDiv = styled.div`
 
 const Labelstlyed = styled.span`
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 3%;
   z-index: -1;
   color: #536471;
