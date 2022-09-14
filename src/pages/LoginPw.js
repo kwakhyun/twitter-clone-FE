@@ -18,7 +18,7 @@ const LoginPw = () => {
   const [inputs, onChange] = useInput();
   const [passwordExist, setPasswordExist] = useState(true);
 
-  const onLogin = async data => {
+  const onLogin = async (data) => {
     const response = await axios.post("http://15.164.229.25/api/member/login", {
       userId: data.userId,
       password: inputs.password,
@@ -42,10 +42,6 @@ const LoginPw = () => {
       alert("로그인에 실패했습니다.");
     },
   });
-
-  useEffect(() => {
-    console.log("dd");
-  }, [showPassWord]);
 
   return (
     <StyledWrap>
@@ -74,6 +70,7 @@ const LoginPw = () => {
         <div style={{ position: "relative" }}>
           <Inputplaceholer
             text="비밀번호"
+            ref="ref"
             name="password"
             onChange={onChange}
             type={showPassWord ? "text" : "password"}
@@ -89,6 +86,7 @@ const LoginPw = () => {
 
         <StyledSpan>비밀번호 찾기</StyledSpan>
         <StyledButton
+          disabled={inputs.password ? false : true}
           onClick={() =>
             mutate({
               userId: state,
@@ -100,7 +98,9 @@ const LoginPw = () => {
         </StyledButton>
         <span className="desc">
           계정이 없으신가요?
-          <StyledSpan onClick={() => navigate("/signup")}>가입하기</StyledSpan>
+          <StyledSpan font="14px" onClick={() => navigate("/signup")}>
+            가입하기
+          </StyledSpan>
         </span>
       </StyledContainerBox>
 
@@ -149,18 +149,19 @@ const StyledButton = styled.button`
   border: none;
   padding: 0px;
   margin-top: 140%;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   border-radius: 30px;
   font-size: 15px;
   font-weight: bold;
   width: 100%;
   height: 50px;
   color: white;
-  background-color: black;
+  background-color: gray;
+  opacity: 0.9;
 `;
 const StyledSpan = styled.span`
   color: #1d9bf0;
-  font-size: 14px;
+  font-size: ${(props) => props.font || "12px"};
 `;
 const StyledDiv = styled.div`
   position: fixed;

@@ -27,8 +27,7 @@ const First = () => {
         </StyledButton>
         <StyledDesc>
           가입하시려면 <StyledDesc color="#1d9bf0">쿠키 사용</StyledDesc>을
-          포함해
-          <StyledDesc color="#1d9bf0">이용약관</StyledDesc>과
+          포함해 <StyledDesc color="#1d9bf0">이용약관</StyledDesc>과{" "}
           <StyledDesc color="#1d9bf0">개인정보 처리방침</StyledDesc>에
           <br />
           동의해야 합니다.
@@ -130,7 +129,7 @@ const StyledDiv2 = styled.div`
     width: 60%;
     height: 50%;
     max-height: 380px;
-    
+
     display: inline-block;
   }
 `;
