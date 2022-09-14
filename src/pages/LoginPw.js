@@ -70,7 +70,7 @@ const LoginPw = () => {
         <div style={{ position: "relative" }}>
           <Inputplaceholer
             text="비밀번호"
-            ref="ref"
+            ref={passwordRef}
             name="password"
             onChange={onChange}
             type={showPassWord ? "text" : "password"}
