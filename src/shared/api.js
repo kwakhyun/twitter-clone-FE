@@ -2,45 +2,9 @@ import axios from "axios";
 import { getRefreshToken, getAccessToken } from "./storage";
 
 export const api = axios.create({
-  baseURL: "http://13.125.55.110/api/auth",
-
+  baseURL: "http://15.164.229.25/api/auth",
   withCredentials: true,
 });
-
-export const instanceAdd = axios.create({
-  baseURL: "http://13.125.55.110/api/auth",
-
-  headers: {
-    "Content-Type": "multipart/form-data",
-    Accept: "multipart/form-data",
-  },
-  withCredentials: true,
-});
-
-instanceAdd.interceptors.request.use((config) => {
-  const refreshToken = getRefreshToken();
-  const accessToken = getAccessToken();
-
-  if (!accessToken || !refreshToken) {
-    config.headers["authorization"] = null;
-    config.headers["refresh-Token"] = null;
-    return config;
-  } else {
-    config.headers["authorization"] = accessToken;
-    config.headers["refresh-Token"] = refreshToken;
-    return config;
-  }
-});
-
-instanceAdd.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
-    // 오류 응답을 처리
-    return Promise.reject(error);
-  }
-);
 
 api.interceptors.request.use((config) => {
   const refreshToken = getRefreshToken();
@@ -78,21 +42,20 @@ export const proflieAPI = {
 };
 
 export const tweetAPI = {
-  getAllTwit: () => api.get("/twit"),
+  getAllTwit: (page) => api.get(`/twit?page=${page}&size=${10}`),
   getDetailTwit: (twitid) => api.get(`/twit/${twitid}`),
   getParentTwit: (twitid) => api.get(`/twit/${twitid}/parent`),
 
   getMyTwit: () => api.get(`/mytwit`),
-  getLikeTiwt: () => api.get(`/likepage`),
+  getLikeTiwt: (member_id) => api.get(`/likepage/${member_id}`),
   getOtherTwit: (userid) => api.get(`/mytwit/${userid}`),
 
-  addTwit: (data) => instanceAdd.post(`/twit`, data),
+  addTwit: (data) => api.post(`/twit`, data),
   deleteTwit: (twitid) => api.delete(`/twit/${twitid}`),
 };
 
 export const replyAPI = {
-  addReply: (data) => api.post(`/comment`, data),
-  deleteReply: (id) => api.delete(`/comment/${id}`),
+  addReply: (data) => api.post(`/comment/${data.id}`, data.data),
 };
 
 export const likeAPI = {

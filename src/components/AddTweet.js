@@ -2,18 +2,19 @@ import React, { useRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { AiOutlinePicture } from "react-icons/ai";
 import { BiLeftArrowAlt } from "react-icons/bi";
-
-import { tweetAPI } from "../shared/api";
-import { useMutation } from "react-query";
-
+import { useNavigate } from "react-router-dom";
+import { tweetAPI, proflieAPI } from "../shared/api";
+import { useMutation, useQuery } from "react-query";
 
 const AddTweet = ({ tweet }) => {
+  const { data } = useQuery("getProfile", proflieAPI.myProfile);
+  const profile = data?.data.data;
 
   const Textref = useRef(null); // text값 가져올려고 사용
   const [attachment, setAttachment] = useState(null); //파일 미리보기
   const [fileZero, setFileZero] = useState(null); //files의 첫번째 파일보낼때씀
   const [Buttondisable, setButtondisable] = useState(true); // 버튼 disable 관리
-
+  const navigate = useNavigate();
   const checkForm = () => {
     if (attachment === null && Textref.current.value === "") {
       setButtondisable(true);
@@ -21,10 +22,15 @@ const AddTweet = ({ tweet }) => {
       setButtondisable(false);
     }
   };
-  const addTweet = async data => {
+  const TweetAdd = async data => {
     return await tweetAPI.addTwit(data);
   };
-  const AddMutation = useMutation(data => addTweet(data));
+  const { mutate } = useMutation(TweetAdd, {
+    onSuccess: res => {
+      navigate("/");
+    },
+  });
+
   useEffect(() => {
     if (Textref.current) {
       checkForm();
@@ -46,6 +52,7 @@ const AddTweet = ({ tweet }) => {
       target: { files },
     } = event; // 이거랑 같은것 const filed = event.target.files;
     const theFile = files[0];
+
     setFileZero(theFile);
     const reader = new FileReader();
     reader.onloadend = finishedEvent => {
@@ -64,31 +71,25 @@ const AddTweet = ({ tweet }) => {
   };
 
   // value들 서버로 보내기
-  const onSubmiHandle = async e => {
+  const onSubmiHandle = e => {
     e.preventDefault();
     const formData = new FormData();
-    const file = fileZero;
+    formData.append("multipartFile", fileZero);
 
-    if (attachment !== null) {
-      formData.append("file", file);
-    }
-    const value = [
-      {
-        content: Textref.current?.value,
-      },
-    ];
+    const value = {
+      content: Textref.current?.value,
+    };
 
     const blob = new Blob([JSON.stringify(value)], {
       type: "application/json",
     });
-    if (blob.size > 16) {
-      formData.append("data", blob);
-    }
-    await tweetAPI.addTwit(formData);
-    // AddMutation.mutate(formData)
+
+    formData.append("requestDto", blob);
     // for (let value of formData.values()) {
     //   console.log(value);
-    // }
+    // } 값 확인하기
+
+    mutate(formData);
   };
 
   return (
@@ -107,8 +108,8 @@ const AddTweet = ({ tweet }) => {
       </StlyedHead>
 
       <StlyedGridBox>
-        <StlyedUserImage src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNWY2WGeTZOwNzA9PZLbaKPARcnkcxaMylmwRBg3juIQ&s" />
-        <StlyedContentBOX>
+        <StlyedUserImage src={profile?.imageUrl} />
+        <StlyedContentBOX onSubmit={onSubmiHandle}>
           <TextStyled
             name="content"
             rows={1}
@@ -128,7 +129,7 @@ const AddTweet = ({ tweet }) => {
           )}
           <Hrstyled />
           <LabelBoxStyled>
-            <LabelStyled for="file">
+            <LabelStyled htmlFor="file">
               <AiOutlinePicture size="1.6rem" color="rgb(051, 153, 255, 0.9)" />
             </LabelStyled>
           </LabelBoxStyled>
@@ -230,9 +231,10 @@ const StlyedUserImage = styled.img`
   border-radius: 9999px;
   width: 45px;
   height: 45px;
+  z-index: 3;
 `;
 
-const StlyedContentBOX = styled.div`
+const StlyedContentBOX = styled.form`
   grid-column: 3/7;
   grid-row: 2/7;
   display: block;
