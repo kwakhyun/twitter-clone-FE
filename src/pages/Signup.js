@@ -9,12 +9,15 @@ import useInput from "../hooks/useInput";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const name = useRef(null);
-  const date = useRef(null);
+  const nameRef = useRef(null);
+  const dateRef = useRef(null);
+  const idRef = useRef(null);
+  const passwordRef = useRef(null);
   const [haveName, setHaveName] = useState(true);
   const [countName, setCountName] = useState(0);
   const [password, setPassword] = useState("");
   const [inputs, onChange] = useInput();
+  const [dateChange, setDateChange] = useState("");
   const navigate = useNavigate();
 
   const signup = async (data) => {
@@ -37,33 +40,32 @@ const Signup = () => {
   });
 
   useEffect(() => {
-    if (name.current.value) {
-      setCountName(name.current.value.length);
+    if (nameRef.current.value) {
+      setCountName(nameRef.current.value.length);
     }
   }, []);
 
   const nameFocus = () => {
-    name.current.focus();
+    nameRef.current.focus();
     document.querySelector(".name-count").style.display = "block";
   };
 
   const onChangeName = () => {
-    if (name.current.value) {
+    if (nameRef.current.value) {
       document.querySelector(".blank-message").style.display = "none";
       setHaveName(true);
     } else {
       document.querySelector(".blank-message").style.display = "block";
       setHaveName(false);
     }
-    setCountName(name.current.value.length);
+    setCountName(nameRef.current.value.length);
   };
 
   const onBlurName = () => {
-    if (name.current.value) {
+    if (nameRef.current.value) {
       document.querySelector(".name-count").style.display = "none";
     }
   };
-
   return (
     <>
       <StyledTopContainer>
@@ -87,7 +89,7 @@ const Signup = () => {
               <span className="name-count">{countName} / 50</span>
               <input
                 type="text"
-                ref={name}
+                ref={nameRef}
                 onChange={onChangeName}
                 onBlur={onBlurName}
                 maxLength={50}
@@ -100,6 +102,7 @@ const Signup = () => {
           <StyledContainer>
             <Inputplaceholer
               onChange={onChange}
+              ref={idRef}
               type="text"
               name="userId"
               text="사용자 아이디"
@@ -108,6 +111,7 @@ const Signup = () => {
           <StyledContainer>
             <Inputplaceholer
               type="password"
+              ref={passwordRef}
               onChange={onChange}
               name="password"
               text="비밀번호"
@@ -121,16 +125,36 @@ const Signup = () => {
           </StyledDesc>
           <StyledInputContainer>
             <StyledInputSpan>생년월일</StyledInputSpan>
-            <StyledInput type="date" ref={date}></StyledInput>
+            <StyledInput
+              type="date"
+              ref={dateRef}
+              onChange={(e) => {
+                setDateChange(e.target.value);
+              }}
+            ></StyledInput>
           </StyledInputContainer>
         </StyledContentContainer>
         <StyledJoinButton
+          disabled={
+            !(
+              nameRef.current?.value &&
+              passwordRef.current?.value &&
+              idRef.current?.value &&
+              dateChange
+            )
+          }
+          isDisabled={
+            nameRef.current?.value &&
+            passwordRef.current?.value &&
+            idRef.current?.value &&
+            dateChange
+          }
           onClick={() => {
             mutate({
-              nickname: name.current.value,
+              nickname: nameRef.current.value,
               userId: inputs.userId,
               password: inputs.password,
-              dateOfBirth: date.current.value,
+              dateOfBirth: dateRef.current.value,
             });
           }}
           bgcolor="#0f1419"
@@ -241,7 +265,7 @@ const StyledJoinButton = styled.button`
   width: 100%;
   height: 50px;
   color: white;
-  background-color: gray;
+  background-color: ${({ isDisabled }) => (isDisabled ? "black" : "gray")};
   opacity: 0.9;
   margin-top: 75%;
 `;

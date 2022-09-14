@@ -16,7 +16,8 @@ const LoginPw = () => {
   const { state } = useLocation();
   const [showPassWord, setShowPassWord] = useState(false);
   const [inputs, onChange] = useInput();
-  const [passwordExist, setPasswordExist] = useState(true);
+  const [passwordCheck, setPasswordCheck] = useState(true);
+
   const passwordRef = useRef();
   const onLogin = async (data) => {
     const response = await axios.post("http://15.164.229.25/api/member/login", {
@@ -29,18 +30,16 @@ const LoginPw = () => {
   const { mutate } = useMutation(onLogin, {
     onSuccess: ({ data, headers }) => {
       if (data.success) {
-        alert("로그인 성공!");
         localStorage.setItem("user_id", data.data.userId);
         localStorage.setItem("access_token", headers["authorization"]);
         localStorage.setItem("refresh_token", headers["refresh-token"]);
         navigate("/");
       } else {
-        setPasswordExist(false);
+        passwordRef.current.value = "";
+        setPasswordCheck(false);
       }
     },
-    onError: () => {
-      alert("로그인에 실패했습니다.");
-    },
+    onError: () => {},
   });
 
   return (
@@ -60,10 +59,10 @@ const LoginPw = () => {
       <StyledContainerBox>
         <StyledTitleDiv>비밀번호를 입력하세요.</StyledTitleDiv>
         <Inputplaceholer
-          text="사용자아이디"
+          text="사용자 아이디"
           defaultValue={state}
           name="userId"
-          disabled="true"
+          disabled={true}
           type="text"
           onChange={onChange}
         />
@@ -86,7 +85,8 @@ const LoginPw = () => {
 
         <StyledSpan>비밀번호 찾기</StyledSpan>
         <StyledButton
-         disabled={passwordRef.current?.value ? false : true}
+          disabled={!passwordRef.current?.value}
+          isDisable={passwordRef.current?.value}
           onClick={() =>
             mutate({
               userId: state,
@@ -104,7 +104,7 @@ const LoginPw = () => {
         </span>
       </StyledContainerBox>
 
-      {passwordExist ? null : <StyledDiv>잘못된 비밀번호입니다.</StyledDiv>}
+      {passwordCheck ? null : <StyledDiv>잘못된 비밀번호입니다.</StyledDiv>}
     </StyledWrap>
   );
 };
@@ -156,7 +156,7 @@ const StyledButton = styled.button`
   width: 100%;
   height: 50px;
   color: white;
-  background-color: gray;
+  background-color: ${({ isDisable }) => (isDisable ? "black" : "gray")};
   opacity: 0.9;
 `;
 const StyledSpan = styled.span`
