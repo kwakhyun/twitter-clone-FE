@@ -47,7 +47,7 @@ const LoginPw = () => {
   }, [showPassWord]);
 
   return (
-    <>
+    <StyledWrap>
       <StyledTopContainer>
         <StyledxContainer>
           <BsX
@@ -104,14 +104,20 @@ const LoginPw = () => {
       </StyledContainerBox>
 
       {passwordExist ? null : <StyledDiv>잘못된 비밀번호입니다.</StyledDiv>}
-    </>
+    </StyledWrap>
   );
 };
 export default LoginPw;
 
+const StyledWrap = styled.div`
+  position: relative;
+  width: 100vw;
+  overflow: hidden;
+`;
+
 const StyledContainerBox = styled.div`
   margin: 0px;
-  padding: 30px;
+  padding: 30px 30px 0 30px;
   .desc {
     font-size: 14px;
   }
@@ -125,7 +131,7 @@ const StyledTopContainer = styled.div`
   align-items: center;
   justify-content: left;
   width: 100%;
-  margin: 10px 0 0 20px;
+  padding: 10px 0 0 20px;
   .bird {
     margin-left: 35%;
   }
@@ -141,7 +147,7 @@ const StyledTitleDiv = styled.div`
 const StyledButton = styled.button`
   border: none;
   padding: 0px;
-  margin-top: 100%;
+  margin-top: 140%;
   margin-bottom: 30px;
   border-radius: 30px;
   font-size: 15px;
@@ -158,7 +164,7 @@ const StyledSpan = styled.span`
 const StyledDiv = styled.div`
   position: fixed;
   background-color: #1d9bf0;
-  bottom: 80px;
+  bottom: 0px;
   padding: 10px 0px 10px 20px;
   max-height: 45px;
   width: 100%;

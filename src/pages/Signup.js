@@ -63,7 +63,7 @@ const Signup = () => {
   };
 
   return (
-    <>
+    <StyledWrap>
       <StyledTopContainer>
         <BsX
           onClick={() => {
@@ -74,77 +74,78 @@ const Signup = () => {
         <StyledStepNumber>회원가입</StyledStepNumber>
       </StyledTopContainer>
 
-      <StyledContainerBox>
-        <StyledContentContainer>
-          <StyledTitleSpan>계정을 생성하세요</StyledTitleSpan>
+      <StyledContentContainer>
+        <StyledTitleSpan>계정을 생성하세요</StyledTitleSpan>
 
-          <StyledContainer>
-            <StyledNameDiv onClick={nameFocus} haveValue={haveName}>
-              <StyledNameSpan className="name-span" haveValue={haveName}>
-                이름
-              </StyledNameSpan>
-              <span className="name-count">{countName} / 50</span>
-              <input
-                type="text"
-                ref={name}
-                onChange={onChangeName}
-                onBlur={onBlurName}
-                maxLength={50}
-                defaultValue=""
-              />
-            </StyledNameDiv>
-            <span className="blank-message">이름을 입력해 주세요.</span>
-          </StyledContainer>
-
-          <StyledContainer>
-            <Inputplaceholer
-              onChange={onChange}
+        <StyledContainer>
+          <StyledNameDiv onClick={nameFocus} haveValue={haveName}>
+            <StyledNameSpan className="name-span" haveValue={haveName}>
+              이름
+            </StyledNameSpan>
+            <span className="name-count">{countName} / 50</span>
+            <input
               type="text"
-              name="userId"
-              text="사용자 아이디"
+              ref={name}
+              onChange={onChangeName}
+              onBlur={onBlurName}
+              maxLength={50}
+              defaultValue=""
             />
-          </StyledContainer>
-          <StyledContainer>
-            <Inputplaceholer
-              type="password"
-              onChange={onChange}
-              name="password"
-              text="비밀번호"
-            />
-            <span>8자 이상이어야 합니다.</span>
-          </StyledContainer>
-          <StyledSpan>생년월일</StyledSpan>
-          <StyledDesc>
-            이 정보는 공개적으로 표시되지 않습니다. 비즈니스, 반려동물 등 계정
-            주제에 상관없이 나의 연령을 확인하세요.
-          </StyledDesc>
-          <StyledInputContainer>
-            <StyledInputSpan>생년월일</StyledInputSpan>
-            <StyledInput type="date" ref={date}></StyledInput>
-          </StyledInputContainer>
-        </StyledContentContainer>
-        <StyledNextButton
-          onClick={() => {
-            mutate({
-              nickname: name.current.value,
-              userId: inputs.userId,
-              password: inputs.password,
-              dateOfBirth: date.current.value,
-            });
-          }}
-          bgcolor="#0f1419"
-          color="white"
-        >
-          가입하기
-        </StyledNextButton>
-      </StyledContainerBox>
-    </>
+          </StyledNameDiv>
+          <span className="blank-message">이름을 입력해 주세요.</span>
+        </StyledContainer>
+
+        <StyledContainer>
+          <Inputplaceholer
+            onChange={onChange}
+            type="text"
+            name="userId"
+            text="사용자 아이디"
+          />
+        </StyledContainer>
+        <StyledContainer>
+          <Inputplaceholer
+            type="password"
+            onChange={onChange}
+            name="password"
+            text="비밀번호"
+          />
+          <span>8자 이상이어야 합니다.</span>
+        </StyledContainer>
+        <StyledSpan>생년월일</StyledSpan>
+        <StyledDesc>
+          이 정보는 공개적으로 표시되지 않습니다. 비즈니스, 반려동물 등 계정
+          주제에 상관없이 나의 연령을 확인하세요.
+        </StyledDesc>
+        <StyledInputContainer>
+          <StyledInputSpan>생년월일</StyledInputSpan>
+          <StyledInput type="date" ref={date}></StyledInput>
+        </StyledInputContainer>
+      </StyledContentContainer>
+      <StyledNextButton
+        onClick={() => {
+          mutate({
+            nickname: name.current.value,
+            userId: inputs.userId,
+            password: inputs.password,
+            dateOfBirth: date.current.value,
+          });
+        }}
+        bgcolor="#0f1419"
+        color="white"
+      >
+        가입하기
+      </StyledNextButton>
+    </StyledWrap>
   );
 };
 
-const StyledContainerBox = styled.div`
-  width: 85%;
+const StyledWrap = styled.div`
+  position: relative;
+  width: 100vw;
+  overflow: hidden;
 `;
+
 const StyledTopContainer = styled.div`
   display: flex;
   align-items: center;
@@ -236,12 +237,12 @@ const StyledNextButton = styled.button`
   border-radius: 30px;
   font-size: 16px;
   font-weight: bold;
-  width: 85%;
+  width: 100%;
   height: 50px;
   color: white;
   background-color: gray;
   opacity: 0.9;
-  margin-top: 150px;
+  bottom: 100%;
 `;
 
 const StyledInputContainer = styled.div`
