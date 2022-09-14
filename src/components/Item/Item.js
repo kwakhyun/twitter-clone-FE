@@ -128,6 +128,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
             <button
               onClick={() => {
                 deleteMutation.mutate(tweet?.id);
+                setDeleteModal(!deleteModal);
               }}
             >
               Delete
