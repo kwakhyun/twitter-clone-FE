@@ -9,47 +9,68 @@ const InfiniteLanding = () => {
   const [limit, setLimit] = useState(10);
   const [fetching, setFetching] = useState(false);
 
-  const getTweets = async body => {
-    return await tweetAPI.getAllTwit(body.page);
+  const getTweets = async page => {
+    const res = await tweetAPI.getAllTwit(page);
+    let reslist = res?.data.data;
+    for (let i = 0; i < reslist?.length; i++) {
+      reslist[i] = { ...reslist[i], page: page };
+    }
+    setListTweet([...listTweet, ...reslist]);
+
+    return res;
   };
 
-  useEffect(() => {
-    const body = {
-      page: page,
-      limit: limit,
-    };
-    getData(body);
-    // console.log(body);
-  }, []);
+  const { data, isLoading } = useQuery(
+    ["getTweets", page],
+    () => getTweets(page),
+    {
+      staleTime: 0,
+      retry: 1,
+      keepPreviousData: true,
+    }
+  );
+  if (isLoading) return;
+  // console.log(data);
+  // if (isSuccess) {
+  //   setListTweet([...listTweet, ...data.data.data]);
+  // }
+  // const tweets = data?.data.data;
+  // useEffect(() => {
+  //   setListTweet([...listTweet, ...data?.data.data]);
+  // }, []);
 
-  const getData = async body => {
-    tweetAPI
-      .getAllTwit(body.page)
-      .then(res => {
-        setListTweet([...listTweet, ...res.data.data]);
-      })
-      .catch(err => alert("글을 가져오는데 실패 했습니다."));
-  };
+  // useEffect(() => {
+  //   const body = {
+  //     page: page,
+  //     limit: limit,
+  //   };
+  //   // getData(body);
+  //   // console.log(body);
+  // }, []);
+
+  // const getData = async body => {
+  //   tweetAPI
+  //     .getAllTwit(body.page)
+  //     .then(res => {
+  //       console.log(res.data.data);
+  //       setListTweet([...listTweet, ...res.data.data]);
+  //     })
+  //     .catch(err => alert("글을 가져오는데 실패 했습니다."));
+  // };
 
   const fetchMoreData = async () => {
     setFetching(true);
     let tmpPage = page + 1;
-    let body = {
-      page: tmpPage,
-      limit: limit,
-    };
+    // let body = {
+    //   page: tmpPage,
+    //   limit: limit,
+    // };
     // console.log(body);
     setPage(tmpPage);
-    getData(body);
+    // getData(body);
 
     setFetching(false);
   };
-
-  //   const { data } = useQuery(["getTweets", page], getData(body), {
-  //     staleTime: 0,
-  //     keepPreviousData: true,
-  //   });
-  //   const tweets = data?.data.data;
 
   return (
     <Infinite
@@ -60,5 +81,15 @@ const InfiniteLanding = () => {
     />
   );
 };
+
+//   return (
+//     <Infinite
+//       listTweet={listTweet}
+//       fetchMoreData={fetchMoreData}
+//       fetching={fetching}
+//       setListTweet={setListTweet}
+//     />
+//   );
+// };
 
 export default InfiniteLanding;
