@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useMutation, useQueryClient } from "react-query";
@@ -22,24 +22,35 @@ const Reply = ({ detail }) => {
     idInfo.current.style.display = "block";
     fileInput.current.style.display = "block";
     value.current.style.height = "100px";
-    reply.current.style.top = "180px";
+    reply.current.style.bottom = "10px";
     setFocus(true);
   };
 
-  const checkValue = (event) => {
-    if (event.target.value) {
-      setHaveValue(true);
-    } else {
+  const checkValue = event => {
+    if (attachment === null && value.current.value === "") {
       setHaveValue(false);
+    } else {
+      setHaveValue(true);
     }
+    // if (event.target.value) {
+    //   setHaveValue(true);
+    // } else {
+    //   setHaveValue(false);
+    // }
   };
+
+  useEffect(() => {
+    if (value.current) {
+      checkValue();
+    }
+  }, [attachment, value.current]);
 
   const onReply = () => {
     value.current.value = "";
     idInfo.current.style.display = "none";
     fileInput.current.style.display = "none";
     value.current.style.height = "25px";
-    reply.current.style.top = "20px";
+    // reply.current.style.top = "20px";
     setFocus(false);
     setHaveValue(false);
     setAttachment(null);
@@ -53,19 +64,19 @@ const Reply = ({ detail }) => {
     value.current.style.height = value.current.scrollHeight + "px";
 
     let buttonTop = attachment ? 300 : 75;
-    reply.current.style.top = buttonTop + value.current.scrollHeight + "px";
+    // reply.current.style.top = buttonTop + value.current.scrollHeight + "px";
   }, [value, attachment]);
 
   // 이미지 파일 미리보기
   const onFileChange = () => {
     const fileReader = new FileReader();
-    fileReader.onloadend = (finishedEvent) => {
+    fileReader.onloadend = finishedEvent => {
       const fileUrl = finishedEvent.currentTarget.result;
       setAttachment(fileUrl);
     };
 
     fileReader.readAsDataURL(file.current.files[0]);
-    reply.current.style.top = 300 + value.current.scrollHeight + "px";
+    // reply.current.style.top = 300 + value.current.scrollHeight + "px";
   };
 
   // 이미지 파일 지우기
@@ -75,14 +86,14 @@ const Reply = ({ detail }) => {
 
   const queryClient = useQueryClient();
   const { mutate } = useMutation(replyAPI.addReply, {
-    onSuccess: (data) => {
+    onSuccess: data => {
       console.log(data);
       onReply();
       queryClient.invalidateQueries(["getDetail", params.id]);
     },
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     const formData = new FormData();
     formData.append(
@@ -132,9 +143,6 @@ const Reply = ({ detail }) => {
             maxLength={280}
             focus={focus}
           ></StyledTextarea>
-          <StyledButton disabled={!haveValue} ref={reply} focus={focus}>
-            Reply
-          </StyledButton>
         </div>
         {attachment && (
           <StyledImageDiv>
@@ -155,9 +163,12 @@ const Reply = ({ detail }) => {
             onChange={onFileChange}
           />
         </div>
+        <StyledButton disabled={!haveValue} ref={reply} focus={focus}>
+          Reply
+        </StyledButton>
       </StyledForm>
 
-      {detail?.commentList.map((reply) => {
+      {detail?.commentList.map(reply => {
         return (
           <div key={reply.id}>
             <ReplyItem reply={reply} />
@@ -171,10 +182,10 @@ const Reply = ({ detail }) => {
 const StyledContainer = styled.div`
   width: 100%;
   height: 120vh;
-  position: relative;
 `;
 
 const StyledForm = styled.form`
+  position: relative;
   padding: ${({ focus }) => (focus ? "10px 0" : "0")};
   border-bottom: 1px solid #e6ecf0;
   .id-info-div {
@@ -218,7 +229,7 @@ const StyledTextarea = styled.textarea`
 
 const StyledButton = styled.button`
   position: absolute;
-  top: ${({ focus }) => (focus ? "180px" : "20px")};
+  bottom: 17px;
   right: 15px;
   width: 70px;
   height: 35px;
@@ -241,7 +252,7 @@ const StyledImageDiv = styled.div`
   margin: 10px 15px 0 70px;
   img {
     width: 100%;
-    height: 100%;
+    max-height: 300px;
     object-fit: cover;
     border: none;
     border-radius: 20px;

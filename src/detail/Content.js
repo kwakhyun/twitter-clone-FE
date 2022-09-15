@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { BiMessageRounded } from "react-icons/bi";
 import { BsBoxArrowUp } from "react-icons/bs";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-
+import { useMutation } from "react-query";
+import { likeAPI } from "../shared/api";
 const Content = ({ detail }) => {
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
+  const LikeMutate = useMutation(likeAPI.toggleLike, {
+    onSuccess: () => {},
+  });
+
+  useEffect(() => {
+    setLike(detail.like);
+  }, []);
 
   return (
     <StyledContainer>
@@ -49,11 +57,17 @@ const Content = ({ detail }) => {
           </StyledIcon>
         </div>
         <div>
-          <StyledIcon color="lightpink" onClick={() => setLike(!like)}>
+          <StyledIcon
+            color="lightpink"
+            onClick={() => {
+              setLike(!like);
+              LikeMutate.mutate(detail.twitId);
+            }}
+          >
             {like ? (
-              <IoHeartOutline size="1.5rem" />
-            ) : (
               <IoHeart color="red" size="1.5rem" />
+            ) : (
+              <IoHeartOutline color="red" size="1.5rem" />
             )}
           </StyledIcon>
         </div>
@@ -121,7 +135,6 @@ const StyledIconDiv = styled.div`
 `;
 
 const StyledIcon = styled.span`
-  color: gray;
   width: 40px;
   height: 40px;
   display: flex;
