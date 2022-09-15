@@ -1,4 +1,4 @@
-# Twitter Clone
+# Twitter Clone - FE
 
 ![화면 캡처 2022-09-15 180012](https://user-images.githubusercontent.com/73919235/190458301-5dcdb62d-05b0-4239-ae60-337a6b5d5f2e.png)
 
