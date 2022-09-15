@@ -15,13 +15,12 @@ const Signup = () => {
   const passwordRef = useRef(null);
   const [haveName, setHaveName] = useState(true);
   const [countName, setCountName] = useState(0);
-  const [password, setPassword] = useState("");
   const [inputs, onChange] = useInput();
   const [dateChange, setDateChange] = useState("");
   const navigate = useNavigate();
 
   const signup = async (data) => {
-    await axios.post("http://15.164.229.25/api/member/signup", {
+    return await axios.post("http://15.164.229.25/api/member/signup", {
       userId: data.userId,
       nickname: data.nickname,
       password: data.password,
@@ -30,12 +29,16 @@ const Signup = () => {
   };
 
   const { mutate } = useMutation(signup, {
-    onSuccess: () => {
-      alert("가입을 환영합니다!");
-      navigate("/login");
+    onSuccess: (data) => {
+      if (data.data.success) {
+        alert("가입을 환영합니다!");
+        navigate("/login");
+      } else {
+        // alert(data.data.error.message);
+      }
     },
-    onError: () => {
-      alert("가입에 실패했습니다.");
+    onError: (error) => {
+      alert("가입에 실패했습니다");
     },
   });
 
@@ -306,6 +309,16 @@ const StyledSpan = styled.span`
 `;
 const StyledDesc = styled.span`
   font-size: 13px;
+`;
+
+const StyledDiv = styled.div`
+  position: fixed;
+  background-color: #1d9bf0;
+  bottom: 0px;
+  padding: 10px 0px 10px 20px;
+  max-height: 45px;
+  width: 100%;
+  color: white;
 `;
 
 export default Signup;

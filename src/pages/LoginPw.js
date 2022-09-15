@@ -17,6 +17,7 @@ const LoginPw = () => {
   const [showPassWord, setShowPassWord] = useState(false);
   const [inputs, onChange] = useInput();
   const [passwordCheck, setPasswordCheck] = useState(true);
+  const [hideBox, setHideBox] = useState(false);
 
   const passwordRef = useRef();
   const onLogin = async (data) => {
@@ -26,6 +27,12 @@ const LoginPw = () => {
     });
     return response;
   };
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      setHideBox(true);
+    }, 5000);
+  }, [hideBox]);
 
   const { mutate } = useMutation(onLogin, {
     onSuccess: ({ data, headers }) => {
@@ -37,6 +44,7 @@ const LoginPw = () => {
       } else {
         passwordRef.current.value = "";
         setPasswordCheck(false);
+        setHideBox(true);
       }
     },
     onError: () => {},
