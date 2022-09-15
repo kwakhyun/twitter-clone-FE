@@ -28,7 +28,7 @@ const OtherProfile = () => {
   );
   const otherProfile = getOtherProfile.data?.data.data;
   const otherMemberId = otherProfile?.memberId;
-
+  // console.log(otherProfile);
   const { data, isLoading, isError } = useQuery(
     ["getOtherTweets", otherMemberId],
     () => tweetAPI.getOtherTwit(otherMemberId)
@@ -37,7 +37,7 @@ const OtherProfile = () => {
 
   if (isLoading) return <div>Loading..</div>;
   if (isError) return <div>Error</div>;
-  console.log(otherTweets);
+
   const tabArray = [
     {
       key: "tweets",
@@ -84,7 +84,7 @@ const OtherProfile = () => {
             toggleMutation.mutate(otherMemberId);
           }}
         >
-          Following
+          {/* {otherProfile?.follow ? Following : UnFollowing} */}
         </StyledButton>
         <StyledInfo>
           <h3>{otherProfile?.nickname}</h3>
