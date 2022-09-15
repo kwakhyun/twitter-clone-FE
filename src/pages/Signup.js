@@ -83,10 +83,9 @@ const Signup = () => {
     }
   };
 
-  let now_utc = Date.now()
-  let timeOff = new Date().getTimezoneOffset()*60000;
-  let today = new Date(now_utc-timeOff).toISOString().split("T")[0];
-
+  let now_utc = Date.now();
+  let timeOff = new Date().getTimezoneOffset() * 60000;
+  let today = new Date(now_utc - timeOff).toISOString().split("T")[0];
 
   return (
     <>
@@ -148,13 +147,13 @@ const Signup = () => {
                   haveValue={havePassword}
                 />
                 <StyledEyeDiv
-              onClick={() => {
-                setShowPassWord(!showPassWord);
-              }}>
-              {showPassWord ? <FaRegEyeSlash /> : <FaRegEye />}
+                  onClick={() => {
+                    setShowPassWord(!showPassWord);
+                  }}
+                >
+                  {showPassWord ? <FaRegEyeSlash /> : <FaRegEye />}
                 </StyledEyeDiv>
               </div>
-
             </StyledPasswordDiv>
             <span className="check-message">8자 이상 입력해주세요</span>
           </StyledContainer>
@@ -165,7 +164,7 @@ const Signup = () => {
           </StyledDesc>
           <StyledInputContainer>
             <StyledInputSpan>생년월일</StyledInputSpan>
-            <StyledInput 
+            <StyledInput
               max={today}
               type="date"
               ref={dateRef}
@@ -306,11 +305,17 @@ const StyledPasswordDiv = styled.div`
   height: 55px;
   border: ${({ haveValue }) =>
     haveValue ? "1px solid rgb(214,218,227)" : "2px solid #f42a36"};
+  /* .password-span {
+    font-size: 1rem;
+    padding-top: 10px;
+  } */
   &:focus-within {
     border: ${({ haveValue }) =>
       haveValue ? "2px solid #1da1f2" : "2px solid #f42a36"};
+
     .password-span {
       color: ${({ haveValue }) => (haveValue ? "#1da1f2" : "#f42a36")};
+      padding-top: 0px;
       font-size: 0.8rem;
       margin-top: 8px;
       margin-left: 8px;
@@ -323,6 +328,18 @@ const StyledPasswordDiv = styled.div`
     font-size: 1rem;
     font-family: sans-serif;
     margin: 27px 0 0 5px;
+    &::placeholder-shown {
+      .password-span {
+        font-size: 1rem;
+        padding-top: 10px;
+      }
+    }
+    &:not(:placeholder-shown) {
+      + .password-span {
+        padding-top: 0px;
+        font-size: 0.8rem;
+      }
+    }
   }
 `;
 
@@ -341,6 +358,7 @@ const StyledPasswordSpan = styled.span`
   margin-left: 8px;
   font-size: ${({ haveValue }) => (haveValue ? "0.8rem" : "1rem")};
   transition: 0.2s;
+  z-index: 5;
 `;
 
 const StyledJoinButton = styled.button`
