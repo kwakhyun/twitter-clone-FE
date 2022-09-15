@@ -18,15 +18,15 @@ const AddButton = () => {
   );
 };
 
-export default AddButton;
 const StyledButtonContainer = styled.div`
   position: fixed;
   z-index: 2;
-  bottom: 100px;
+  bottom: 75px;
   right: 20px;
   box-shadow: 10px;
-  border-radius: 99999px;
+  border-radius: 50%;
   background-color: rgb(051, 153, 255, 1);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,6 +38,7 @@ const StyledButtonContainer = styled.div`
     background-color: rgb(051, 153, 225, 1);
   }
 `;
+
 const StlyedRelative = styled.div`
   position: relative;
   width: 60px;
@@ -52,8 +53,11 @@ const StyledP = styled.p`
   top: -18px;
   left: 12px;
 `;
+
 const StyledIcon = styled.div`
   position: absolute;
   top: 15px;
   left: 19px;
 `;
+
+export default AddButton;
