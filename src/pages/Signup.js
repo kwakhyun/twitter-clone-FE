@@ -14,12 +14,15 @@ const Signup = () => {
   const dateRef = useRef(null);
   const idRef = useRef(null);
   const passwordRef = useRef(null);
-  const [haveName, setHaveName] = useState(true);
+  const [haveName, setHaveName] = useState(false);
   const [countName, setCountName] = useState(0);
-  const [havePassword, setHavePassword] = useState(true);
+  const [havePassword, setHavePassword] = useState(false);
   const [inputs, onChange] = useInput();
   const [dateChange, setDateChange] = useState("");
   const [showPassWord, setShowPassWord] = useState(false);
+  const [checkName, setCheckName] = useState(true);
+  const [checkPassword, setCheckPassword] = useState(true);
+  // const [havdId, setHaveId] = useState(true);
   const navigate = useNavigate();
 
   const signup = async (data) => {
@@ -60,9 +63,11 @@ const Signup = () => {
     if (nameRef.current.value) {
       document.querySelector(".blank-message").style.display = "none";
       setHaveName(true);
+      setCheckName(true);
     } else {
       document.querySelector(".blank-message").style.display = "block";
       setHaveName(false);
+      setCheckName(false);
     }
     setCountName(nameRef.current.value.length);
   };
@@ -71,9 +76,11 @@ const Signup = () => {
     if (passwordRef.current.value.length >= 8) {
       document.querySelector(".check-message").style.display = "none";
       setHavePassword(true);
+      setCheckPassword(true);
     } else {
       document.querySelector(".check-message").style.display = "block";
       setHavePassword(false);
+      setCheckPassword(false);
     }
   };
 
@@ -103,7 +110,7 @@ const Signup = () => {
           <StyledTitleSpan>계정을 생성하세요</StyledTitleSpan>
 
           <StyledContainer>
-            <StyledNameDiv onClick={nameFocus} haveValue={haveName}>
+            <StyledNameDiv onClick={nameFocus} haveValue={checkName}>
               <StyledNameSpan className="name-span" haveValue={haveName}>
                 이름
               </StyledNameSpan>
@@ -130,7 +137,7 @@ const Signup = () => {
             />
           </StyledContainer>
           <StyledContainer>
-            <StyledPasswordDiv haveValue={havePassword}>
+            <StyledPasswordDiv haveValue={checkPassword}>
               <StyledPasswordSpan
                 className="password-span"
                 haveValue={havePassword}
@@ -193,7 +200,7 @@ const Signup = () => {
             mutate({
               nickname: nameRef.current.value,
               userId: inputs.userId,
-              password: inputs.password,
+              password: passwordRef.current.value,
               dateOfBirth: dateRef.current.value,
             });
           }}
