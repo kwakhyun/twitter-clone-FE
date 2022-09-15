@@ -3,18 +3,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import ProfileHeader from "../Header/ProfileHeader";
 import Footer from "../Footer/Footer";
 import AddButton from "../AddButton";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Tweets from "./Tweets";
 import Likes from "./Likes";
 import { BsCalendar3 } from "react-icons/bs";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { proflieAPI, tweetAPI, followAPI } from "../../shared/api";
-
+import { Modal } from "../index";
 const OtherProfile = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [tabIndex, setTabIndex] = useState(0);
-
+  const [deleteModal, setDeleteModal] = useState(false);
   const queryClient = useQueryClient();
   const toggleMutation = useMutation(followAPI.toggleFollow, {
     onSuccess: () => {
@@ -28,7 +28,7 @@ const OtherProfile = () => {
   );
   const otherProfile = getOtherProfile.data?.data.data;
   const otherMemberId = otherProfile?.memberId;
-  // console.log(otherProfile);
+
   const { data, isLoading, isError } = useQuery(
     ["getOtherTweets", otherMemberId],
     () => tweetAPI.getOtherTwit(otherMemberId)
@@ -79,13 +79,26 @@ const OtherProfile = () => {
         )}
 
         <StyledProfileImg src={otherProfile?.imageUrl} />
-        <StyledButton
-          onClick={() => {
-            toggleMutation.mutate(otherMemberId);
-          }}
-        >
-          {/* {otherProfile?.follow ? Following : UnFollowing} */}
-        </StyledButton>
+        {otherProfile?.following ? (
+          <StyledButton
+            following
+            onClick={() => {
+              setDeleteModal(true);
+            }}
+          >
+            Following
+          </StyledButton>
+        ) : (
+          <StyledButton
+            follow
+            onClick={() => {
+              toggleMutation.mutate(otherMemberId);
+            }}
+          >
+            Follow
+          </StyledButton>
+        )}
+
         <StyledInfo>
           <h3>{otherProfile?.nickname}</h3>
           <span>@{otherProfile?.userId}</span>
@@ -112,10 +125,58 @@ const OtherProfile = () => {
         </StyledTabDiv>
       </StyledContainer>
       <AddButton />
+      {deleteModal && (
+        <Modal closeModal={() => setDeleteModal(!deleteModal)}>
+          <ModalStyled>
+            <span>Unfollow @{otherProfile?.userId}</span>
+            <p>
+              Their Tweets will no longer show up in your home timeline. You can
+              still view their profile, unless their Tweets are protected.
+            </p>
+            <button
+              onClick={() => {
+                toggleMutation.mutate(otherMemberId);
+                setDeleteModal(!deleteModal);
+              }}
+            >
+              Unfollow
+            </button>
+          </ModalStyled>
+        </Modal>
+      )}
       <Footer />
     </>
   );
 };
+
+const ModalStyled = styled.div`
+  span {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  p {
+    font-size: 0.9rem;
+    margin-top: 4px;
+    margin-bottom: 20px;
+  }
+  button {
+    border: 1px solid rgb(220, 220, 220);
+    width: 100%;
+    height: 45px;
+    border: none;
+    border-radius: 12%/60%;
+    color: rgba(0, 0, 0, 0.7);
+    background-color: black;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    transition: 0.3s;
+    &:hover {
+      background-color: rgb(40, 40, 40);
+      cursor: pointer;
+    }
+  }
+`;
 
 const StyledContainer = styled.div`
   width: 100%;
@@ -137,20 +198,43 @@ const StyledProfileImg = styled.img`
 `;
 
 const StyledButton = styled.button`
-  width: 100px;
-  height: 30px;
+  width: 90px;
+  height: 35px;
   border-radius: 20px;
   border: 1px solid #ddd;
   background-color: white;
-  font-weight: bold;
+  font-weight: 600;
   position: absolute;
   top: 200px;
   right: 20px;
   cursor: pointer;
-  &:hover {
-    background-color: #1da1f2;
-    color: white;
-  }
+  transition: 0.3s;
+  ${props =>
+    props.following &&
+    css`
+      background-color: white;
+      color: black;
+      border: 1px solid rgb(150, 150, 150);
+      font-size: 0.9rem;
+      font-weight: 600;
+      &:hover {
+        background-color: rgb(250, 0, 0, 0.5);
+        color: white;
+        border: none;
+      }
+    `}
+  ${props =>
+    props.follow &&
+    css`
+      background-color: black;
+      color: white;
+      border: none;
+      font-size: 1rem;
+      &:hover {
+        background-color: rgb(40, 40, 40);
+        color: white;
+      }
+    `}
 `;
 
 const StyledInfo = styled.div`

@@ -7,7 +7,7 @@ import { AiOutlineRetweet } from "react-icons/ai";
 import { BiMessageRounded } from "react-icons/bi";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import { useMutation, useQueryClient } from "react-query";
-import { likeAPI, tweetAPI } from "../../shared/api";
+import { likeAPI, tweetAPI, retweetAPI } from "../../shared/api";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { getUserId } from "../../shared/storage";
 import { useEffect } from "react";
@@ -17,11 +17,13 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
 
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
+  const [retweet, setReTweet] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   let postedTime = PostedTime(tweet.createdAt);
 
   useEffect(() => {
     setLike(tweet.like);
+    setReTweet(tweet.retweet);
   }, []);
 
   const queryClient = useQueryClient();
@@ -33,6 +35,8 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
       setListTweet(deletedTweets);
     },
   });
+
+  const reTweetMutation = useMutation(retweetAPI.getReTwit);
 
   const { mutate } = useMutation(likeAPI.toggleLike, {
     onSuccess: () => {
@@ -99,8 +103,18 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
                 <StyledText fs="0.7rem">{tweet.commentCnt}</StyledText>
               </StyledDiv>
               <StyledDiv color="lightgreen">
-                <StyledIconBox backcolor="lightgreen">
-                  <AiOutlineRetweet size="1.3rem" />
+                <StyledIconBox
+                  backcolor="lightgreen"
+                  onClick={() => {
+                    setReTweet(!retweet);
+                    reTweetMutation.mutate(tweet.id);
+                  }}
+                >
+                  {retweet ? (
+                    <AiOutlineRetweet size="1.3rem" color="#00ba7c" />
+                  ) : (
+                    <AiOutlineRetweet size="1.3rem" />
+                  )}
                 </StyledIconBox>
                 <StyledText fs="0.7rem">{tweet?.retwitCnt}</StyledText>
               </StyledDiv>
