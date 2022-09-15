@@ -140,9 +140,9 @@ const StyledTopContainer = styled.div`
   align-items: center;
   justify-content: left;
   width: 100%;
-  padding: 10px 0 0 20px;
+  margin: 10px 0 0 10px;
   .bird {
-    margin-left: 35%;
+    margin-left: 37%;
   }
 `;
 const StyledxContainer = styled.div`

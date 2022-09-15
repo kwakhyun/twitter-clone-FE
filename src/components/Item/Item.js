@@ -29,7 +29,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
   const queryClient = useQueryClient();
   const deleteMutation = useMutation(tweetAPI.deleteTwit, {
     onSuccess: () => {
-      const deletedTweets = listTweet.filter(x => {
+      const deletedTweets = listTweet.filter((x) => {
         return x?.id !== tweet?.id;
       });
       setListTweet(deletedTweets);
@@ -68,13 +68,18 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
           <StyledDirectionBox direct="column">
             <StyledUserInfoBOx>
               <StyledDiv>
-                <StyledText fs="0.8rem" fw="bold">
+                <StyledText size="0.8rem" weight="bold">
                   {tweet.nickname}
                 </StyledText>
-                <StyledText fs="0.5rem">@999</StyledText>
-                <StyledText fs="0.5rem">_{postedTime}</StyledText>
+                <StyledText size="0.8rem" color="gray">
+                  @{tweet.userId}
+                </StyledText>
+                <StyledText size="0.8rem" color="gray">
+                  {" "}
+                  · {postedTime}
+                </StyledText>
               </StyledDiv>
-              <StyledText fs="1.3rem">
+              <StyledText size="1.3rem">
                 {myUserId === tweet.userId ? (
                   <RiDeleteBin6Line
                     onClick={() => {
@@ -100,7 +105,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
                     onClick={() => navigate(`/detail/${tweet.id}`)}
                   />
                 </StyledIconBox>
-                <StyledText fs="0.7rem">{tweet.commentCnt}</StyledText>
+                <StyledText size="0.7rem">{tweet.commentCnt}</StyledText>
               </StyledDiv>
               <StyledDiv color="lightgreen">
                 <StyledIconBox
@@ -116,7 +121,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
                     <AiOutlineRetweet size="1.3rem" />
                   )}
                 </StyledIconBox>
-                <StyledText fs="0.7rem">{tweet?.retwitCnt}</StyledText>
+                <StyledText size="0.7rem">{tweet?.retwitCnt}</StyledText>
               </StyledDiv>
               <StyledDiv color="lightpink">
                 <StyledIconBox
@@ -132,7 +137,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
                     <IoHeartOutline color="red" size="1.3rem" />
                   )}
                 </StyledIconBox>
-                <StyledText fs="0.7rem">{tweet.likeCnt}</StyledText>
+                <StyledText size="0.7rem">{tweet.likeCnt}</StyledText>
               </StyledDiv>
               <StyledDiv>
                 <StyledIconBox backcolor="skyblue">
@@ -220,7 +225,7 @@ const StlyedItemInnerContainer = styled.div`
 const StyledDirectionBox = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: ${props => props.direct};
+  flex-direction: ${(props) => props.direct};
 `;
 const StyledColuemLeft = styled.div`
   width: 13%;
@@ -241,15 +246,16 @@ const StyledDiv = styled.div`
   align-items: center;
   gap: 3px;
   &:hover {
-    color: ${props => props.color};
+    color: ${(props) => props.color};
     opacity: 1;
   }
 `;
 
 const StyledText = styled.span`
   box-sizing: border-box;
-  font-size: ${props => props.fs};
-  font-weight: ${props => props.fw};
+  color: ${({ color }) => color};
+  font-size: ${({ size }) => size};
+  font-weight: ${({ weight }) => weight};
 `;
 
 const StyledTwiteImage = styled.img`
@@ -265,7 +271,7 @@ const StlyedUserImage = styled.img`
   height: 45px;
   position: absolute;
   top: 10px;
-  left: -1px;
+  left: -5px;
 `;
 
 const StyledIconBox = styled.span`
@@ -276,7 +282,7 @@ const StyledIconBox = styled.span`
   justify-content: center;
   align-items: center;
   &:hover {
-    background-color: ${props => props.backcolor};
+    background-color: ${(props) => props.backcolor};
     border-radius: 9999px;
     color: black;
 

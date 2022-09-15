@@ -8,7 +8,7 @@ const First = () => {
 
   return (
     <>
-      <Container>
+      <StyledContainer>
         <FaTwitter color="#1d9bf0" size="40px" />
         <StyledP>지금 일어나고 있는 일</StyledP>
         <StyledSpan>오늘 트위터에 가입하세요.</StyledSpan>
@@ -22,7 +22,7 @@ const First = () => {
             </div>
           </a>
         </StyledButton>
-        
+
         <StyledDiv>
           <hr /> <StyledText>또는</StyledText>
         </StyledDiv>
@@ -35,7 +35,7 @@ const First = () => {
           border="#1d9bf0"
           color="white"
         >
-          아이디로 가입하기
+          가입하기
         </StyledButton>
         <StyledDesc>
           가입하시려면 <StyledDesc color="#1d9bf0">쿠키 사용</StyledDesc>을
@@ -53,7 +53,7 @@ const First = () => {
         >
           로그인
         </StyledButton>
-      </Container>
+      </StyledContainer>
       <StyledDiv2>
         <FaTwitter className="twitBird" />
         <img className="firstBg" alt="fisrtBg" src="img/firstBg.png" />
@@ -64,10 +64,10 @@ const First = () => {
 
 export default First;
 
-const Container = styled.div`
+const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 34px;
+  margin: 40px 10%;
   align-items: flex-start;
 `;
 
@@ -105,7 +105,7 @@ const StyledButton = styled.button`
   border-radius: 20px;
   font-size: 15px;
   font-weight: bold;
-  width: 90%;
+  width: 300px;
   height: 40px;
   color: ${(props) => props.color};
   background-color: ${(props) => props.bgcolor || "white"};

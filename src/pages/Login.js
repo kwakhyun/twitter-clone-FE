@@ -8,6 +8,7 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -54,13 +55,21 @@ const Login = () => {
           }}
           size="30px"
         />
-
         <FaTwitter className="bird" size="28px" color="#1d9bf0" />
       </StyledTopContainer>
 
       <StyledContainerBox>
         <StyledTitleDiv>트위터에 로그인하기</StyledTitleDiv>
-        <StyledButton>Google로 로그인하기</StyledButton>
+        <StyledButton>
+          <a href="http://ec2-15-164-229-25.ap-northeast-2.compute.amazonaws.com/google/login">
+            <div className="icon-box">
+              <div className="google-icon">
+                <FcGoogle size="1.2rem" />
+              </div>
+              <span>Google로 로그인하기</span>
+            </div>
+          </a>
+        </StyledButton>
         <StyledLineDiv>
           <hr />
           <StyledText>또는</StyledText>
@@ -115,9 +124,9 @@ const StyledTopContainer = styled.div`
   align-items: center;
   justify-content: left;
   width: 100%;
-  padding: 10px 0 0 20px;
+  margin: 10px 0 0 10px;
   .bird {
-    margin-left: 35%;
+    margin-left: 37%;
   }
 `;
 
@@ -139,6 +148,18 @@ const StyledButton = styled.button`
   height: 40px;
   color: ${(props) => props.color};
   background-color: ${(props) => props.bgcolor || "white"};
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  .icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .google-icon {
+      margin: 5px 5px 0 0;
+    }
+  }
 `;
 
 const StyledText = styled.span`
