@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BsArrowLeft } from "react-icons/bs";
+import { FaTwitter } from "react-icons/fa";
+import { Modal } from "../index";
 
 const ProfileHeader = ({ isEdit, profile, TweetCount }) => {
   const navigate = useNavigate();
+  const [logoutModal, setLogoutModal] = useState(false);
 
   return (
     <Wrap>
@@ -36,8 +39,45 @@ const ProfileHeader = ({ isEdit, profile, TweetCount }) => {
               </button>
             </StyledButton>
           </StyledHeader>
-        ) : null}
+        ) : (
+          <StyledHeader>
+            <StyledButton>
+              <button
+                className="logout"
+                onClick={() => {
+                  setLogoutModal(true);
+                }}
+              >
+                Log out
+              </button>
+            </StyledButton>
+          </StyledHeader>
+        )}
       </StlyedHeaderBox>
+
+      {logoutModal && (
+        <Modal closeModal={() => setLogoutModal(!logoutModal)}>
+          {/* <FaTwitter className="icon" size="2rem" color="#1d9bf0" /> */}
+          <ModalStyled>
+            <span>Log out of Twitter?</span>
+            <p>
+              You can always log back in at any time. If you just want to switch
+              accounts, you can do that by adding an existing account.
+            </p>
+            <button
+              onClick={() => {
+                localStorage.removeItem("user_id");
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("refresh_token");
+                navigate("/first");
+                setLogoutModal(!logoutModal);
+              }}
+            >
+              Log out
+            </button>
+          </ModalStyled>
+        </Modal>
+      )}
     </Wrap>
   );
 };
@@ -70,9 +110,15 @@ const StyledHeader = styled.div`
 const StyledButton = styled.div`
   cursor: pointer;
   font-size: 20px;
-  .arrow {
-  }
   .save {
+    font-weight: bold;
+    color: #fff;
+    background-color: #000;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 18px;
+  }
+  .logout {
     font-weight: bold;
     color: #fff;
     background-color: #000;
@@ -93,6 +139,35 @@ const StyledInfo = styled.div`
   .tweet {
     font-size: 12px;
     color: #8e8e8e;
+  }
+`;
+
+const ModalStyled = styled.div`
+  span {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  p {
+    font-size: 0.9rem;
+    margin-top: 4px;
+    margin-bottom: 20px;
+  }
+  button {
+    border: 1px solid rgb(220, 220, 220);
+    width: 100%;
+    height: 45px;
+    border: none;
+    border-radius: 12%/60%;
+    color: rgba(0, 0, 0, 0.7);
+    background-color: black;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    transition: 0.3s;
+    &:hover {
+      background-color: rgb(40, 40, 40);
+      cursor: pointer;
+    }
   }
 `;
 
