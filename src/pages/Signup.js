@@ -7,6 +7,7 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import useInput from "../hooks/useInput";
 import { useNavigate } from "react-router-dom";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
   const nameRef = useRef(null);
@@ -18,6 +19,7 @@ const Signup = () => {
   const [havePassword, setHavePassword] = useState(true);
   const [inputs, onChange] = useInput();
   const [dateChange, setDateChange] = useState("");
+  const [showPassWord, setShowPassWord] = useState(false);
   const navigate = useNavigate();
 
   const signup = async (data) => {
@@ -35,7 +37,7 @@ const Signup = () => {
         alert("가입을 환영합니다!");
         navigate("/login");
       } else {
-        // alert(data.data.error.message);
+        alert(data.data.error.message);
       }
     },
     onError: (error) => {
@@ -66,7 +68,7 @@ const Signup = () => {
   };
 
   const onChangePassword = () => {
-    if (passwordRef.current.value >= 8) {
+    if (passwordRef.current.value.length >= 8) {
       document.querySelector(".check-message").style.display = "none";
       setHavePassword(true);
     } else {
@@ -80,6 +82,12 @@ const Signup = () => {
       document.querySelector(".name-count").style.display = "none";
     }
   };
+
+  let now_utc = Date.now()
+  let timeOff = new Date().getTimezoneOffset()*60000;
+  let today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+
+
   return (
     <>
       <StyledTopContainer>
@@ -130,14 +138,23 @@ const Signup = () => {
               >
                 비밀번호
               </StyledPasswordSpan>
-              <Inputplaceholer
-                type="password"
-                ref={passwordRef}
-                onChange={onChangePassword}
-                name="password"
-                text="비밀번호"
-                haveValue={havePassword}
-              />
+              <div style={{ position: "relative" }}>
+                <input
+                  type={showPassWord ? "text" : "password"}
+                  ref={passwordRef}
+                  onChange={onChangePassword}
+                  name="password"
+                  text="비밀번호"
+                  haveValue={havePassword}
+                />
+                <StyledEyeDiv
+              onClick={() => {
+                setShowPassWord(!showPassWord);
+              }}>
+              {showPassWord ? <FaRegEyeSlash /> : <FaRegEye />}
+                </StyledEyeDiv>
+              </div>
+
             </StyledPasswordDiv>
             <span className="check-message">8자 이상 입력해주세요</span>
           </StyledContainer>
@@ -148,7 +165,8 @@ const Signup = () => {
           </StyledDesc>
           <StyledInputContainer>
             <StyledInputSpan>생년월일</StyledInputSpan>
-            <StyledInput
+            <StyledInput 
+              max={today}
               type="date"
               ref={dateRef}
               onChange={(e) => {
@@ -375,6 +393,12 @@ const StyledSpan = styled.span`
 `;
 const StyledDesc = styled.span`
   font-size: 13px;
+`;
+
+const StyledEyeDiv = styled.div`
+  position: absolute;
+  right: 5%;
+  bottom: 20%;
 `;
 
 export default Signup;
