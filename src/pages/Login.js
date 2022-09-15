@@ -7,11 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
   const [inputs, onChange] = useInput();
   const [idExist, setIdExist] = useState(true);
+  const [showBox, setShowBox] = useState(false);
 
   const idCheck = async (data) => {
     const response = await axios.post(
@@ -23,12 +25,18 @@ const Login = () => {
     return response;
   };
 
+  useEffect(() => {
+    let timer = setTimeout(() => setShowBox(false), 3000);
+    return () => clearTimeout(timer);
+  }, [showBox]);
+
   const { mutate } = useMutation(idCheck, {
     onSuccess: (response) => {
       if (response.data.success) {
         navigate("/loginpw", { state: inputs.userId });
       } else {
         setIdExist(false);
+        setShowBox(true);
       }
     },
     onError: (error) => {
@@ -81,7 +89,9 @@ const Login = () => {
         </span>
       </StyledContainerBox>
       {idExist ? null : (
-        <StyledDiv>죄송합니다. 해당 계정을 찾을 수 없습니다.</StyledDiv>
+        <StyledDiv showBox={showBox}>
+          죄송합니다. 해당 계정을 찾을 수 없습니다.
+        </StyledDiv>
       )}
     </StyledWrap>
   );
@@ -158,6 +168,7 @@ const StyledDiv = styled.div`
   max-height: 45px;
   width: 100%;
   color: white;
+  display: ${({ showBox }) => (showBox ? "block" : "none")};
 `;
 
 export default Login;
