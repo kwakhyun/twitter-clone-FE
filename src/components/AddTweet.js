@@ -129,7 +129,7 @@ const AddTweet = ({ tweet }) => {
           {attachment && (
             <ImageBoxStyled>
               <StlyedContentImage src={attachment} />
-              <ClearButtonStyled onClick={onClearPhot}>X</ClearButtonStyled>
+              <ClearButtonStyled onClick={onClearPhot}>⨉</ClearButtonStyled>
             </ImageBoxStyled>
           )}
           <Hrstyled />
@@ -280,7 +280,7 @@ const ImageBoxStyled = styled.div`
 const StlyedContentImage = styled.img`
   width: 100%;
   height: 100%;
-  border: 1px solid black;
+  border: none;
   border-radius: 20px;
 `;
 const ClearButtonStyled = styled.button`
@@ -291,7 +291,7 @@ const ClearButtonStyled = styled.button`
   height: 30px;
   border-radius: 9999px;
   color: white;
-  font-weight: bold;
+  font-size: 1rem;
   border: none;
   background-color: rgb(30, 30, 30, 0.6);
 `;
