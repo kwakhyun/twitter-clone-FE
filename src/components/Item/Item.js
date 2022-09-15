@@ -27,7 +27,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
   const queryClient = useQueryClient();
   const deleteMutation = useMutation(tweetAPI.deleteTwit, {
     onSuccess: () => {
-      const deletedTweets = listTweet.filter(x => {
+      const deletedTweets = listTweet.filter((x) => {
         return x?.id !== tweet?.id;
       });
       setListTweet(deletedTweets);
@@ -35,8 +35,8 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
   });
 
   const { mutate } = useMutation(likeAPI.toggleLike, {
-    onSuccess: data => {
-      const idx = listTweet.findIndex(x => x.id === tweet.id);
+    onSuccess: () => {
+      const idx = listTweet.findIndex((x) => x.id === tweet.id);
       const likeTweets = listTweet.map((x, i) =>
         i === idx ? { ...x, ...(x.like = !tweet.like) } : x
       );
@@ -49,7 +49,10 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
       <StlyedItemInnerContainer>
         <StyledDirectionBox>
           <StyledColuemLeft>
-            <StlyedUserImage src={tweet.userProfileImage} />
+            <StlyedUserImage
+              src={tweet.userProfileImage}
+              onClick={() => navigate(`/profile/${tweet.userId}`)}
+            />
           </StyledColuemLeft>
           <StyledDirectionBox direct="column">
             <StyledUserInfoBOx>
@@ -193,7 +196,7 @@ const StlyedItemInnerContainer = styled.div`
 const StyledDirectionBox = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: ${props => props.direct};
+  flex-direction: ${(props) => props.direct};
 `;
 const StyledColuemLeft = styled.div`
   width: 13%;
@@ -214,15 +217,15 @@ const StyledDiv = styled.div`
   align-items: center;
   gap: 3px;
   &:hover {
-    color: ${props => props.color};
+    color: ${(props) => props.color};
     opacity: 1;
   }
 `;
 
 const StyledText = styled.span`
   box-sizing: border-box;
-  font-size: ${props => props.fs};
-  font-weight: ${props => props.fw};
+  font-size: ${(props) => props.fs};
+  font-weight: ${(props) => props.fw};
 `;
 
 const StyledTwiteImage = styled.img`
@@ -249,7 +252,7 @@ const StyledIconBox = styled.span`
   justify-content: center;
   align-items: center;
   &:hover {
-    background-color: ${props => props.backcolor};
+    background-color: ${(props) => props.backcolor};
     border-radius: 9999px;
     color: black;
 

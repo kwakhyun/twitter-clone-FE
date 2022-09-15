@@ -22,7 +22,7 @@ const ProfileHeader = ({ isEdit, profile, TweetCount }) => {
               <h4>Edit profile</h4>
             ) : (
               <>
-                <span className="name">{profile.nickname}</span>
+                <span className="name">{profile?.nickname}</span>
                 <span className="tweet">{TweetCount} Tweets</span>
               </>
             )}

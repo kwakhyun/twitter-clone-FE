@@ -7,8 +7,10 @@ import { Layout, Signup, Login, LoginPw } from "./components";
 import First from "./pages/First";
 import Profile from "./pages/Profile";
 import EditProfile from "./components/profile/EditProfile";
+import OtherProfile from "./components/profile/OtherProfile";
 import Detail from "./pages/Detail";
 import AddTweet from "./components/AddTweet";
+import OAuth from "./pages/OAuth";
 
 function App() {
   const navigate = useNavigate();
@@ -29,8 +31,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/loginpw" element={<LoginPw />} />
+          <Route path="/oauth" element={<OAuth />} />
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:userid" element={<OtherProfile />} />
           <Route path="/editProfile" element={<EditProfile />} />
           <Route path="/addtweet" element={<AddTweet />} />
         </Routes>
