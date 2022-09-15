@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useMutation, useQueryClient } from "react-query";
 import { replyAPI } from "../shared/api";
@@ -8,6 +8,7 @@ import { IoImageOutline } from "react-icons/io5";
 
 const Reply = ({ detail }) => {
   const navigate = useNavigate();
+  const params = useParams();
   const value = useRef(null);
   const file = useRef(null);
   const reply = useRef(null);
@@ -77,7 +78,7 @@ const Reply = ({ detail }) => {
     onSuccess: (data) => {
       console.log(data);
       onReply();
-      queryClient.invalidateQueries("getDetail");
+      queryClient.invalidateQueries(["getDetail", params.id]);
     },
   });
 
