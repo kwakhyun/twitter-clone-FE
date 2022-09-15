@@ -29,9 +29,9 @@ const Infinite = ({ listTweet, fetching, fetchMoreData, setListTweet }) => {
   return (
     <StyledItemContainer>
       {tweetInfo &&
-        tweetInfo.map(post => (
+        tweetInfo.map((post, idx) => (
           <Item
-            key={post.id}
+            key={idx}
             tweet={post}
             setListTweet={setListTweet}
             listTweet={listTweet}

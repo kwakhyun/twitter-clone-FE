@@ -7,13 +7,20 @@ import styled from "styled-components";
 import Tweets from "./Tweets";
 import Likes from "./Likes";
 import { BsCalendar3 } from "react-icons/bs";
-import { useQuery } from "react-query";
-import { proflieAPI, tweetAPI } from "../../shared/api";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { proflieAPI, tweetAPI, followAPI } from "../../shared/api";
 
 const OtherProfile = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [tabIndex, setTabIndex] = useState(0);
+
+  const queryClient = useQueryClient();
+  const toggleMutation = useMutation(followAPI.toggleFollow, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("getOtherProfile");
+    },
+  });
 
   const getOtherProfile = useQuery(
     "getOtherProfile",
@@ -21,18 +28,16 @@ const OtherProfile = () => {
   );
   const otherProfile = getOtherProfile.data?.data.data;
   const otherMemberId = otherProfile?.memberId;
-  console.log(otherProfile);
-  console.log(otherMemberId);
 
   const { data, isLoading, isError } = useQuery(
     ["getOtherTweets", otherMemberId],
     () => tweetAPI.getOtherTwit(otherMemberId)
   );
   const otherTweets = data?.data.data;
-  console.log(otherTweets);
+
   if (isLoading) return <div>Loading..</div>;
   if (isError) return <div>Error</div>;
-
+  console.log(otherTweets);
   const tabArray = [
     {
       key: "tweets",
@@ -75,19 +80,11 @@ const OtherProfile = () => {
 
         <StyledProfileImg src={otherProfile?.imageUrl} />
         <StyledButton
-          onClick={() =>
-            navigate("/editProfile", {
-              state: {
-                backgroundImageUrl: otherProfile?.backgroundImageUrl,
-                imageUrl: otherProfile?.imageUrl,
-                nickname: otherProfile?.nickname,
-                bio: otherProfile?.bio,
-                birthDate: otherProfile?.dateOfBirth,
-              },
-            })
-          }
+          onClick={() => {
+            toggleMutation.mutate(otherMemberId);
+          }}
         >
-          Edit profile
+          Following
         </StyledButton>
         <StyledInfo>
           <h3>{otherProfile?.nickname}</h3>
@@ -103,7 +100,7 @@ const OtherProfile = () => {
 
         <StyledTabDiv>
           <StyledTab>
-            {tabArray.map((item) => {
+            {tabArray.map(item => {
               return (
                 <div key={item.key} className="tab">
                   {item.tab}

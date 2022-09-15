@@ -27,7 +27,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
   const queryClient = useQueryClient();
   const deleteMutation = useMutation(tweetAPI.deleteTwit, {
     onSuccess: () => {
-      const deletedTweets = listTweet.filter((x) => {
+      const deletedTweets = listTweet.filter(x => {
         return x?.id !== tweet?.id;
       });
       setListTweet(deletedTweets);
@@ -36,14 +36,21 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
 
   const { mutate } = useMutation(likeAPI.toggleLike, {
     onSuccess: () => {
-      const idx = listTweet.findIndex((x) => x.id === tweet.id);
-      const likeTweets = listTweet.map((x, i) =>
-        i === idx ? { ...x, ...(x.like = !tweet.like) } : x
-      );
-      setListTweet(likeTweets);
+      // const idx = listTweet.findIndex(x => x.id === tweet.id);
+      // const likeTweets = listTweet.map((x, i) =>
+      //   i === idx ? { ...x, ...(x.like = !tweet.like) } : x
+      // );
+      // setListTweet(likeTweets);
+      queryClient.invalidateQueries(["getTweets", tweet.page]);
     },
   });
-
+  const goProfile = () => {
+    if (myUserId === tweet.userId) {
+      navigate(`/profile`);
+    } else {
+      navigate(`/profile/${tweet.userId}`);
+    }
+  };
   return (
     <StyledItemContainer>
       <StlyedItemInnerContainer>
@@ -51,7 +58,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
           <StyledColuemLeft>
             <StlyedUserImage
               src={tweet.userProfileImage}
-              onClick={() => navigate(`/profile/${tweet.userId}`)}
+              onClick={() => goProfile()}
             />
           </StyledColuemLeft>
           <StyledDirectionBox direct="column">
@@ -84,7 +91,10 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
             <StyledUserInfoBOx>
               <StyledDiv color="skyblue">
                 <StyledIconBox backcolor="skyblue">
-                  <BiMessageRounded size="1.3rem" />
+                  <BiMessageRounded
+                    size="1.3rem"
+                    onClick={() => navigate(`/detail/${tweet.id}`)}
+                  />
                 </StyledIconBox>
                 <StyledText fs="0.7rem">{tweet.commentCnt}</StyledText>
               </StyledDiv>
@@ -196,7 +206,7 @@ const StlyedItemInnerContainer = styled.div`
 const StyledDirectionBox = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: ${(props) => props.direct};
+  flex-direction: ${props => props.direct};
 `;
 const StyledColuemLeft = styled.div`
   width: 13%;
@@ -217,15 +227,15 @@ const StyledDiv = styled.div`
   align-items: center;
   gap: 3px;
   &:hover {
-    color: ${(props) => props.color};
+    color: ${props => props.color};
     opacity: 1;
   }
 `;
 
 const StyledText = styled.span`
   box-sizing: border-box;
-  font-size: ${(props) => props.fs};
-  font-weight: ${(props) => props.fw};
+  font-size: ${props => props.fs};
+  font-weight: ${props => props.fw};
 `;
 
 const StyledTwiteImage = styled.img`
@@ -252,7 +262,7 @@ const StyledIconBox = styled.span`
   justify-content: center;
   align-items: center;
   &:hover {
-    background-color: ${(props) => props.backcolor};
+    background-color: ${props => props.backcolor};
     border-radius: 9999px;
     color: black;
 
