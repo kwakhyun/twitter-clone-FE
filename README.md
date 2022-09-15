@@ -1,4 +1,15 @@
+# Twitter Clone
+
 ![화면 캡처 2022-09-15 180012](https://user-images.githubusercontent.com/73919235/190458301-5dcdb62d-05b0-4239-ae60-337a6b5d5f2e.png)
+
+## 📢 프로젝트 소개
+트위터를 모바일 화면 기준으로 클론한 미니 프로젝트입니다.
+- [프로젝트 배포 URL](http://twitter-mini-clone.s3-website.ap-northeast-2.amazonaws.com/first)
+<br>
+
+## 🗓 프로젝트 기간
+- 2022.09.09 - 2022.09.15
+<br>
 
 ## Development scope
 
