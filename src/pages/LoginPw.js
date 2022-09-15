@@ -17,7 +17,7 @@ const LoginPw = () => {
   const [showPassWord, setShowPassWord] = useState(false);
   const [inputs, onChange] = useInput();
   const [passwordCheck, setPasswordCheck] = useState(true);
-  const [showBox, setShowBox] = useState(false);
+  const [hideBox, setHideBox] = useState(false);
 
   const passwordRef = useRef();
   const onLogin = async (data) => {
@@ -29,10 +29,11 @@ const LoginPw = () => {
   };
 
   useEffect(() => {
-    let timer = setTimeout(() => setShowBox(false), 3000);
-    return () => clearTimeout(timer);
-  }, [showBox]);
-  console.log(showBox);
+    let timer = setTimeout(() => {
+      setHideBox(true);
+    }, 5000);
+  }, [hideBox]);
+
   const { mutate } = useMutation(onLogin, {
     onSuccess: ({ data, headers }) => {
       if (data.success) {
@@ -43,7 +44,7 @@ const LoginPw = () => {
       } else {
         passwordRef.current.value = "";
         setPasswordCheck(false);
-        setShowBox(true);
+        setHideBox(true);
       }
     },
     onError: () => {},
@@ -110,9 +111,7 @@ const LoginPw = () => {
           </StyledSpan>
         </span>
       </StyledContainerBox>
-      {passwordCheck ? null : (
-        <StyledDiv showBox={showBox}>잘못된 비밀번호입니다.</StyledDiv>
-      )}
+      {passwordCheck ? null : <StyledDiv>잘못된 비밀번호입니다.</StyledDiv>}
     </StyledWrap>
   );
 };
@@ -179,7 +178,6 @@ const StyledDiv = styled.div`
   max-height: 45px;
   width: 100%;
   color: white;
-  display: ${({ showBox }) => (showBox ? "block" : "none")};
 `;
 
 const StyledEyeDiv = styled.div`

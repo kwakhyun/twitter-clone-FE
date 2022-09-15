@@ -22,7 +22,8 @@ const Signup = () => {
   const [showPassWord, setShowPassWord] = useState(false);
   const [checkName, setCheckName] = useState(true);
   const [checkPassword, setCheckPassword] = useState(true);
-  // const [havdId, setHaveId] = useState(true);
+  const [checkId, setCheckId] = useState(false);
+  const [haveId, setHaveId] = useState(false);
   const navigate = useNavigate();
 
   const signup = async (data) => {
@@ -40,7 +41,8 @@ const Signup = () => {
         alert("가입을 환영합니다!");
         navigate("/login");
       } else {
-        alert(data.data.error.message);
+        setCheckId(true);
+        document.querySelector(".idcheck-message").style.display = "block";
       }
     },
     onError: (error) => {
@@ -81,6 +83,14 @@ const Signup = () => {
       document.querySelector(".check-message").style.display = "block";
       setHavePassword(false);
       setCheckPassword(false);
+    }
+  };
+
+  const onChangeId = () => {
+    if (passwordRef.current.value) {
+      setHaveId(true);
+    } else {
+      setHaveId(false);
     }
   };
 
@@ -128,13 +138,19 @@ const Signup = () => {
           </StyledContainer>
 
           <StyledContainer>
-            <Inputplaceholer
-              onChange={onChange}
-              ref={idRef}
-              type="text"
-              name="userId"
-              text="사용자 아이디"
-            />
+            <StyledNicknameDiv haveValue={checkId}>
+              <StyledNicknameSpan className="id-span" haveValue={haveId}>
+                사용자 아이디
+              </StyledNicknameSpan>
+              <input
+                onChange={onChangeId}
+                ref={idRef}
+                type="text"
+                name="userId"
+                haveValue={haveId}
+              />
+            </StyledNicknameDiv>
+            <span className="idcheck-message">중복된 아이디입니다.</span>
           </StyledContainer>
           <StyledContainer>
             <StyledPasswordDiv haveValue={checkPassword}>
@@ -199,7 +215,7 @@ const Signup = () => {
           onClick={() => {
             mutate({
               nickname: nameRef.current.value,
-              userId: inputs.userId,
+              userId: idRef.current.value,
               password: passwordRef.current.value,
               dateOfBirth: dateRef.current.value,
             });
@@ -259,6 +275,61 @@ const StyledContainer = styled.div`
     font-size: 12px;
     font-weight: 500;
     padding-left: 10px;
+  }
+  .idcheck-message {
+    display: none;
+    color: #f42a36;
+    font-size: 12px;
+    font-weight: 500;
+    padding-left: 10px;
+  }
+`;
+
+const StyledNicknameDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0 0 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  height: 55px;
+  border: ${({ haveValue }) =>
+    haveValue ? "2px solid #f42a36" : "1px solid rgb(214,218,227)"};
+  /* .password-span {
+    font-size: 1rem;
+    padding-top: 10px;
+  } */
+  &:focus-within {
+    border: ${({ haveValue }) =>
+      haveValue ? "2px solid #f42a36" : "2px solid #1da1f2"};
+
+    .id-span {
+      color: ${({ haveValue }) => (haveValue ? "#f42a36" : "#1da1f2")};
+      padding-top: 0px;
+      font-size: 0.8rem;
+      margin-top: 8px;
+      margin-left: 8px;
+      transition: 0.2s;
+    }
+  }
+  input {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    font-family: sans-serif;
+    margin: 27px 0 0 5px;
+    &::placeholder-shown {
+      .password-span {
+        font-size: 1rem;
+        padding-top: 10px;
+      }
+    }
+    &:not(:placeholder-shown) {
+      + .password-span {
+        padding-top: 0px;
+        font-size: 0.8rem;
+      }
+    }
   }
 `;
 
@@ -358,6 +429,16 @@ const StyledNameSpan = styled.span`
   font-size: ${({ haveValue }) => (haveValue ? "0.8rem" : "1rem")};
   transition: 0.2s;
 `;
+
+const StyledNicknameSpan = styled.span`
+  color: gray;
+  position: absolute;
+  margin-top: ${({ haveValue }) => (haveValue ? "8px" : "16px")};
+  margin-left: 8px;
+  font-size: ${({ haveValue }) => (haveValue ? "0.8rem" : "1rem")};
+  transition: 0.2s;
+`;
+
 const StyledPasswordSpan = styled.span`
   color: gray;
   position: absolute;
