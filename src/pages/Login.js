@@ -77,7 +77,7 @@ const Login = () => {
         <StyledButton marginBottom="50px">비밀번호를 잊으셨나요?</StyledButton>
         <span className="desc">
           계정이 없으신가요?
-          <StyledSpan onClick={() => navigate("/signup")}>가입하기</StyledSpan>
+          <StyledSpan onClick={() => navigate("/signup")}> 가입하기</StyledSpan>
         </span>
       </StyledContainerBox>
       {idExist ? null : (
