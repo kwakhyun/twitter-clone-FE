@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ProfileHeader from "../Header/ProfileHeader";
 import Footer from "../Footer/Footer";
 import AddButton from "../AddButton";
@@ -10,8 +10,8 @@ import { BsCalendar3 } from "react-icons/bs";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { proflieAPI, tweetAPI, followAPI } from "../../shared/api";
 import { Modal } from "../index";
+
 const OtherProfile = () => {
-  const navigate = useNavigate();
   const params = useParams();
   const [tabIndex, setTabIndex] = useState(0);
   const [deleteModal, setDeleteModal] = useState(false);
