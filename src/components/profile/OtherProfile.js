@@ -1,28 +1,35 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import ProfileHeader from "../components/Header/ProfileHeader";
-import Footer from "../components/Footer/Footer";
-import AddButton from "../components/AddButton";
+import { useNavigate, useParams } from "react-router-dom";
+import ProfileHeader from "../Header/ProfileHeader";
+import Footer from "../Footer/Footer";
+import AddButton from "../AddButton";
 import styled from "styled-components";
-import Tweets from "../components/profile/Tweets";
-import Likes from "../components/profile/Likes";
+import Tweets from "./Tweets";
+import Likes from "./Likes";
 import { BsCalendar3 } from "react-icons/bs";
 import { useQuery } from "react-query";
-import { proflieAPI, tweetAPI } from "../shared/api";
+import { proflieAPI, tweetAPI } from "../../shared/api";
 
-const Profile = () => {
+const OtherProfile = () => {
   const navigate = useNavigate();
+  const params = useParams();
   const [tabIndex, setTabIndex] = useState(0);
 
-  const getProfile = useQuery("getProfile", proflieAPI.myProfile);
-  const profile = getProfile.data?.data.data;
-  const memberId = profile?.memberId;
+  const getOtherProfile = useQuery(
+    "getOtherProfile",
+    async () => await proflieAPI.otherProfile(params.userid)
+  );
+  const otherProfile = getOtherProfile.data?.data.data;
+  const otherMemberId = otherProfile?.memberId;
+  console.log(otherProfile);
+  console.log(otherMemberId);
 
   const { data, isLoading, isError } = useQuery(
-    "getMyTweets",
-    async () => await tweetAPI.getMyTwit()
+    ["getOtherTweets", otherMemberId],
+    () => tweetAPI.getOtherTwit(otherMemberId)
   );
-  const myTweets = data?.data.data;
+  const otherTweets = data?.data.data;
+  console.log(otherTweets);
   if (isLoading) return <div>Loading..</div>;
   if (isError) return <div>Error</div>;
 
@@ -37,7 +44,7 @@ const Profile = () => {
           Tweets
         </div>
       ),
-      content: <Tweets userId={profile.userId} tweets={myTweets} />,
+      content: <Tweets tweets={otherTweets} />,
     },
     {
       key: "likes",
@@ -49,16 +56,16 @@ const Profile = () => {
           Likes
         </div>
       ),
-      content: <Likes memberId={memberId} />,
+      content: <Likes memberId={otherMemberId} />,
     },
   ];
 
   return (
     <>
-      <ProfileHeader profile={profile} TweetCount={myTweets.length} />
+      <ProfileHeader profile={otherProfile} TweetCount={otherTweets.length} />
       <StyledContainer>
-        {profile?.backgroundImageUrl ? (
-          <StyledBackImg src={profile?.backgroundImageUrl} alt="img" />
+        {otherProfile?.backgroundImageUrl ? (
+          <StyledBackImg src={otherProfile?.backgroundImageUrl} alt="img" />
         ) : (
           <StyledBackImg
             src="https://cdn.pixabay.com/photo/2016/04/12/22/35/watercolour-1325656__480.jpg"
@@ -66,16 +73,16 @@ const Profile = () => {
           />
         )}
 
-        <StyledProfileImg src={profile?.imageUrl} />
+        <StyledProfileImg src={otherProfile?.imageUrl} />
         <StyledButton
           onClick={() =>
             navigate("/editProfile", {
               state: {
-                backgroundImageUrl: profile?.backgroundImageUrl,
-                imageUrl: profile?.imageUrl,
-                nickname: profile?.nickname,
-                bio: profile?.bio,
-                birthDate: profile?.dateOfBirth,
+                backgroundImageUrl: otherProfile?.backgroundImageUrl,
+                imageUrl: otherProfile?.imageUrl,
+                nickname: otherProfile?.nickname,
+                bio: otherProfile?.bio,
+                birthDate: otherProfile?.dateOfBirth,
               },
             })
           }
@@ -83,15 +90,15 @@ const Profile = () => {
           Edit profile
         </StyledButton>
         <StyledInfo>
-          <h3>{profile?.nickname}</h3>
-          <span>@{profile?.userId}</span>
-          <p>{profile?.bio}</p>
+          <h3>{otherProfile?.nickname}</h3>
+          <span>@{otherProfile?.userId}</span>
+          <p>{otherProfile?.bio}</p>
           <div className="join-date">
             <BsCalendar3 className="icon" />
-            <div>Joined {profile?.createdAt}</div>
+            <div>Joined {otherProfile?.createdAt}</div>
           </div>
-          <span className="follow">{profile?.followingCnt} Following</span>
-          <span className="follow">{profile?.followerCnt} Followers</span>
+          <span className="follow">{otherProfile?.followingCnt} Following</span>
+          <span className="follow">{otherProfile?.followerCnt} Followers</span>
         </StyledInfo>
 
         <StyledTabDiv>
@@ -192,4 +199,4 @@ const StyledTab = styled.div`
   }
 `;
 
-export default Profile;
+export default OtherProfile;
