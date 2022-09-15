@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BiMessageRounded } from "react-icons/bi";
 import { AiOutlineRetweet } from "react-icons/ai";
@@ -8,13 +9,17 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { tweetAPI } from "../shared/api";
 import { useMutation, useQueryClient } from "react-query";
 import { getUserId } from "../shared/storage";
+
 const ReplyItem = ({ reply }) => {
+  const navigate = useNavigate();
+  const params = useParams();
   const [like, setLike] = useState(false);
   const myUserId = getUserId();
+
   const queryClient = useQueryClient();
   const { mutate } = useMutation(tweetAPI.deleteTwit, {
     onSuccess: () => {
-      queryClient.invalidateQueries("getDetail");
+      queryClient.invalidateQueries(["getDetail", params.id]);
     },
   });
 
@@ -45,7 +50,11 @@ const ReplyItem = ({ reply }) => {
           Replying to
           <span> @{reply?.userId}</span>
         </span>
-        <p className="text">{reply?.content}</p>
+        <p className="text" onClick={() => navigate(`/detail/${reply.id}`)}>
+          {reply?.content}
+        </p>
+        {reply?.fileUrl ? <img src={reply?.fileUrl} alt="img" /> : null}
+
         <StyledIconDiv>
           <div>
             <StyledIcon color="skyblue">

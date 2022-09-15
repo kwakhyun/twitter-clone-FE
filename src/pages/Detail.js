@@ -10,21 +10,15 @@ const Detail = () => {
   const { id } = useParams();
 
   const { data, isLoading, error } = useQuery(
-    "getDetail",
+    ["getDetail", id],
     () => tweetAPI.getDetailTwit(id),
     {
       refetchOnWindowFocus: false,
     }
   );
   const detailData = data?.data.data;
-
-  if (isLoading) {
-    return <div>Loading..</div>;
-  }
-
-  if (error) {
-    return <div>ERROR!</div>;
-  }
+  if (isLoading) return <div>Loading..</div>;
+  if (error) return <div>Error</div>;
 
   return (
     <>

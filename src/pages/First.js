@@ -1,16 +1,28 @@
 import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 
 const First = () => {
   const navigate = useNavigate();
+
   return (
     <>
       <Container>
         <FaTwitter color="#1d9bf0" size="40px" />
         <StyledP>지금 일어나고 있는 일</StyledP>
         <StyledSpan>오늘 트위터에 가입하세요.</StyledSpan>
-        <StyledButton>Google 계정으로 가입하기</StyledButton>
+        <StyledButton>
+          <a href="http://ec2-15-164-229-25.ap-northeast-2.compute.amazonaws.com/google/login">
+            <div className="icon-box">
+              <div className="google-icon">
+                <FcGoogle size="1.2rem" />
+              </div>
+              <span>Google 계정으로 가입하기</span>
+            </div>
+          </a>
+        </StyledButton>
+        
         <StyledDiv>
           <hr /> <StyledText>또는</StyledText>
         </StyledDiv>
@@ -98,6 +110,18 @@ const StyledButton = styled.button`
   color: ${(props) => props.color};
   background-color: ${(props) => props.bgcolor || "white"};
   z-index: 3;
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  .icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .google-icon {
+      margin: 5px 5px 0 0;
+    }
+  }
 `;
 
 const StyledDesc = styled.span`

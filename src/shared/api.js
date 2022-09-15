@@ -37,7 +37,7 @@ export const accountAPI = {
 
 export const proflieAPI = {
   myProfile: () => api.get("/member/profile"),
-  otherProfile: (id) => api.get(`/member/profile/${id}`),
+  otherProfile: (user_id) => api.get(`/member/profile/${user_id}`),
   modify: (data) => api.put("/member/profile", data),
 };
 
@@ -48,7 +48,7 @@ export const tweetAPI = {
 
   getMyTwit: () => api.get(`/mytwit`),
   getLikeTiwt: (member_id) => api.get(`/likepage/${member_id}`),
-  getOtherTwit: (userid) => api.get(`/mytwit/${userid}`),
+  getOtherTwit: (member_id) => api.get(`/mytwit/${member_id}`),
 
   addTwit: (data) => api.post(`/twit`, data),
   deleteTwit: (twitid) => api.delete(`/twit/${twitid}`),
