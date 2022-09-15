@@ -80,9 +80,9 @@ const ReplyItem = ({ reply }) => {
               }}
             >
               {like ? (
-                <IoHeartOutline size="1.5rem" />
-              ) : (
                 <IoHeart color="red" size="1.5rem" />
+              ) : (
+                <IoHeartOutline color="red" size="1.5rem" />
               )}
             </StyledIcon>
           </div>
