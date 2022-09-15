@@ -7,6 +7,7 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import useInput from "../hooks/useInput";
 import { useNavigate } from "react-router-dom";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
   const nameRef = useRef(null);
@@ -15,8 +16,10 @@ const Signup = () => {
   const passwordRef = useRef(null);
   const [haveName, setHaveName] = useState(true);
   const [countName, setCountName] = useState(0);
+  const [havePassword, setHavePassword] = useState(true);
   const [inputs, onChange] = useInput();
   const [dateChange, setDateChange] = useState("");
+  const [showPassWord, setShowPassWord] = useState(false);
   const navigate = useNavigate();
 
   const signup = async (data) => {
@@ -34,7 +37,7 @@ const Signup = () => {
         alert("가입을 환영합니다!");
         navigate("/login");
       } else {
-        // alert(data.data.error.message);
+        alert(data.data.error.message);
       }
     },
     onError: (error) => {
@@ -64,11 +67,27 @@ const Signup = () => {
     setCountName(nameRef.current.value.length);
   };
 
+  const onChangePassword = () => {
+    if (passwordRef.current.value.length >= 8) {
+      document.querySelector(".check-message").style.display = "none";
+      setHavePassword(true);
+    } else {
+      document.querySelector(".check-message").style.display = "block";
+      setHavePassword(false);
+    }
+  };
+
   const onBlurName = () => {
     if (nameRef.current.value) {
       document.querySelector(".name-count").style.display = "none";
     }
   };
+
+  let now_utc = Date.now()
+  let timeOff = new Date().getTimezoneOffset()*60000;
+  let today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+
+
   return (
     <>
       <StyledTopContainer>
@@ -112,14 +131,32 @@ const Signup = () => {
             />
           </StyledContainer>
           <StyledContainer>
-            <Inputplaceholer
-              type="password"
-              ref={passwordRef}
-              onChange={onChange}
-              name="password"
-              text="비밀번호"
-            />
-            <StyledInputSpan>8자 이상이어야 합니다.</StyledInputSpan>
+            <StyledPasswordDiv haveValue={havePassword}>
+              <StyledPasswordSpan
+                className="password-span"
+                haveValue={havePassword}
+              >
+                비밀번호
+              </StyledPasswordSpan>
+              <div style={{ position: "relative" }}>
+                <input
+                  type={showPassWord ? "text" : "password"}
+                  ref={passwordRef}
+                  onChange={onChangePassword}
+                  name="password"
+                  text="비밀번호"
+                  haveValue={havePassword}
+                />
+                <StyledEyeDiv
+              onClick={() => {
+                setShowPassWord(!showPassWord);
+              }}>
+              {showPassWord ? <FaRegEyeSlash /> : <FaRegEye />}
+                </StyledEyeDiv>
+              </div>
+
+            </StyledPasswordDiv>
+            <span className="check-message">8자 이상 입력해주세요</span>
           </StyledContainer>
           <StyledSpan>생년월일</StyledSpan>
           <StyledDesc>
@@ -128,7 +165,8 @@ const Signup = () => {
           </StyledDesc>
           <StyledInputContainer>
             <StyledInputSpan>생년월일</StyledInputSpan>
-            <StyledInput
+            <StyledInput 
+              max={today}
               type="date"
               ref={dateRef}
               onChange={(e) => {
@@ -209,6 +247,13 @@ const StyledContainer = styled.div`
     font-weight: 500;
     padding-left: 10px;
   }
+  .check-message {
+    display: none;
+    color: #f42a36;
+    font-size: 12px;
+    font-weight: 500;
+    padding-left: 10px;
+  }
 `;
 
 const StyledNameDiv = styled.div`
@@ -251,7 +296,45 @@ const StyledNameDiv = styled.div`
   }
 `;
 
+const StyledPasswordDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0 0 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  height: 55px;
+  border: ${({ haveValue }) =>
+    haveValue ? "1px solid rgb(214,218,227)" : "2px solid #f42a36"};
+  &:focus-within {
+    border: ${({ haveValue }) =>
+      haveValue ? "2px solid #1da1f2" : "2px solid #f42a36"};
+    .password-span {
+      color: ${({ haveValue }) => (haveValue ? "#1da1f2" : "#f42a36")};
+      font-size: 0.8rem;
+      margin-top: 8px;
+      margin-left: 8px;
+      transition: 0.2s;
+    }
+  }
+  input {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    font-family: sans-serif;
+    margin: 27px 0 0 5px;
+  }
+`;
+
 const StyledNameSpan = styled.span`
+  color: gray;
+  position: absolute;
+  margin-top: ${({ haveValue }) => (haveValue ? "8px" : "16px")};
+  margin-left: 8px;
+  font-size: ${({ haveValue }) => (haveValue ? "0.8rem" : "1rem")};
+  transition: 0.2s;
+`;
+const StyledPasswordSpan = styled.span`
   color: gray;
   position: absolute;
   margin-top: ${({ haveValue }) => (haveValue ? "8px" : "16px")};
@@ -291,6 +374,7 @@ const StyledInputSpan = styled.span`
   width: 100%;
   z-index: 3;
 `;
+
 const StyledInput = styled.input`
   position: relative;
   margin: 0px;
@@ -311,14 +395,10 @@ const StyledDesc = styled.span`
   font-size: 13px;
 `;
 
-const StyledDiv = styled.div`
-  position: fixed;
-  background-color: #1d9bf0;
-  bottom: 0px;
-  padding: 10px 0px 10px 20px;
-  max-height: 45px;
-  width: 100%;
-  color: white;
+const StyledEyeDiv = styled.div`
+  position: absolute;
+  right: 5%;
+  bottom: 20%;
 `;
 
 export default Signup;
