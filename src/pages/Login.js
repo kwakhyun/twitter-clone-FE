@@ -124,7 +124,7 @@ const StyledTopContainer = styled.div`
   align-items: center;
   justify-content: left;
   width: 100%;
-  margin: 10px 0 0 10px;
+  margin: 10px 0 0 3%;
   .bird {
     margin-left: 37%;
   }

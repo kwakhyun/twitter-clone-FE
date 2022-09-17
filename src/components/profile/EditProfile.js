@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ProfileHeader from "../Header/ProfileHeader";
+import ProfileHeader from "../header/ProfileHeader";
 import styled from "styled-components";
 import { useMutation } from "react-query";
 import { proflieAPI } from "../../shared/api";

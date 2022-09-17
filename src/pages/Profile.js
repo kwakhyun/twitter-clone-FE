@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ProfileHeader from "../components/Header/ProfileHeader";
-import Footer from "../components/Footer/Footer";
+import ProfileHeader from "../components/header/ProfileHeader";
+import Footer from "../components/footer/Footer";
 import AddButton from "../components/AddButton";
 import styled from "styled-components";
 import Tweets from "../components/profile/Tweets";

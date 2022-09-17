@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import DetailHeader from "../components/Header/DetailHeader";
+import DetailHeader from "../components/header/DetailHeader";
 import Reply from "../detail/Reply";
 import Content from "../detail/Content";
 import { tweetAPI } from "../shared/api";

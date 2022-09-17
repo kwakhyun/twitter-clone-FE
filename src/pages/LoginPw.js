@@ -32,7 +32,7 @@ const LoginPw = () => {
     let timer = setTimeout(() => setShowBox(false), 3000);
     return () => clearTimeout(timer);
   }, [showBox]);
-  console.log(showBox);
+
   const { mutate } = useMutation(onLogin, {
     onSuccess: ({ data, headers }) => {
       if (data.success) {
@@ -46,7 +46,6 @@ const LoginPw = () => {
         setShowBox(true);
       }
     },
-    onError: () => {},
   });
 
   return (
@@ -63,7 +62,7 @@ const LoginPw = () => {
         <FaTwitter size="30px" color="#1d9bf0" />
       </StyledTopContainer>
 
-      <StyledContainerBox>
+      <StyledContainer>
         <StyledTitleDiv>비밀번호를 입력하세요.</StyledTitleDiv>
         <Inputplaceholer
           text="사용자 아이디"
@@ -89,7 +88,6 @@ const LoginPw = () => {
             {showPassWord ? <FaRegEyeSlash /> : <FaRegEye />}
           </StyledEyeDiv>
         </div>
-
         <StyledSpan>비밀번호 찾기</StyledSpan>
         <StyledButton
           disabled={!passwordRef.current?.value}
@@ -109,7 +107,7 @@ const LoginPw = () => {
             가입하기
           </StyledSpan>
         </span>
-      </StyledContainerBox>
+      </StyledContainer>
       {passwordCheck ? null : (
         <StyledDiv showBox={showBox}>잘못된 비밀번호입니다.</StyledDiv>
       )}
@@ -119,12 +117,12 @@ const LoginPw = () => {
 export default LoginPw;
 
 const StyledWrap = styled.div`
-  position: relative;
   width: 100vw;
+  position: relative;
   overflow: hidden;
 `;
 
-const StyledContainerBox = styled.div`
+const StyledContainer = styled.div`
   margin: 0px;
   padding: 30px 30px 0 30px;
   .desc {
@@ -138,9 +136,9 @@ const StyledContainerBox = styled.div`
 const StyledTopContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: left;
+  justify-content: flex-start;
   width: 100%;
-  margin: 10px 0 0 10px;
+  margin: 10px 0 0 3%;
   .bird {
     margin-left: 37%;
   }

@@ -30,8 +30,6 @@ function Modal(props) {
   );
 }
 
-export default Modal;
-
 const ModalStyled = styled.div`
   position: fixed;
   top: 0;
@@ -55,7 +53,7 @@ const ModalStyled = styled.div`
     border-radius: 20px;
     box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
   }
-
+  
   #modalCloseBtn {
     position: absolute;
     top: 215px;
@@ -75,4 +73,6 @@ const ModalStyled = styled.div`
       cursor: pointer;
     }
   }
-`;
+  `;
+
+export default Modal;
