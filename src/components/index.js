@@ -9,7 +9,7 @@ import AddButton from "./AddButton";
 import AddTweet from "./AddTweet";
 import LoginPw from "../pages/LoginPw";
 import InfiniteLanding from "./Item/InfiniteLading";
-import Modal from "./Modal/Modal";
+import Modal from "./modal/Modal";
 export {
   Modal,
   InfiniteLanding,

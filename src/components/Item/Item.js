@@ -11,7 +11,7 @@ import { likeAPI, tweetAPI, retweetAPI } from "../../shared/api";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { getUserId } from "../../shared/storage";
 import { useEffect } from "react";
-import Modal from "../Modal/Modal";
+import Modal from "../modal/Modal";
 const Item = ({ tweet, setListTweet, listTweet }) => {
   const myUserId = getUserId();
 
