@@ -37,7 +37,7 @@ const Profile = () => {
           Tweets
         </div>
       ),
-      content: <Tweets userId={profile.userId} tweets={myTweets} />,
+      content: <Tweets userId={profile?.userId} tweets={myTweets} />,
     },
     {
       key: "likes",
