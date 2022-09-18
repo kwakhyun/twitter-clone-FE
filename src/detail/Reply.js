@@ -26,57 +26,47 @@ const Reply = ({ detail }) => {
     setFocus(true);
   };
 
-  const checkValue = event => {
+  const checkValue = useCallback(() => {
     if (attachment === null && value.current.value === "") {
       setHaveValue(false);
     } else {
       setHaveValue(true);
     }
-    // if (event.target.value) {
-    //   setHaveValue(true);
-    // } else {
-    //   setHaveValue(false);
-    // }
-  };
+  }, [attachment, value]);
 
   useEffect(() => {
     if (value.current) {
       checkValue();
     }
-  }, [attachment, value.current]);
+  }, [checkValue]);
 
   const onReply = () => {
     value.current.value = "";
     idInfo.current.style.display = "none";
     fileInput.current.style.display = "none";
     value.current.style.height = "25px";
-    // reply.current.style.top = "20px";
+    reply.current.style.bottom = "17px";
     setFocus(false);
     setHaveValue(false);
     setAttachment(null);
   };
 
   // 입력창 높이 조절
-  const handleResizeHeight = useCallback(() => {
+  const handleResizeHeight = () => {
     if (value === null || value.current === null) return;
-
     value.current.style.height = "100px";
     value.current.style.height = value.current.scrollHeight + "px";
-
-    let buttonTop = attachment ? 300 : 75;
-    // reply.current.style.top = buttonTop + value.current.scrollHeight + "px";
-  }, [value, attachment]);
+  };
 
   // 이미지 파일 미리보기
   const onFileChange = () => {
     const fileReader = new FileReader();
-    fileReader.onloadend = finishedEvent => {
+    fileReader.onloadend = (finishedEvent) => {
       const fileUrl = finishedEvent.currentTarget.result;
       setAttachment(fileUrl);
     };
 
     fileReader.readAsDataURL(file.current.files[0]);
-    // reply.current.style.top = 300 + value.current.scrollHeight + "px";
   };
 
   // 이미지 파일 지우기
@@ -86,14 +76,13 @@ const Reply = ({ detail }) => {
 
   const queryClient = useQueryClient();
   const { mutate } = useMutation(replyAPI.addReply, {
-    onSuccess: data => {
-      console.log(data);
+    onSuccess: () => {
       onReply();
       queryClient.invalidateQueries(["getDetail", params.id]);
     },
   });
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append(
@@ -168,7 +157,7 @@ const Reply = ({ detail }) => {
         </StyledButton>
       </StyledForm>
 
-      {detail?.commentList.map(reply => {
+      {detail?.commentList.map((reply) => {
         return (
           <div key={reply.id}>
             <ReplyItem reply={reply} />

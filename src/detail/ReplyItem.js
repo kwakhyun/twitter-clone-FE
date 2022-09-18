@@ -27,7 +27,7 @@ const ReplyItem = ({ reply }) => {
 
   useEffect(() => {
     setLike(reply.like);
-  }, []);
+  }, [reply.like]);
 
   return (
     <StyledReply>

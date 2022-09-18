@@ -8,8 +8,11 @@ import { proflieAPI } from "../../shared/api";
 const EditProfile = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+
   const profileFile = useRef(null);
   const backgroundFile = useRef(null);
+  const [changeProfileImg, setChangeProfileImg] = useState(null);
+  const [changeBackgroundImg, setChangeBackgroundImg] = useState(null);
 
   const name = useRef(null);
   const [haveName, setHaveName] = useState(true);
@@ -29,6 +32,24 @@ const EditProfile = () => {
       setHaveBio(false);
     }
   }, []);
+
+  const onProfileFile = () => {
+    const fileReader = new FileReader();
+    fileReader.onloadend = (finishedEvent) => {
+      const fileUrl = finishedEvent.currentTarget.result;
+      setChangeProfileImg(fileUrl);
+    };
+    fileReader.readAsDataURL(profileFile.current.files[0]);
+  };
+
+  const onBackgroundFile = () => {
+    const fileReader = new FileReader();
+    fileReader.onloadend = (finishedEvent) => {
+      const fileUrl = finishedEvent.currentTarget.result;
+      setChangeBackgroundImg(fileUrl);
+    };
+    fileReader.readAsDataURL(backgroundFile.current.files[0]);
+  };
 
   const nameFocus = () => {
     name.current.focus();
@@ -100,19 +121,39 @@ const EditProfile = () => {
       <ProfileHeader isEdit={true} />
       <StyledContainer>
         {state?.backgroundImageUrl ? (
-          <StyledBackImg src={state?.backgroundImageUrl} alt="background-img" />
+          changeBackgroundImg ? (
+            <StyledBackImg src={changeBackgroundImg} />
+          ) : (
+            <StyledBackImg src={state?.backgroundImageUrl} />
+          )
+        ) : changeBackgroundImg ? (
+          <StyledBackImg src={changeBackgroundImg} />
         ) : (
           <StyledBackImg
             src="https://mblogthumb-phinf.pstatic.net/MjAxODAzMDNfMjU4/MDAxNTIwMDQxODA4Mjc0.gR3L5xx3IbpACbvRRF9j9xjJmO-EPAY35oF1AdBnDcog.WZyeqFi6cMmH-v-R-ec44Ny6ZgVyAJIYMT78p4Rxbkwg.PNG.osy2201/2_%2850%ED%8D%BC%EC%84%BC%ED%8A%B8_%ED%9A%8C%EC%83%89%29_%ED%9A%8C%EC%83%89_%EB%8B%A8%EC%83%89_%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B4_180303.png?type=w800"
-            alt="default_background_image"
+            alt="default-background-img"
           />
         )}
         <StyledBackLabel htmlFor="backgroundFile" />
+        <StyledInputHide
+          type="file"
+          id="backgroundFile"
+          ref={backgroundFile}
+          onChange={onBackgroundFile}
+        />
 
-        <StyledInputHide type="file" id="backgroundFile" ref={backgroundFile} />
-        <StyledProfileImg src={state?.imageUrl} alt="profile-img" />
+        {changeProfileImg ? (
+          <StyledProfileImg src={changeProfileImg} />
+        ) : (
+          <StyledProfileImg src={state?.imageUrl} alt="profile-img" />
+        )}
         <StyledProfileLabel htmlFor="profileFile" />
-        <StyledInputHide type="file" id="profileFile" ref={profileFile} />
+        <StyledInputHide
+          type="file"
+          id="profileFile"
+          ref={profileFile}
+          onChange={onProfileFile}
+        />
 
         <StyledNameDiv onClick={nameFocus} haveValue={haveName}>
           <StyledNameSpan className="name-span" haveValue={haveName}>

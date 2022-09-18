@@ -7,6 +7,7 @@ import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { likeAPI } from "../shared/api";
+
 const Content = ({ detail }) => {
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
@@ -16,7 +17,7 @@ const Content = ({ detail }) => {
 
   useEffect(() => {
     setLike(detail.like);
-  }, []);
+  }, [detail.like]);
 
   return (
     <StyledContainer>
