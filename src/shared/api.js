@@ -6,7 +6,7 @@ export const api = axios.create({
   withCredentials: true,
 });
 
-api.interceptors.request.use(config => {
+api.interceptors.request.use((config) => {
   const refreshToken = getRefreshToken();
   const accessToken = getAccessToken();
 
@@ -37,35 +37,35 @@ export const accountAPI = {
 
 export const proflieAPI = {
   myProfile: () => api.get("/member/profile"),
-  otherProfile: user_id => api.get(`/member/profile/${user_id}`),
-  modify: data => api.put("/member/profile", data),
+  otherProfile: (user_id) => api.get(`/member/profile/${user_id}`),
+  modify: (data) => api.put("/member/profile", data),
 };
 
 export const tweetAPI = {
-  getAllTwit: page => api.get(`/twit?page=${page}&size=${10}`),
-  getDetailTwit: twitid => api.get(`/twit/${twitid}`),
-  getParentTwit: twitid => api.get(`/twit/${twitid}/parent`),
+  getAllTwit: (page) => api.get(`/twit?page=${page}&size=${10}`),
+  getDetailTwit: (twitid) => api.get(`/twit/${twitid}`),
+  getParentTwit: (twitid) => api.get(`/twit/${twitid}/parent`),
 
   getMyTwit: () => api.get(`/mytwit`),
-  getLikeTiwt: member_id => api.get(`/likepage/${member_id}`),
-  getOtherTwit: member_id => api.get(`/mytwit/${member_id}`),
+  getLikeTiwt: (member_id) => api.get(`/likepage/${member_id}`),
+  getOtherTwit: (member_id) => api.get(`/mytwit/${member_id}`),
 
-  addTwit: data => api.post(`/twit`, data),
-  deleteTwit: twitid => api.delete(`/twit/${twitid}`),
+  addTwit: (data) => api.post(`/twit`, data),
+  deleteTwit: (twitid) => api.delete(`/twit/${twitid}`),
 };
 
 export const replyAPI = {
-  addReply: data => api.post(`/comment/${data.id}`, data.data),
+  addReply: (data) => api.post(`/comment/${data.id}`, data.data),
 };
 
 export const likeAPI = {
-  toggleLike: id => api.post(`/twitlike/${id}`),
+  toggleLike: (id) => api.post(`/twitlike/${id}`),
 };
 
 export const followAPI = {
-  toggleFollow: memberid => api.post(`/follow/${memberid}`),
+  toggleFollow: (memberid) => api.post(`/follow/${memberid}`),
 };
 
 export const retweetAPI = {
-  getReTwit: twitid => api.post(`/retwit/${twitid}`),
+  getReTwit: (twitid) => api.post(`/retwit/${twitid}`),
 };
