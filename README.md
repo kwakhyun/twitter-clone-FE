@@ -4,9 +4,8 @@
 
 ## 📢 프로젝트 소개
 트위터를 모바일 화면 기준으로 클론한 미니 프로젝트입니다.
-- [API 명세서](https://www.notion.so/d1761736f19246b88c50990a33d7dfe0)
+- [프로젝트 노션](https://www.notion.so/Twitter-Clone-b8616df6b1cf471ea9af6bb7078557e4)
 - [프로젝트 배포 URL](http://twitter-mini-clone.s3-website.ap-northeast-2.amazonaws.com/first)
-- [백엔드 Repo 주소](https://github.com/CloneCoding-Team4-BE/Twitter-Clone)
 <br>
 
 ## 🗓 프로젝트 기간
