@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
-import Home from "./pages/Home";
 import { Layout, Signup, Login, LoginPw } from "./components";
+import Home from "./pages/Home";
 import First from "./pages/First";
 import Profile from "./pages/Profile";
 import EditProfile from "./components/profile/EditProfile";
@@ -11,6 +10,7 @@ import OtherProfile from "./components/profile/OtherProfile";
 import Detail from "./pages/Detail";
 import AddTweet from "./components/AddTweet";
 import OAuth from "./pages/OAuth";
+import Follow from "./pages/Follow";
 
 function App() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ function App() {
     if (!localStorage.getItem("access_token")) {
       navigate("/first");
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -37,6 +37,7 @@ function App() {
           <Route path="/profile/:userid" element={<OtherProfile />} />
           <Route path="/editProfile" element={<EditProfile />} />
           <Route path="/addtweet" element={<AddTweet />} />
+          <Route path="/follow/:userid/:select" element={<Follow />} />
         </Routes>
       </Layout>
     </QueryClientProvider>

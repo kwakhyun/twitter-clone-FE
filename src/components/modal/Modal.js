@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-function Modal(props) {
-  function closeModal() {
+
+const Modal = (props) => {
+  const closeModal = () => {
     props.closeModal();
-  }
+  };
 
   useEffect(() => {
     document.body.style.cssText = `
@@ -19,18 +20,18 @@ function Modal(props) {
   }, []);
 
   return (
-    <ModalStyled onClick={closeModal}>
-      <div className="modalBody" onClick={e => e.stopPropagation()}>
+    <StyledModal onClick={closeModal}>
+      <div className="modalBody" onClick={(e) => e.stopPropagation()}>
         <button id="modalCloseBtn" onClick={closeModal}>
           Cancel
         </button>
         {props.children}
       </div>
-    </ModalStyled>
+    </StyledModal>
   );
-}
+};
 
-const ModalStyled = styled.div`
+const StyledModal = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -53,7 +54,7 @@ const ModalStyled = styled.div`
     border-radius: 20px;
     box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
   }
-  
+
   #modalCloseBtn {
     position: absolute;
     top: 215px;
@@ -73,6 +74,6 @@ const ModalStyled = styled.div`
       cursor: pointer;
     }
   }
-  `;
+`;
 
 export default Modal;
