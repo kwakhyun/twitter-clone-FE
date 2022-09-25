@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Item from "../Item/Item";
+import Item from "../item/Item";
 
 const Tweets = ({ tweets }) => {
   return (

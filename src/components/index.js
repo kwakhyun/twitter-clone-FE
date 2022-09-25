@@ -2,13 +2,13 @@
 import Layout from "./layout/Layout";
 import Header from "./header/Header";
 import Footer from "./footer/Footer";
-import Item from "./Item/Item";
+import Item from "./item/Item";
 import Signup from "../pages/Signup";
 import Login from "../pages/Login";
 import AddButton from "./AddButton";
 import AddTweet from "./AddTweet";
 import LoginPw from "../pages/LoginPw";
-import InfiniteLanding from "./Item/InfiniteLading";
+import InfiniteLanding from "./item/InfiniteLading";
 import Modal from "./modal/Modal";
 export {
   Modal,
