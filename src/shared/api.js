@@ -64,6 +64,8 @@ export const likeAPI = {
 
 export const followAPI = {
   toggleFollow: (memberid) => api.post(`/follow/${memberid}`),
+  getFollowing: (member_id) => api.get(`/member/profile/following/${member_id}`),
+  getFollowers: (member_id) => api.get(`/member/profile/follower/${member_id}`),
 };
 
 export const retweetAPI = {
