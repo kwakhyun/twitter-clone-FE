@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { followAPI } from "../../shared/api";
 import Modal from "../modal/Modal";
@@ -6,6 +7,7 @@ import { StyledUserDiv } from "./Followers";
 import { StyledModal } from "../profile/OtherProfile";
 
 const Following = ({ memberId }) => {
+  const navigate = useNavigate();
   const [unfollowUserId, setUnfollowUserId] = useState("");
   const [unfollowMemberId, setUnfollowMemberId] = useState("");
   const [unfollowModal, setUnfollowModal] = useState(false);
@@ -24,18 +26,23 @@ const Following = ({ memberId }) => {
 
   if (isLoading) return <div>Loading..</div>;
   if (isError) return <div>Error</div>;
-  console.log(following);
+
   return (
     <div>
       {following?.map((user) => {
         return (
           <StyledUserDiv key={user.uesrId}>
             {user.imageUrl ? (
-              <img src={user.imageUrl} alt="img" />
+              <img
+                src={user.imageUrl}
+                alt="img"
+                onClick={() => navigate(`/profile/${user.userId}`)}
+              />
             ) : (
               <img
                 src="https://twitterclone-bucket.s3.ap-northeast-2.amazonaws.com/dafault/twitterBasicImage.jpg"
                 alt="img"
+                onClick={() => navigate(`/profile/${user.userId}`)}
               />
             )}
             <div className="span-div">
