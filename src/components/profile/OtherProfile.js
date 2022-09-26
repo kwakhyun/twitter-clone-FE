@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ProfileHeader from "../header/ProfileHeader";
 import Footer from "../footer/Footer";
 import AddButton from "../AddButton";
@@ -13,14 +13,9 @@ import { Modal } from "../index";
 
 const OtherProfile = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const [tabIndex, setTabIndex] = useState(0);
   const [deleteModal, setDeleteModal] = useState(false);
-  const queryClient = useQueryClient();
-  const toggleMutation = useMutation(followAPI.toggleFollow, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("getOtherProfile");
-    },
-  });
 
   const getOtherProfile = useQuery(
     "getOtherProfile",
@@ -34,6 +29,15 @@ const OtherProfile = () => {
     () => tweetAPI.getOtherTwit(otherMemberId)
   );
   const otherTweets = data?.data.data;
+  const userId = otherProfile?.userId;
+
+  // follow, unfollow
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation(followAPI.toggleFollow, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("getOtherProfile");
+    },
+  });
 
   if (isLoading) return <div>Loading..</div>;
   if (isError) return <div>Error</div>;
@@ -92,7 +96,7 @@ const OtherProfile = () => {
           <StyledButton
             follow
             onClick={() => {
-              toggleMutation.mutate(otherMemberId);
+              mutate(otherMemberId);
             }}
           >
             Follow
@@ -101,14 +105,24 @@ const OtherProfile = () => {
 
         <StyledInfo>
           <h3>{otherProfile?.nickname}</h3>
-          <span>@{otherProfile?.userId}</span>
+          <span>@{userId}</span>
           <p>{otherProfile?.bio}</p>
           <div className="join-date">
             <BsCalendar3 className="icon" />
             <div>Joined {otherProfile?.createdAt}</div>
           </div>
-          <span className="follow">{otherProfile?.followingCnt} Following</span>
-          <span className="follow">{otherProfile?.followerCnt} Followers</span>
+          <span
+            className="follow"
+            onClick={() => navigate(`/follow/${userId}/following`)}
+          >
+            {otherProfile?.followingCnt} Following
+          </span>
+          <spans
+            className="follow"
+            onClick={() => navigate(`/follow/${userId}/followers`)}
+          >
+            {otherProfile?.followerCnt} Followers
+          </spans>
         </StyledInfo>
 
         <StyledTabDiv>
@@ -127,7 +141,7 @@ const OtherProfile = () => {
       <AddButton />
       {deleteModal && (
         <Modal closeModal={() => setDeleteModal(!deleteModal)}>
-          <ModalStyled>
+          <StyledModal>
             <span>Unfollow @{otherProfile?.userId}</span>
             <p>
               Their Tweets will no longer show up in your home timeline. You can
@@ -135,48 +149,19 @@ const OtherProfile = () => {
             </p>
             <button
               onClick={() => {
-                toggleMutation.mutate(otherMemberId);
+                mutate(otherMemberId);
                 setDeleteModal(!deleteModal);
               }}
             >
               Unfollow
             </button>
-          </ModalStyled>
+          </StyledModal>
         </Modal>
       )}
       <Footer />
     </>
   );
 };
-
-const ModalStyled = styled.div`
-  span {
-    font-size: 1.3rem;
-    font-weight: 600;
-  }
-  p {
-    font-size: 0.9rem;
-    margin-top: 4px;
-    margin-bottom: 20px;
-  }
-  button {
-    border: 1px solid rgb(220, 220, 220);
-    width: 100%;
-    height: 45px;
-    border: none;
-    border-radius: 12%/60%;
-    color: rgba(0, 0, 0, 0.7);
-    background-color: black;
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-    transition: 0.3s;
-    &:hover {
-      background-color: rgb(40, 40, 40);
-      cursor: pointer;
-    }
-  }
-`;
 
 const StyledContainer = styled.div`
   width: 100%;
@@ -277,6 +262,35 @@ const StyledTab = styled.div`
   .select {
     font-weight: bold;
     border-bottom: 3px solid #1d9bf0;
+  }
+`;
+
+export const StyledModal = styled.div`
+  span {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  p {
+    font-size: 0.9rem;
+    margin-top: 4px;
+    margin-bottom: 20px;
+  }
+  button {
+    border: 1px solid rgb(220, 220, 220);
+    width: 100%;
+    height: 45px;
+    border: none;
+    border-radius: 12%/60%;
+    color: rgba(0, 0, 0, 0.7);
+    background-color: black;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    transition: 0.3s;
+    &:hover {
+      background-color: rgb(40, 40, 40);
+      cursor: pointer;
+    }
   }
 `;
 

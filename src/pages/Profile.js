@@ -16,6 +16,7 @@ const Profile = () => {
 
   const getProfile = useQuery("getProfile", proflieAPI.myProfile);
   const profile = getProfile.data?.data.data;
+  const userId = profile?.userId;
   const memberId = profile?.memberId;
 
   const { data, isLoading, isError } = useQuery(
@@ -23,6 +24,7 @@ const Profile = () => {
     async () => await tweetAPI.getMyTwit()
   );
   const myTweets = data?.data.data;
+  
   if (isLoading) return <div>Loading..</div>;
   if (isError) return <div>Error</div>;
 
@@ -84,14 +86,24 @@ const Profile = () => {
         </StyledButton>
         <StyledInfo>
           <h3>{profile?.nickname}</h3>
-          <span>@{profile?.userId}</span>
+          <span>@{userId}</span>
           <p>{profile?.bio}</p>
           <div className="join-date">
             <BsCalendar3 className="icon" />
             <div>Joined {profile?.createdAt}</div>
           </div>
-          <span className="follow">{profile?.followingCnt} Following</span>
-          <span className="follow">{profile?.followerCnt} Followers</span>
+          <span
+            className="follow"
+            onClick={() => navigate(`/follow/${userId}/following`)}
+          >
+            {profile?.followingCnt} Following
+          </span>
+          <span
+            className="follow"
+            onClick={() => navigate(`/follow/${userId}/followers`)}
+          >
+            {profile?.followerCnt} Followers
+          </span>
         </StyledInfo>
 
         <StyledTabDiv>
