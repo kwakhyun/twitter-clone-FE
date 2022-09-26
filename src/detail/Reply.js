@@ -1,10 +1,10 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
-import { useMutation, useQueryClient } from "react-query";
-import { replyAPI } from "../shared/api";
-import ReplyItem from "./ReplyItem";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { proflieAPI, replyAPI } from "../shared/api";
 import { IoImageOutline } from "react-icons/io5";
+import ReplyItem from "./ReplyItem";
+import styled from "styled-components";
 
 const Reply = ({ detail }) => {
   const navigate = useNavigate();
@@ -105,6 +105,15 @@ const Reply = ({ detail }) => {
     });
   };
 
+  const { data, isLoading, error } = useQuery(
+    "getProfileData",
+    async () => await proflieAPI.otherProfile(localStorage.getItem("user_id"))
+  );
+  const myProfileImage = data?.data.data.imageUrl;
+
+  if (isLoading) return <div>Loading..</div>;
+  if (error) return <div>Error</div>;
+
   return (
     <StyledContainer>
       <StyledForm
@@ -119,9 +128,11 @@ const Reply = ({ detail }) => {
         </div>
         <div className="init-div">
           <img
-            onClick={() => navigate("/profile")}
-            src={detail?.userProfileImage}
-            alt="img"
+            onClick={() =>
+              navigate(`/profile/${localStorage.getItem("user_id")}`)
+            }
+            src={myProfileImage}
+            alt="profile"
           />
           <StyledTextarea
             ref={value}
@@ -170,7 +181,7 @@ const Reply = ({ detail }) => {
 
 const StyledContainer = styled.div`
   width: 100%;
-  height: 120vh;
+  margin-bottom: 100%;
 `;
 
 const StyledForm = styled.form`

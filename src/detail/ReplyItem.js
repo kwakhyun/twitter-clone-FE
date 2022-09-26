@@ -31,8 +31,11 @@ const ReplyItem = ({ reply }) => {
 
   return (
     <StyledReply>
-      <StyledProfileImg src={reply?.userProfileImage} alt="img" />
-
+      <StyledProfileImg
+        src={reply?.userProfileImage}
+        alt="profile"
+        onClick={() => navigate(`/profile/${reply?.userId}`)}
+      />
       <StyledReplyContent>
         <div className="user-info">
           <span>
