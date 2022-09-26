@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
   AddButton,
   Header,

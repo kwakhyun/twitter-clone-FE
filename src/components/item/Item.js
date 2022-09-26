@@ -14,9 +14,8 @@ import { useEffect } from "react";
 import Modal from "../modal/Modal";
 
 const Item = ({ tweet, setListTweet, listTweet }) => {
-  const myUserId = getUserId();
-
   const navigate = useNavigate();
+  const myUserId = getUserId();
   const [like, setLike] = useState(false);
   const [retweet, setReTweet] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -25,7 +24,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
   useEffect(() => {
     setLike(tweet.like);
     setReTweet(tweet.retweet);
-  }, []);
+  }, [tweet.like, tweet.retweet]);
 
   const queryClient = useQueryClient();
   const deleteMutation = useMutation(tweetAPI.deleteTwit, {
@@ -34,18 +33,18 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
         return x?.id !== tweet?.id;
       });
       setListTweet(deletedTweets);
+      queryClient.invalidateQueries("getTweets");
     },
   });
 
-  const reTweetMutation = useMutation(retweetAPI.getReTwit);
+  const reTweetMutation = useMutation(retweetAPI.getReTwit, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("getTweets", tweet.page);
+    },
+  });
 
   const { mutate } = useMutation(likeAPI.toggleLike, {
     onSuccess: () => {
-      // const idx = listTweet.findIndex(x => x.id === tweet.id);
-      // const likeTweets = listTweet.map((x, i) =>
-      //   i === idx ? { ...x, ...(x.like = !tweet.like) } : x
-      // );
-      // setListTweet(likeTweets);
       queryClient.invalidateQueries(["getTweets", tweet.page]);
     },
   });
@@ -57,10 +56,10 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
       navigate(`/profile/${tweet.userId}`);
     }
   };
-  
+
   return (
     <StyledItemContainer>
-      <StlyedItemInnerContainer>
+      <div className="inner">
         <StyledDirectionBox>
           <StyledColuemLeft>
             <StlyedUserImage
@@ -71,16 +70,18 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
           <StyledDirectionBox direct="column">
             <StyledUserInfoBOx>
               <StyledDiv>
-                <StyledText size="0.8rem" weight="bold">
-                  {tweet.nickname}
-                </StyledText>
-                <StyledText size="0.8rem" color="gray">
-                  @{tweet.userId}
-                </StyledText>
-                <StyledText size="0.8rem" color="gray">
-                  {" "}
-                  · {postedTime}
-                </StyledText>
+                <div className="text">
+                  <StyledText size="0.8rem" weight="bold">
+                    {tweet.nickname}
+                  </StyledText>
+                  <StyledText size="0.8rem" color="gray">
+                    @{tweet.userId}
+                  </StyledText>
+                  <StyledText size="0.8rem" color="gray">
+                    {" "}
+                    · {postedTime}
+                  </StyledText>
+                </div>
               </StyledDiv>
               <StyledText size="1.3rem">
                 {myUserId === tweet.userId ? (
@@ -95,7 +96,10 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
               </StyledText>
             </StyledUserInfoBOx>
 
-            <div onClick={() => navigate(`/detail/${tweet.id}`)}>
+            <div
+              className="content"
+              onClick={() => navigate(`/detail/${tweet.id}`)}
+            >
               <StyledText>{tweet.content}</StyledText>
               <StyledTwiteImage src={tweet.fileUrl} />
             </div>
@@ -150,7 +154,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
             </StyledUserInfoBOx>
           </StyledDirectionBox>
         </StyledDirectionBox>
-      </StlyedItemInnerContainer>
+      </div>
       {deleteModal && (
         <Modal closeModal={() => setDeleteModal(!deleteModal)}>
           <ModalStyled>
@@ -175,40 +179,8 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
   );
 };
 
-export default Item;
-
-const ModalStyled = styled.div`
-  span {
-    font-size: 1.3rem;
-    font-weight: 600;
-  }
-  p {
-    font-size: 0.9rem;
-    margin-top: 4px;
-    margin-bottom: 20px;
-  }
-  button {
-    border: 1px solid rgb(220, 220, 220);
-    width: 100%;
-    height: 45px;
-    border: none;
-    border-radius: 12%/60%;
-    color: rgba(0, 0, 0, 0.7);
-    background-color: rgb(230, 0, 0);
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-    transition: 0.3s;
-    &:hover {
-      background-color: rgb(210, 0, 0);
-      cursor: pointer;
-    }
-  }
-`;
-
 const StyledItemContainer = styled.div`
   width: 100%;
-
   border-top: 1px solid rgb(230, 230, 230);
   border-bottom: 1px solid rgb(230, 230, 230);
   margin: auto;
@@ -217,19 +189,23 @@ const StyledItemContainer = styled.div`
   &:hover {
     background-color: rgb(230, 230, 230, 0.3);
   }
+  .content {
+    margin-left: 10px;
+  }
+  .inner {
+    width: 90%;
+    margin: auto;
+    min-height: 80px;
+    position: relative;
+  }
 `;
-const StlyedItemInnerContainer = styled.div`
-  width: 90%;
 
-  margin: auto;
-  min-height: 80px;
-  position: relative;
-`;
 const StyledDirectionBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: ${(props) => props.direct};
 `;
+
 const StyledColuemLeft = styled.div`
   width: 13%;
 `;
@@ -251,6 +227,9 @@ const StyledDiv = styled.div`
   &:hover {
     color: ${(props) => props.color};
     opacity: 1;
+  }
+  .text {
+    margin-left: 3px;
   }
 `;
 
@@ -288,7 +267,37 @@ const StyledIconBox = styled.span`
     background-color: ${(props) => props.backcolor};
     border-radius: 9999px;
     color: black;
-
     opacity: 0.7;
   }
 `;
+
+const ModalStyled = styled.div`
+  span {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  p {
+    font-size: 0.9rem;
+    margin-top: 4px;
+    margin-bottom: 20px;
+  }
+  button {
+    border: 1px solid rgb(220, 220, 220);
+    width: 100%;
+    height: 45px;
+    border: none;
+    border-radius: 12%/60%;
+    color: rgba(0, 0, 0, 0.7);
+    background-color: rgb(230, 0, 0);
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    transition: 0.3s;
+    &:hover {
+      background-color: rgb(210, 0, 0);
+      cursor: pointer;
+    }
+  }
+`;
+
+export default Item;
