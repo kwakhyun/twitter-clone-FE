@@ -1,15 +1,13 @@
 import styled from "styled-components";
-import { FaTwitter } from "react-icons/fa";
-import { BsX } from "react-icons/bs";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { Inputplaceholer } from "../elem";
+import { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useMutation } from "react-query";
 import axios from "axios";
-import { useRef } from "react";
+import { useMutation } from "react-query";
+import { Inputplaceholer } from "../elem";
 import useInput from "../hooks/useInput";
-import { useEffect } from "react";
+import { BsX } from "react-icons/bs";
+import { FaTwitter } from "react-icons/fa";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const LoginPw = () => {
   const navigate = useNavigate();
@@ -154,7 +152,7 @@ const StyledTitleDiv = styled.div`
 const StyledButton = styled.button`
   border: none;
   padding: 0px;
-  margin-top: 140%;
+  margin-top: 55vh;
   margin-bottom: 15px;
   border-radius: 30px;
   font-size: 15px;

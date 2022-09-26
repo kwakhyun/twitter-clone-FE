@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { forwardRef } from "react";
 import styled from "styled-components";
-const Inputplaceholer = React.forwardRef((props, ref) => {
-  const InputRef = useRef(null);
+
+const Inputplaceholer = forwardRef((props, ref) => {
   return (
     <WrapStyled>
       <StyledDiv>
@@ -14,13 +14,11 @@ const Inputplaceholer = React.forwardRef((props, ref) => {
           defaultValue={props.defaultValue}
           disabled={props.disabled}
         ></IdInput>
-        <Labelstlyed>{props.text}</Labelstlyed>
+        <StyledSpan>{props.text}</StyledSpan>
       </StyledDiv>
     </WrapStyled>
   );
 });
-export default Inputplaceholer;
-// export default forwardRef(Inputplaceholer); 에러 발생으로 주석처리
 
 const IdInput = styled.input`
   margin: 20px 0 0 0;
@@ -34,17 +32,15 @@ const IdInput = styled.input`
   &:disabled {
     background-color: rgb(210, 210, 210, 0.3);
   }
-
   &::placeholder {
     color: transparent;
   }
-
   &:not(:placeholder-shown) {
     outline: none;
     + span {
       position: absolute;
-      top: 30%;
-      left: 3%;
+      top: 35%;
+      left: 10px;
       pointer-events: none;
       font-size: 0.8rem;
       transition: all 0.2s ease;
@@ -56,11 +52,10 @@ const IdInput = styled.input`
   &:focus {
     outline: none;
     border: 2px solid #1d9bf0;
-
     + span {
       position: absolute;
-      top: 30%;
-      left: 3%;
+      top: 35%;
+      left: 10px;
       color: #1d9bf0;
       pointer-events: none;
       font-size: 0.8rem;
@@ -79,10 +74,10 @@ const StyledDiv = styled.div`
   margin: auto;
 `;
 
-const Labelstlyed = styled.span`
+const StyledSpan = styled.span`
   position: absolute;
   top: 50%;
-  left: 3%;
+  left: 10px;
   z-index: -1;
   color: #536471;
   transition: all 0.2s ease;
@@ -95,3 +90,5 @@ const WrapStyled = styled.div`
   width: 100%;
   margin: auto;
 `;
+
+export default Inputplaceholer;
