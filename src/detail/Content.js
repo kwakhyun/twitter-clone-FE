@@ -23,9 +23,9 @@ const Content = ({ detail }) => {
     <StyledContainer>
       <StyledUserInfo>
         <img
-          onClick={() => navigate("/profile")}
+          onClick={() => navigate(`/profile/${detail.userId}`)}
           src={detail?.userProfileImage}
-          alt="img"
+          alt="profile"
         />
         <div>
           <h4>{detail?.nickname}</h4>
