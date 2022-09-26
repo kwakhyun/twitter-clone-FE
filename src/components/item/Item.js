@@ -12,6 +12,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { getUserId } from "../../shared/storage";
 import { useEffect } from "react";
 import Modal from "../modal/Modal";
+
 const Item = ({ tweet, setListTweet, listTweet }) => {
   const myUserId = getUserId();
 
@@ -48,6 +49,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
       queryClient.invalidateQueries(["getTweets", tweet.page]);
     },
   });
+
   const goProfile = () => {
     if (myUserId === tweet.userId) {
       navigate(`/profile`);
@@ -55,6 +57,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
       navigate(`/profile/${tweet.userId}`);
     }
   };
+  
   return (
     <StyledItemContainer>
       <StlyedItemInnerContainer>

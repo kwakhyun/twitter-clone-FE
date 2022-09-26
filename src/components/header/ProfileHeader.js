@@ -40,18 +40,20 @@ const ProfileHeader = ({ isEdit, profile, TweetCount }) => {
             </StyledButton>
           </StyledHeader>
         ) : (
-          <StyledHeader>
-            <StyledButton>
-              <button
-                className="logout"
-                onClick={() => {
-                  setLogoutModal(true);
-                }}
-              >
-                Log out
-              </button>
-            </StyledButton>
-          </StyledHeader>
+          localStorage.getItem("user_id") === profile?.userId && (
+            <StyledHeader>
+              <StyledButton>
+                <button
+                  className="logout"
+                  onClick={() => {
+                    setLogoutModal(true);
+                  }}
+                >
+                  Log out
+                </button>
+              </StyledButton>
+            </StyledHeader>
+          )
         )}
       </StlyedHeaderBox>
 
