@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import Item from "./Item";
 import styled from "styled-components";
 
-const Infinite = ({ listTweet, fetching, fetchMoreData, setListTweet }) => {
+const Infinite = ({ tweetList, setTweetList, fetching, fetchMoreData }) => {
   const [tweetInfo, setPostInfo] = useState([]);
 
   useEffect(() => {
-    setPostInfo(listTweet);
-  }, [listTweet]);
+    setPostInfo(tweetList);
+  }, [tweetList]);
 
   const handleScroll = () => {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
-    // console.log(scrollHeight, scrollTop, clientHeight);
+    
     if (scrollTop + 0.4 + clientHeight >= scrollHeight && fetching === false) {
       fetchMoreData();
     }
@@ -29,19 +29,18 @@ const Infinite = ({ listTweet, fetching, fetchMoreData, setListTweet }) => {
   return (
     <StyledItemContainer>
       {tweetInfo &&
-        tweetInfo.map((post, idx) => (
+        tweetInfo.map((tweet, idx) => (
           <Item
             key={idx}
-            tweet={post}
-            setListTweet={setListTweet}
-            listTweet={listTweet}
+            tweet={tweet}
+            tweetList={tweetList}
+            setTweetList={setTweetList}
           />
         ))}
     </StyledItemContainer>
   );
 };
 
-export default Infinite;
 const StyledItemContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,3 +48,5 @@ const StyledItemContainer = styled.div`
   height: 100%;
   margin: 50px auto 50px auto;
 `;
+
+  export default Infinite;

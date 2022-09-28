@@ -1,51 +1,53 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { PostedTime } from "../../hooks/PostedTime";
+import { PostedTime } from "../../hooks/postedTime";
 import { BsBoxArrowUp } from "react-icons/bs";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { BiMessageRounded } from "react-icons/bi";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { likeAPI, tweetAPI, retweetAPI } from "../../shared/api";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { getUserId } from "../../shared/storage";
 import { useEffect } from "react";
 import Modal from "../modal/Modal";
 
-const Item = ({ tweet, setListTweet, listTweet }) => {
+const Item = ({ tweet, tweetList, setTweetList }) => {
   const navigate = useNavigate();
   const myUserId = getUserId();
   const [like, setLike] = useState(false);
-  const [retweet, setReTweet] = useState(false);
+  const [retweet, setRetweet] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   let postedTime = PostedTime(tweet.createdAt);
 
   useEffect(() => {
     setLike(tweet.like);
-    setReTweet(tweet.retweet);
+    setRetweet(tweet.retweet);
   }, [tweet.like, tweet.retweet]);
 
-  const queryClient = useQueryClient();
-  const deleteMutation = useMutation(tweetAPI.deleteTwit, {
+  const deleteTweet = useMutation(tweetAPI.deleteTwit, {
     onSuccess: () => {
-      const deletedTweets = listTweet.filter((x) => {
-        return x?.id !== tweet?.id;
+      const deletedTweets = tweetList.filter((item) => {
+        return item?.id !== tweet?.id;
       });
-      setListTweet(deletedTweets);
-      queryClient.invalidateQueries("getTweets");
+      setTweetList(deletedTweets);
     },
   });
 
-  const reTweetMutation = useMutation(retweetAPI.getReTwit, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("getTweets", tweet.page);
+  const retweetMutate = useMutation(retweetAPI.getReTwit, {
+    onSuccess: ({ data }) => {
+      const state = data?.data.slice(5, 7);
+      if (state === "등록") tweet.retwitCnt += 1;
+      else if (state === "취소") tweet.retwitCnt -= 1;
     },
   });
 
-  const { mutate } = useMutation(likeAPI.toggleLike, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["getTweets", tweet.page]);
+  const likeMutate = useMutation(likeAPI.toggleLike, {
+    onSuccess: ({ data }) => {
+      const state = data?.data.slice(5, 7);
+      if (state === "등록") tweet.likeCnt += 1;
+      else if (state === "취소") tweet.likeCnt -= 1;
     },
   });
 
@@ -118,8 +120,8 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
                 <StyledIconBox
                   backcolor="lightgreen"
                   onClick={() => {
-                    setReTweet(!retweet);
-                    reTweetMutation.mutate(tweet.id);
+                    setRetweet(!retweet);
+                    retweetMutate.mutate(tweet.id);
                   }}
                 >
                   {retweet ? (
@@ -135,7 +137,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
                   backcolor="lightpink"
                   onClick={() => {
                     setLike(!like);
-                    mutate(tweet.id);
+                    likeMutate.mutate(tweet.id);
                   }}
                 >
                   {like ? (
@@ -144,7 +146,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
                     <IoHeartOutline color="red" size="1.3rem" />
                   )}
                 </StyledIconBox>
-                <StyledText size="0.7rem">{tweet.likeCnt}</StyledText>
+                <StyledText size="0.7rem">{tweet?.likeCnt}</StyledText>
               </StyledDiv>
               <StyledDiv>
                 <StyledIconBox backcolor="skyblue">
@@ -166,7 +168,7 @@ const Item = ({ tweet, setListTweet, listTweet }) => {
             </p>
             <button
               onClick={() => {
-                deleteMutation.mutate(tweet?.id);
+                deleteTweet.mutate(tweet?.id);
                 setDeleteModal(!deleteModal);
               }}
             >

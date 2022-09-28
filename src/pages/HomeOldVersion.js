@@ -4,11 +4,10 @@ import {
   AddButton,
   Header,
   Footer,
-  Item,
   InfiniteLanding,
 } from "../components";
 
-const Mainpage = () => {
+const Home = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -27,4 +26,4 @@ const Mainpage = () => {
   );
 };
 
-export default Mainpage;
+export default Home;
