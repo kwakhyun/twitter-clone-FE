@@ -7,7 +7,7 @@ import {
   InfiniteLanding,
 } from "../components";
 
-const Home = () => {
+const HomeOld = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -26,4 +26,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeOld;

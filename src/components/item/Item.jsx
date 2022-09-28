@@ -6,14 +6,14 @@ import { BsBoxArrowUp } from "react-icons/bs";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { BiMessageRounded } from "react-icons/bi";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { likeAPI, tweetAPI, retweetAPI } from "../../shared/api";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { getUserId } from "../../shared/storage";
 import { useEffect } from "react";
 import Modal from "../modal/Modal";
 
-const Item = ({ tweet, tweetList, setTweetList }) => {
+const Item = ({ tweet }) => {
   const navigate = useNavigate();
   const myUserId = getUserId();
   const [like, setLike] = useState(false);
@@ -26,28 +26,29 @@ const Item = ({ tweet, tweetList, setTweetList }) => {
     setRetweet(tweet.retweet);
   }, [tweet.like, tweet.retweet]);
 
+  const queryClient = useQueryClient();
+
   const deleteTweet = useMutation(tweetAPI.deleteTwit, {
     onSuccess: () => {
-      const deletedTweets = tweetList.filter((item) => {
-        return item?.id !== tweet?.id;
-      });
-      setTweetList(deletedTweets);
+      queryClient.invalidateQueries("getTweetPage");
     },
   });
 
   const retweetMutate = useMutation(retweetAPI.getReTwit, {
     onSuccess: ({ data }) => {
-      const state = data?.data.slice(5, 7);
-      if (state === "등록") tweet.retwitCnt += 1;
-      else if (state === "취소") tweet.retwitCnt -= 1;
+      // const state = data?.data.slice(5, 7);
+      // if (state === "등록") tweet.retwitCnt += 1;
+      // else if (state === "취소") tweet.retwitCnt -= 1;
+      queryClient.invalidateQueries("getTweetPage");
     },
   });
 
   const likeMutate = useMutation(likeAPI.toggleLike, {
     onSuccess: ({ data }) => {
-      const state = data?.data.slice(5, 7);
-      if (state === "등록") tweet.likeCnt += 1;
-      else if (state === "취소") tweet.likeCnt -= 1;
+      // const state = data?.data.slice(5, 7);
+      // if (state === "등록") tweet.likeCnt += 1;
+      // else if (state === "취소") tweet.likeCnt -= 1;
+      queryClient.invalidateQueries("getTweetPage");
     },
   });
 

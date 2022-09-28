@@ -6,7 +6,7 @@ const FollowHeader = ({ nickname, userId }) => {
   const navigate = useNavigate();
 
   return (
-    <Wrap>
+    <StyledWrap>
       <StlyedHeaderBox>
         <StyledHeader>
           <StyledButton>
@@ -18,11 +18,11 @@ const FollowHeader = ({ nickname, userId }) => {
           </StyledInfo>
         </StyledHeader>
       </StlyedHeaderBox>
-    </Wrap>
+    </StyledWrap>
   );
 };
 
-const Wrap = styled.div`
+const StyledWrap = styled.div`
   position: fixed;
   top: 0px;
   left: 0px;

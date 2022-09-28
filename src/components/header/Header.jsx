@@ -10,7 +10,7 @@ const Header = () => {
   const { data } = useQuery("getProfile", proflieAPI.myProfile);
   const profile = data?.data.data;
   return (
-    <Wrap>
+    <StyledWrap>
       <StlyedHeaderBox>
         <StyledHeader>
           <StlyedUserImage
@@ -23,11 +23,11 @@ const Header = () => {
           <FaTwitter size="25px" color="rgb(051,153,255,0.9)" />
         </StyledHeader>
       </StlyedHeaderBox>
-    </Wrap>
+    </StyledWrap>
   );
 };
 
-const Wrap = styled.div`
+const StyledWrap = styled.div`
   position: fixed;
   top: 0px;
   left: 0px;
@@ -35,6 +35,7 @@ const Wrap = styled.div`
   max-height: 50px;
   z-index: 2;
 `;
+
 const StlyedHeaderBox = styled.div`
   display: flex;
   align-items: center;
