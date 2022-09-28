@@ -9,7 +9,7 @@ const ProfileHeader = ({ isEdit, profile, TweetCount }) => {
   const [logoutModal, setLogoutModal] = useState(false);
 
   return (
-    <Wrap>
+    <StyledWrap>
       <StlyedHeaderBox>
         <StyledHeader>
           <StyledButton>
@@ -79,11 +79,11 @@ const ProfileHeader = ({ isEdit, profile, TweetCount }) => {
           </ModalStyled>
         </Modal>
       )}
-    </Wrap>
+    </StyledWrap>
   );
 };
 
-const Wrap = styled.div`
+const StyledWrap = styled.div`
   position: fixed;
   top: 0px;
   left: 0px;
@@ -91,6 +91,7 @@ const Wrap = styled.div`
   max-height: 50px;
   z-index: 10;
 `;
+
 const StlyedHeaderBox = styled.div`
   display: flex;
   justify-content: space-between;
