@@ -7,7 +7,7 @@ const DetailHeader = ({ isEdit }) => {
   const navigate = useNavigate();
 
   return (
-    <Wrap>
+    <StyledWrap>
       <StlyedHeaderBox>
         <StyledHeader>
           <StyledButton>
@@ -22,11 +22,11 @@ const DetailHeader = ({ isEdit }) => {
           </StyledInfo>
         </StyledHeader>
       </StlyedHeaderBox>
-    </Wrap>
+    </StyledWrap>
   );
 };
 
-const Wrap = styled.div`
+const StyledWrap = styled.div`
   position: fixed;
   top: 0px;
   left: 0px;

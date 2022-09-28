@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Header, Footer, Item, AddButton } from "../components";
 import { useInfiniteQueryScroll } from "../hooks/useInfiniteQueryScroll";
 import { useInView } from "react-intersection-observer";
+import styled from "styled-components";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <div>
+      <StyledItemContainer>
         {isSuccess && data.pages
           ? data.pages.map((page, pageIndex) => {
               const tweets = page.tweets;
@@ -46,11 +47,15 @@ const Home = () => {
               });
             })
           : null}
-      </div>
+      </StyledItemContainer>
       <AddButton />
       <Footer />
     </>
   );
 };
+
+const StyledItemContainer = styled.div`
+  margin: 50px auto;
+`;
 
 export default Home;
