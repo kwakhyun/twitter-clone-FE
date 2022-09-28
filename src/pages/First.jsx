@@ -88,6 +88,7 @@ const StyledDiv = styled.div`
   padding: 20px 0 0 7px;
   width: 85%;
 `;
+
 const StyledText = styled.span`
   position: absolute;
   top: 45%;

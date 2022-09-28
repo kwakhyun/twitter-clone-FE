@@ -49,44 +49,45 @@ const LoginPw = () => {
   return (
     <StyledWrap>
       <StyledTopContainer>
-        <StyledxContainer>
-          <BsX
-            onClick={() => {
-              navigate("/first");
-            }}
-            size="30px"
-          />
-        </StyledxContainer>
-        <FaTwitter size="30px" color="#1d9bf0" />
+        <BsX
+          className="close"
+          onClick={() => {
+            navigate("/first");
+          }}
+          size="30px"
+        />
+        <FaTwitter className="icon" size="30px" color="#1d9bf0" />
       </StyledTopContainer>
 
       <StyledContainer>
-        <StyledTitleDiv>비밀번호를 입력하세요.</StyledTitleDiv>
-        <Inputplaceholer
-          text="사용자 아이디"
-          defaultValue={state}
-          name="userId"
-          disabled={true}
-          type="text"
-          onChange={onChange}
-        />
-        <div style={{ position: "relative" }}>
+        <div className="input-div">
+          <StyledTitleDiv>비밀번호를 입력하세요.</StyledTitleDiv>
           <Inputplaceholer
-            text="비밀번호"
-            ref={passwordRef}
-            name="password"
+            type="text"
+            name="userId"
+            text="사용자 아이디"
+            defaultValue={state}
+            disabled={true}
             onChange={onChange}
-            type={showPassWord ? "text" : "password"}
           />
-          <StyledEyeDiv
-            onClick={() => {
-              setShowPassWord(!showPassWord);
-            }}
-          >
-            {showPassWord ? <FaRegEyeSlash /> : <FaRegEye />}
-          </StyledEyeDiv>
+          <div style={{ position: "relative" }}>
+            <Inputplaceholer
+              type={showPassWord ? "text" : "password"}
+              name="password"
+              text="비밀번호"
+              ref={passwordRef}
+              onChange={onChange}
+            />
+            <StyledEyeDiv
+              onClick={() => {
+                setShowPassWord(!showPassWord);
+              }}
+            >
+              {showPassWord ? <FaRegEyeSlash /> : <FaRegEye />}
+            </StyledEyeDiv>
+          </div>
+          <StyledSpan>비밀번호 찾기</StyledSpan>
         </div>
-        <StyledSpan>비밀번호 찾기</StyledSpan>
         <StyledButton
           disabled={!passwordRef.current?.value}
           isDisable={passwordRef.current?.value}
@@ -100,7 +101,7 @@ const LoginPw = () => {
           로그인하기
         </StyledButton>
         <span className="desc">
-          계정이 없으신가요?
+          계정이 없으신가요?{" "}
           <StyledSpan font="14px" onClick={() => navigate("/signup")}>
             가입하기
           </StyledSpan>
@@ -112,7 +113,6 @@ const LoginPw = () => {
     </StyledWrap>
   );
 };
-export default LoginPw;
 
 const StyledWrap = styled.div`
   width: 100vw;
@@ -126,8 +126,8 @@ const StyledContainer = styled.div`
   .desc {
     font-size: 14px;
   }
-  .inputStyle {
-    margin: 0px;
+  .input-div {
+    margin-bottom: 50vh;
   }
 `;
 
@@ -137,36 +137,41 @@ const StyledTopContainer = styled.div`
   justify-content: flex-start;
   width: 100%;
   margin: 10px 0 0 3%;
-  .bird {
-    margin-left: 37%;
+  .close {
+    cursor: pointer;
+  }
+  .icon {
+    position: absolute;
+    margin-left: 45vw;
+    cursor: pointer;
   }
 `;
-const StyledxContainer = styled.div`
-  margin-right: 38%;
-`;
+
 const StyledTitleDiv = styled.div`
   font-size: 25px;
   font-weight: bold;
   padding: 0 0 15px 0;
 `;
+
 const StyledButton = styled.button`
-  border: none;
-  padding: 0px;
-  margin-top: 55vh;
-  margin-bottom: 15px;
-  border-radius: 30px;
-  font-size: 15px;
-  font-weight: bold;
   width: 100%;
   height: 50px;
+  border: none;
+  border-radius: 30px;
+  padding: 0px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: bold;
   color: white;
   background-color: ${({ isDisable }) => (isDisable ? "black" : "gray")};
   opacity: 0.9;
 `;
+
 const StyledSpan = styled.span`
   color: #1d9bf0;
   font-size: ${(props) => props.font || "12px"};
 `;
+
 const StyledDiv = styled.div`
   position: fixed;
   background-color: #1d9bf0;
@@ -183,3 +188,5 @@ const StyledEyeDiv = styled.div`
   right: 5%;
   bottom: 20%;
 `;
+
+export default LoginPw;
