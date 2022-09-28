@@ -1,9 +1,16 @@
-import styled from "styled-components";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
+import styled from "styled-components";
 
 const FollowHeader = ({ nickname, userId }) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("access_token")) {
+      navigate("/first");
+    }
+  }, [navigate]);
 
   return (
     <StyledWrap>

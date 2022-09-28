@@ -31,24 +31,24 @@ const Item = ({ tweet }) => {
   const deleteTweet = useMutation(tweetAPI.deleteTwit, {
     onSuccess: () => {
       queryClient.invalidateQueries("getTweetPage");
+      queryClient.invalidateQueries("getMyTweets");
+      queryClient.invalidateQueries("getLikeTweets");
     },
   });
 
   const retweetMutate = useMutation(retweetAPI.getReTwit, {
-    onSuccess: ({ data }) => {
-      // const state = data?.data.slice(5, 7);
-      // if (state === "등록") tweet.retwitCnt += 1;
-      // else if (state === "취소") tweet.retwitCnt -= 1;
+    onSuccess: () => {
       queryClient.invalidateQueries("getTweetPage");
+      queryClient.invalidateQueries("getMyTweets");
+      queryClient.invalidateQueries("getLikeTweets");
     },
   });
 
   const likeMutate = useMutation(likeAPI.toggleLike, {
-    onSuccess: ({ data }) => {
-      // const state = data?.data.slice(5, 7);
-      // if (state === "등록") tweet.likeCnt += 1;
-      // else if (state === "취소") tweet.likeCnt -= 1;
+    onSuccess: () => {
       queryClient.invalidateQueries("getTweetPage");
+      queryClient.invalidateQueries("getMyTweets");
+      queryClient.invalidateQueries("getLikeTweets");
     },
   });
 
