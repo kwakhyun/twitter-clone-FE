@@ -1,19 +1,10 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Header, Footer, Item, AddButton } from "../components";
 import { useInfiniteQueryScroll } from "../hooks/useInfiniteQueryScroll";
 import { useInView } from "react-intersection-observer";
 import styled from "styled-components";
 
 const Home = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!localStorage.getItem("access_token")) {
-      navigate("/first");
-    }
-  }, [navigate]);
-
   const { data, isSuccess, hasNextPage, fetchNextPage } =
     useInfiniteQueryScroll();
   const { ref, inView } = useInView();

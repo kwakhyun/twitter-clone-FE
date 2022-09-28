@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
@@ -9,6 +9,13 @@ const Header = () => {
   const navigate = useNavigate();
   const { data } = useQuery("getProfile", proflieAPI.myProfile);
   const profile = data?.data.data;
+
+  useEffect(() => {
+    if (!localStorage.getItem("access_token")) {
+      navigate("/first");
+    }
+  }, [navigate]);
+
   return (
     <StyledWrap>
       <StlyedHeaderBox>

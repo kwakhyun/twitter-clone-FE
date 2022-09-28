@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { BsArrowLeft } from "react-icons/bs";
 import { Modal } from "../index";
+import styled from "styled-components";
 
 const ProfileHeader = ({ isEdit, profile, TweetCount }) => {
   const navigate = useNavigate();
   const [logoutModal, setLogoutModal] = useState(false);
+
+  useEffect(() => {
+    if (!localStorage.getItem("access_token")) {
+      navigate("/first");
+    }
+  }, [navigate]);
 
   return (
     <StyledWrap>
