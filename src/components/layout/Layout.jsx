@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+
 const Layout = ({ children }) => {
   return <Layouts>{children}</Layouts>;
 };

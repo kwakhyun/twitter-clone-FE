@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { PostedTime } from "../../hooks/postedTime";
+import { postedTime } from "../../hooks/postedTime";
 import { BsBoxArrowUp } from "react-icons/bs";
 import { AiOutlineRetweet } from "react-icons/ai";
 import { BiMessageRounded } from "react-icons/bi";
@@ -19,7 +19,7 @@ const Item = ({ tweet, tweetList, setTweetList }) => {
   const [like, setLike] = useState(false);
   const [retweet, setRetweet] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  let postedTime = PostedTime(tweet.createdAt);
+  let time = postedTime(tweet.createdAt);
 
   useEffect(() => {
     setLike(tweet.like);
@@ -81,7 +81,7 @@ const Item = ({ tweet, tweetList, setTweetList }) => {
                   </StyledText>
                   <StyledText size="0.8rem" color="gray">
                     {" "}
-                    · {postedTime}
+                    · {time}
                   </StyledText>
                 </div>
               </StyledDiv>

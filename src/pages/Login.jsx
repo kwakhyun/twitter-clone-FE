@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
 import { BsX } from "react-icons/bs";
 import { Inputplaceholer } from "../elem";
-import useInput from "../hooks/useInput";
+import { useInput } from "../hooks/useInput";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import axios from "axios";

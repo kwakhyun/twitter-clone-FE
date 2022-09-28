@@ -5,7 +5,7 @@ import { Inputplaceholer } from "../elem";
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
-import useInput from "../hooks/useInput";
+import { useInput } from "../hooks/useInput";
 import { useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 

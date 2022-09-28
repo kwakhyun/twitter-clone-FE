@@ -1,7 +1,7 @@
 import moment from "moment";
 import "moment/locale/ko";
 
-export function PostedTime(date) {
+export const postedTime = (date) => {
   let today = moment();
   let twit = moment(date);
   let time = (today - twit) / 1000 / 60; // 분

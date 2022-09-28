@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
 import { useQuery } from "react-query";
 import { proflieAPI } from "../../shared/api";
+
 const Header = () => {
   const navigate = useNavigate();
   const { data } = useQuery("getProfile", proflieAPI.myProfile);
@@ -25,8 +26,6 @@ const Header = () => {
     </Wrap>
   );
 };
-
-export default Header;
 
 const Wrap = styled.div`
   position: fixed;
@@ -59,3 +58,5 @@ const StlyedUserImage = styled.img`
   width: 35px;
   height: 35px;
 `;
+
+export default Header;

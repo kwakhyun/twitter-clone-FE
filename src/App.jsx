@@ -10,7 +10,7 @@ import AddTweet from "./components/AddTweet";
 import OAuth from "./pages/OAuth";
 import Follow from "./pages/Follow";
 
-function App() {
+export const App = () => {
   return (
     <Layout>
       <Routes>
@@ -29,6 +29,4 @@ function App() {
       </Routes>
     </Layout>
   );
-}
-
-export default App;
+};
