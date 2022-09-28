@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BsArrowLeft } from "react-icons/bs";
-import { FaTwitter } from "react-icons/fa";
 import { Modal } from "../index";
 
 const ProfileHeader = ({ isEdit, profile, TweetCount }) => {

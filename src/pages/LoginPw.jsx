@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useMutation } from "react-query";
 import { Inputplaceholer } from "../elem";
-import useInput from "../hooks/useInput";
+import { useInput } from "../hooks/useInput";
 import { BsX } from "react-icons/bs";
 import { FaTwitter } from "react-icons/fa";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
