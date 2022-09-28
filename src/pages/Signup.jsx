@@ -22,7 +22,6 @@ const Signup = () => {
   const [showPassWord, setShowPassWord] = useState(false);
   const [checkName, setCheckName] = useState(true);
   const [checkPassword, setCheckPassword] = useState(true);
-  // const [havdId, setHaveId] = useState(true);
   const navigate = useNavigate();
 
   const signup = async (data) => {
@@ -98,18 +97,20 @@ const Signup = () => {
     <>
       <StyledTopContainer>
         <BsX
+          className="close"
           onClick={() => {
             navigate("/first");
           }}
           size="30px"
         />
-        <StyledStepNumber>회원가입</StyledStepNumber>
+        <span>회원가입</span>
       </StyledTopContainer>
+
       <StyledWrap>
         <StyledContentContainer>
           <StyledTitleSpan>계정을 생성하세요</StyledTitleSpan>
 
-          <StyledContainer>
+          <StyledInputDiv>
             <StyledNameDiv onClick={nameFocus} haveValue={checkName}>
               <StyledNameSpan className="name-span" haveValue={haveName}>
                 이름
@@ -117,26 +118,27 @@ const Signup = () => {
               <span className="name-count">{countName} / 50</span>
               <input
                 type="text"
+                defaultValue=""
+                maxLength={50}
                 ref={nameRef}
                 onChange={onChangeName}
                 onBlur={onBlurName}
-                maxLength={50}
-                defaultValue=""
               />
             </StyledNameDiv>
             <span className="blank-message">이름을 입력해 주세요.</span>
-          </StyledContainer>
+          </StyledInputDiv>
 
-          <StyledContainer>
+          <StyledInputDiv>
             <Inputplaceholer
-              onChange={onChange}
-              ref={idRef}
               type="text"
               name="userId"
               text="사용자 아이디"
+              ref={idRef}
+              onChange={onChange}
             />
-          </StyledContainer>
-          <StyledContainer>
+          </StyledInputDiv>
+
+          <StyledInputDiv>
             <StyledPasswordDiv haveValue={checkPassword}>
               <StyledPasswordSpan
                 className="password-span"
@@ -147,11 +149,11 @@ const Signup = () => {
               <div style={{ position: "relative" }}>
                 <input
                   type={showPassWord ? "text" : "password"}
-                  ref={passwordRef}
-                  onChange={onChangePassword}
                   name="password"
                   text="비밀번호"
+                  ref={passwordRef}
                   haveValue={havePassword}
+                  onChange={onChangePassword}
                 />
                 <StyledEyeDiv
                   onClick={() => {
@@ -163,24 +165,27 @@ const Signup = () => {
               </div>
             </StyledPasswordDiv>
             <span className="check-message">8자 이상 입력해주세요</span>
-          </StyledContainer>
+          </StyledInputDiv>
+
           <StyledSpan>생년월일</StyledSpan>
           <StyledDesc>
             이 정보는 공개적으로 표시되지 않습니다. 비즈니스, 반려동물 등 계정
             주제에 상관없이 나의 연령을 확인하세요.
           </StyledDesc>
-          <StyledInputContainer>
-            <StyledInputSpan>생년월일</StyledInputSpan>
-            <StyledInput
-              max={today}
+
+          <StyledInputDate>
+            <span>생년월일</span>
+            <input
               type="date"
+              max={today}
               ref={dateRef}
               onChange={(e) => {
                 setDateChange(e.target.value);
               }}
-            ></StyledInput>
-          </StyledInputContainer>
+            />
+          </StyledInputDate>
         </StyledContentContainer>
+
         <StyledJoinButton
           disabled={
             !(
@@ -225,11 +230,14 @@ const StyledTopContainer = styled.div`
   justify-content: left;
   width: 100%;
   padding: 10px 0 30px 20px;
-`;
-const StyledStepNumber = styled.span`
-  font-weight: bold;
-  color: #0f1419;
-  margin-left: 40px;
+  .close {
+    cursor: pointer;
+  }
+  span {
+    font-weight: bold;
+    color: #0f1419;
+    margin-left: 40px;
+  }
 `;
 
 const StyledContentContainer = styled.div`
@@ -244,7 +252,7 @@ const StyledTitleSpan = styled.span`
   margin-bottom: 20px;
 `;
 
-const StyledContainer = styled.div`
+const StyledInputDiv = styled.div`
   width: 100%;
   .blank-message {
     display: none;
@@ -265,11 +273,11 @@ const StyledContainer = styled.div`
 const StyledNameDiv = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 10px 0 0 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
   width: 100%;
   height: 55px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 10px;
   border: ${({ haveValue }) =>
     haveValue ? "1px solid rgb(214,218,227)" : "2px solid #f42a36"};
   &:focus-within {
@@ -305,21 +313,16 @@ const StyledNameDiv = styled.div`
 const StyledPasswordDiv = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 10px 0 0 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
   width: 100%;
   height: 55px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 20px;
   border: ${({ haveValue }) =>
     haveValue ? "1px solid rgb(214,218,227)" : "2px solid #f42a36"};
-  /* .password-span {
-    font-size: 1rem;
-    padding-top: 10px;
-  } */
   &:focus-within {
     border: ${({ haveValue }) =>
       haveValue ? "2px solid #1da1f2" : "2px solid #f42a36"};
-
     .password-span {
       color: ${({ haveValue }) => (haveValue ? "#1da1f2" : "#f42a36")};
       padding-top: 0px;
@@ -358,6 +361,7 @@ const StyledNameSpan = styled.span`
   font-size: ${({ haveValue }) => (haveValue ? "0.8rem" : "1rem")};
   transition: 0.2s;
 `;
+
 const StyledPasswordSpan = styled.span`
   color: gray;
   position: absolute;
@@ -369,53 +373,50 @@ const StyledPasswordSpan = styled.span`
 `;
 
 const StyledJoinButton = styled.button`
-  border: none;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: bold;
   width: 100%;
   height: 50px;
+  border: none;
+  border-radius: 30px;
+  margin-top: 30vh;
+  font-size: 16px;
+  font-weight: bold;
   color: white;
   background-color: ${({ isDisabled }) => (isDisabled ? "black" : "gray")};
   opacity: 0.9;
-  margin-top: 75%;
 `;
 
-const StyledInputContainer = styled.div`
+const StyledInputDate = styled.div`
   position: relative;
-  margin: 15px 0;
-  padding: 5px;
+  width: 80%;
   border: 1px solid rgb(214, 218, 227);
   border-radius: 5px;
-  width: 100%;
-  z-index: 1;
+  padding: 5px;
+  margin-top: 15px;
+  span {
+    color: gray;
+    font-size: 13px;
+    width: 100%;
+  }
+  input {
+    position: relative;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    line-height: 24px;
+    outline: none;
+  }
   &:hover {
     outline: 2px solid #1d9bf0;
   }
 `;
-const StyledInputSpan = styled.span`
-  color: gray;
-  font-size: 13px;
-  width: 100%;
-  z-index: 3;
-`;
 
-const StyledInput = styled.input`
-  position: relative;
-  margin: 0px;
-  border: none;
-  font-size: 16px;
-  line-height: 24px;
-  width: 100%;
-  outline: none;
-  z-index: 2;
-`;
 const StyledSpan = styled.span`
   margin-top: 30px;
   color: black;
   font-size: 14px;
   font-weight: bold;
 `;
+
 const StyledDesc = styled.span`
   font-size: 13px;
 `;
