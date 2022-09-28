@@ -50,12 +50,13 @@ const Login = () => {
     <StyledWrap>
       <StyledTopContainer>
         <BsX
+          className="close"
           onClick={() => {
             navigate("/first");
           }}
           size="30px"
         />
-        <FaTwitter className="bird" size="28px" color="#1d9bf0" />
+        <FaTwitter className="icon" size="28px" color="#1d9bf0" />
       </StyledTopContainer>
 
       <StyledContainerBox>
@@ -75,10 +76,10 @@ const Login = () => {
           <StyledText>또는</StyledText>
         </StyledLineDiv>
         <Inputplaceholer
+          type="text"
+          name="userId"
           text="아이디를 입력해주세요."
           onChange={onChange}
-          name="userId"
-          type="text"
         />
 
         <StyledButton
@@ -93,8 +94,8 @@ const Login = () => {
         </StyledButton>
         <StyledButton marginBottom="50px">비밀번호를 잊으셨나요?</StyledButton>
         <span className="desc">
-          계정이 없으신가요?
-          <StyledSpan onClick={() => navigate("/signup")}> 가입하기</StyledSpan>
+          계정이 없으신가요?{" "}
+          <StyledSpan onClick={() => navigate("/signup")}>가입하기</StyledSpan>
         </span>
       </StyledContainerBox>
       {idExist ? null : (
@@ -112,7 +113,7 @@ const StyledWrap = styled.div`
 `;
 
 const StyledContainerBox = styled.div`
-  padding: 202px 55px;
+  padding: 20vh 10vw;
   overflow: hidden;
   .desc {
     font-size: 14px;
@@ -125,8 +126,13 @@ const StyledTopContainer = styled.div`
   justify-content: left;
   width: 100%;
   margin: 10px 0 0 3%;
-  .bird {
-    margin-left: 37%;
+  .close {
+    cursor: pointer;
+  }
+  .icon {
+    position: absolute;
+    margin-left: 45vw;
+    cursor: pointer;
   }
 `;
 
@@ -142,7 +148,7 @@ const StyledButton = styled.button`
   margin-bottom: ${(props) => props.marginBottom || "25px"};
   margin-top: ${(props) => props.marginTop || "0px"};
   border-radius: 20px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   width: 100%;
   height: 40px;
@@ -175,6 +181,7 @@ const StyledText = styled.span`
 const StyledSpan = styled.span`
   color: ${(props) => "#1d9bf0" || props.color};
 `;
+
 const StyledLineDiv = styled.div`
   position: relative;
   width: 100%;
