@@ -25,12 +25,15 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const signup = async (data) => {
-    return await axios.post("http://15.164.229.25/api/member/signup", {
-      userId: data.userId,
-      nickname: data.nickname,
-      password: data.password,
-      dateOfBirth: data.dateOfBirth,
-    });
+    return await axios.post(
+      `${process.env.REACT_APP_SERVER_URL}/api/member/signup`,
+      {
+        userId: data.userId,
+        nickname: data.nickname,
+        password: data.password,
+        dateOfBirth: data.dateOfBirth,
+      }
+    );
   };
 
   const { mutate } = useMutation(signup, {

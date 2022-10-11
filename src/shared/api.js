@@ -2,7 +2,7 @@ import axios from "axios";
 import { getRefreshToken, getAccessToken } from "./storage";
 
 export const api = axios.create({
-  baseURL: "http://15.164.229.25/api/auth",
+  baseURL: `${process.env.REACT_APP_SERVER_URL}/api/auth`,
   withCredentials: true,
 });
 
@@ -64,7 +64,8 @@ export const likeAPI = {
 
 export const followAPI = {
   toggleFollow: (memberid) => api.post(`/follow/${memberid}`),
-  getFollowing: (member_id) => api.get(`/member/profile/following/${member_id}`),
+  getFollowing: (member_id) =>
+    api.get(`/member/profile/following/${member_id}`),
   getFollowers: (member_id) => api.get(`/member/profile/follower/${member_id}`),
 };
 
