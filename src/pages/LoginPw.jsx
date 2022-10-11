@@ -19,10 +19,13 @@ const LoginPw = () => {
 
   const passwordRef = useRef();
   const onLogin = async (data) => {
-    const response = await axios.post("http://15.164.229.25/api/member/login", {
-      userId: data.userId,
-      password: inputs.password,
-    });
+    const response = await axios.post(
+      `${process.env.REACT_APP_SERVER_URL}/api/member/login`,
+      {
+        userId: data.userId,
+        password: inputs.password,
+      }
+    );
     return response;
   };
 

@@ -18,7 +18,7 @@ const Login = () => {
 
   const idCheck = async (data) => {
     const response = await axios.post(
-      "http://15.164.229.25/api/member/userid",
+      `${process.env.REACT_APP_SERVER_URL}/api/member/userid`,
       {
         userId: data,
       }
