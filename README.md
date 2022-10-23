@@ -6,7 +6,7 @@
 트위터를 모바일 화면 기준으로 클론한 미니 프로젝트입니다.
 - [프로젝트 노션 URL](https://www.notion.so/Twitter-Clone-b8616df6b1cf471ea9af6bb7078557e4)
 - [프로젝트 배포 URL](http://twitter-mini-clone.s3-website.ap-northeast-2.amazonaws.com/first)
-###### 현재 백엔드 서버가 내려간 상태로 서비스 경험이 어렵습니다.
+#### 현재 백엔드 서버의 부재로 서비스 이용이 불가합니다.
 - 프로젝트 시연 영상
 
 https://user-images.githubusercontent.com/73919235/197388246-c2d7ae73-01b5-45d0-93e4-af5cd0224753.mp4
