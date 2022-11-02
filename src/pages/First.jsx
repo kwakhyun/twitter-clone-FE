@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import firstBg from "../assets/images/firstBg.png";
 
 const First = () => {
   const navigate = useNavigate();
@@ -13,14 +14,25 @@ const First = () => {
         <StyledP>지금 일어나고 있는 일</StyledP>
         <StyledSpan>오늘 트위터에 가입하세요.</StyledSpan>
         <StyledButton>
-          <a href="http://ec2-15-164-229-25.ap-northeast-2.compute.amazonaws.com/google/login">
+          {/* <a href="http://ec2-15-164-229-25.ap-northeast-2.compute.amazonaws.com/google/login">
             <div className="icon-box">
               <div className="google-icon">
                 <FcGoogle size="1.2rem" />
               </div>
               <span>Google 계정으로 가입하기</span>
             </div>
-          </a>
+          </a> */}
+          <div
+            className="icon-box"
+            onClick={() =>
+              alert("현재 해당 기능에 오류가 있어 이용이 불가합니다.")
+            }
+          >
+            <div className="google-icon">
+              <FcGoogle size="1.2rem" />
+            </div>
+            <span>Google 계정으로 가입하기</span>
+          </div>
         </StyledButton>
 
         <StyledDiv>
@@ -56,7 +68,7 @@ const First = () => {
       </StyledContainer>
       <StyledDiv2>
         <FaTwitter className="twitBird" />
-        <img className="firstBg" alt="fisrtBg" src="img/firstBg.png" />
+        <img className="firstBg" alt="fisrtBg" src={firstBg} />
       </StyledDiv2>
     </>
   );
