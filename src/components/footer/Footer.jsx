@@ -4,12 +4,13 @@ import { RiHome7Fill } from "react-icons/ri";
 import { BiBell, BiMessageDetail } from "react-icons/bi";
 import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+
 const Footer = () => {
   const navigate = useNavigate();
   return (
-    <Wrap>
-      <StlyedFooterBox>
-        <StlyedFooter>
+    <StyledWrap>
+      <StyledFooterBox>
+        <StyledFooter>
           <RiHome7Fill
             size="30px"
             onClick={() => {
@@ -19,15 +20,15 @@ const Footer = () => {
           <FiSearch size="30px" />
           <BiBell size="30px" />
           <BiMessageDetail size="30px" />
-        </StlyedFooter>
-      </StlyedFooterBox>
-    </Wrap>
+        </StyledFooter>
+      </StyledFooterBox>
+    </StyledWrap>
   );
 };
 
 export default Footer;
 
-const Wrap = styled.div`
+const StyledWrap = styled.div`
   position: fixed;
   bottom: 0px;
   left: 0px;
@@ -35,7 +36,7 @@ const Wrap = styled.div`
   max-height: 60px;
 `;
 
-const StlyedFooterBox = styled.div`
+const StyledFooterBox = styled.div`
   display: flex;
 
   background-color: rgb(250, 250, 250, 1);
@@ -45,7 +46,7 @@ const StlyedFooterBox = styled.div`
   padding: 3px 0px;
 `;
 
-const StlyedFooter = styled.div`
+const StyledFooter = styled.div`
   display: flex;
   margin: 5px auto;
   gap: 20px;
